@@ -1,4 +1,6 @@
-﻿using ChustaSoft.Common.Exceptions;
+﻿using ChustaSoft.Common.Enums;
+using ChustaSoft.Common.Exceptions;
+using ChustaSoft.Common.Helpers;
 using ChustaSoft.Common.Utilities;
 using ChustaSoft.Services.StaticData.Models;
 using ChustaSoft.Services.StaticData.Repositories;
@@ -22,9 +24,8 @@ namespace ChustaSoft.Services.StaticData.Services
         public CityService(ICityRepository cityRepository)
         {
             _cityRepository = cityRepository;
-        } 
-        
-        
+        }
+
         #endregion
 
 
@@ -32,21 +33,23 @@ namespace ChustaSoft.Services.StaticData.Services
 
         public ActionResponse<IEnumerable<City>> Get(string country)
         {
+            var arBuilder = new ActionResponseBuilder<IEnumerable<City>>();
             try
             {
                 var data = _cityRepository.Get(country);
 
-                return new ActionResponse<IEnumerable<City>>(data);
+                arBuilder.AddData(data);
             }
             catch (BusinessException ex)
             {
-                return new ActionResponse<IEnumerable<City>>(new List<ErrorMessage> { new ErrorMessage(ex) });
+                arBuilder.AddError(ex);
             }
-
+            return arBuilder.Build();
         }
+
         public ActionResponse<IEnumerable<City>> Get(List<string> countries)
         {
-            var actionResponse = new ActionResponse<IEnumerable<City>>();
+            var arBuilder = new ActionResponseBuilder<IEnumerable<City>>();
             var cities = new List<City>();
 
             foreach (var country in countries)
@@ -57,12 +60,12 @@ namespace ChustaSoft.Services.StaticData.Services
                 }
                 catch (BusinessException ex)
                 {
-                    actionResponse.Errors.Add(new ErrorMessage(ex));
+                    arBuilder.AddError(ex);
+                    arBuilder.SetStatus(ActionResponseType.Warning);
                 }
             }
-            actionResponse.Data = cities;
-
-            return actionResponse;
+            
+            return arBuilder.AddData(cities).Build();
         }
 
         #endregion
