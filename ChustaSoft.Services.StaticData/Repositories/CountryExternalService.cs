@@ -30,6 +30,9 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Public methods
 
+        protected override UriBuilder GetBaseUri() => new UriBuilder(_configuration.CountriesApiUrl);
+
+
         public async Task<IEnumerable<Country>> GetAll()
         {
             string json = await GetStringData(GetBaseUri().Uri);
@@ -61,8 +64,6 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
 
         #region Private methods
-
-        private UriBuilder GetBaseUri() => new UriBuilder(_configuration.CountriesApiUrl);
 
         private Uri GetUri(string countryName)
         {

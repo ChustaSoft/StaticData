@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace ChustaSoft.Services.StaticData.Base
 {
 
-    public class ExternalServiceBase
+    public abstract class ExternalServiceBase
     {
         
         #region Fields
@@ -40,6 +40,13 @@ namespace ChustaSoft.Services.StaticData.Base
                 }
             }
         }
+
+        #endregion
+
+
+        #region Protected abstract methods
+
+        protected abstract UriBuilder GetBaseUri();
 
         #endregion
 
