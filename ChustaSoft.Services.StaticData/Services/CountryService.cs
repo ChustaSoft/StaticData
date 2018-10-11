@@ -1,4 +1,5 @@
-﻿using ChustaSoft.Common.Utilities;
+﻿using ChustaSoft.Common.Helpers;
+using ChustaSoft.Common.Utilities;
 using ChustaSoft.Services.StaticData.Enums;
 using ChustaSoft.Services.StaticData.Models;
 using ChustaSoft.Services.StaticData.Repositories;
@@ -31,44 +32,50 @@ namespace ChustaSoft.Services.StaticData.Services
 
         public ActionResponse<Country> Get(string countryName)
         {
+            var arBuilder = new ActionResponseBuilder<Country>();
             try
             {
                 var country = _countryRepository.Get(countryName).Result;
 
-                return new ActionResponse<Country>(country);
+                arBuilder.AddData(country);
             }
             catch (System.Exception ex)
             {
-                return new ActionResponse<Country>(new List<ErrorMessage> { new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message) });
+                arBuilder.AddError(new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message));
             }
+            return arBuilder.Build();
         }
 
         public ActionResponse<Country> Get(AlphaCodeType alphaType, string alphaCode)
         {
+            var arBuilder = new ActionResponseBuilder<Country>();
             try
             {
                 var country = _countryRepository.Get(alphaType, alphaCode).Result;
 
-                return new ActionResponse<Country>(country);
+                arBuilder.AddData(country);
             }
             catch (System.Exception ex)
             {
-                return new ActionResponse<Country>(new List<ErrorMessage> { new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message) });
+                arBuilder.AddError(new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message));
             }
+            return arBuilder.Build();
         }
 
         public ActionResponse<IEnumerable<Country>> GetAll()
         {
+            var arBuilder = new ActionResponseBuilder<IEnumerable<Country>>();
             try
             {
                 var countries = _countryRepository.GetAll().Result;
 
-                return new ActionResponse<IEnumerable<Country>>(countries);
+                arBuilder.AddData(countries);
             }
             catch (System.Exception ex)
             {
-                return new ActionResponse<IEnumerable<Country>>(new List<ErrorMessage> { new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message) });
+                arBuilder.AddError(new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message));
             }
+            return arBuilder.Build();
         }
 
         #endregion
