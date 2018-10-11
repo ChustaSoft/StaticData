@@ -10,13 +10,14 @@
     <Company>ChustaSoft</Company>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <PackageId>ChustaSoft.StaticData</PackageId>
-    <Version>1.0.1</Version>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <Version>1.0.2</Version>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
     <PackageProjectUrl>https://github.com/Xelit3/StaticData</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/Xelit3/StaticData/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/Xelit3/StaticData.git</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageTags>Utilities;Helpers;Core;StaticData;Country;Countries;City;Cities;Currency;Currencies</PackageTags>
+    <FileVersion>1.0.2.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

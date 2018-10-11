@@ -9,20 +9,13 @@ namespace ChustaSoft.Services.StaticData.Repositories
     public class CityLocalRepository : LocalRepositoryBase, ICityRepository
     {
 
-        #region Fields
-
-        private static string COUNTRY_JSON_REPOSITORY_FILE_PATH = @"Data\{0}.json";
-
-        #endregion
-
-
         #region Public methods
 
         public IEnumerable<City> Get(string country)
         {
             try
             {
-                var countryCities = GetParsedData<CountryLocalParsed>(string.Format(COUNTRY_JSON_REPOSITORY_FILE_PATH, country));
+                var countryCities = GetParsedData<CountryLocalParsed>(country);
 
                 return countryCities.Cities;
             }
