@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ChustaSoft.Services.StaticData.Constants;
 
 
 namespace ChustaSoft.Services.StaticData.Repositories
@@ -16,8 +17,6 @@ namespace ChustaSoft.Services.StaticData.Repositories
         #region Fields
 
         private const char PARAM_PREFIX = 'q';
-        private const char SEPARATOR_CURRENCIES = '_';
-        private const char SEPARATOR_CONVERSIONS = ',';
 
         private const string DATE_PARAM_NAME = "date";
 
@@ -62,7 +61,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Private methods
 
-        private string GetSingleConversion(string currencyFrom, string currencyTo) => currencyFrom + SEPARATOR_CURRENCIES + currencyTo;
+        private string GetSingleConversion(string currencyFrom, string currencyTo) => currencyFrom + ExchangeRateConstants.SEPARATOR_CURRENCIES + currencyTo;
 
         private async Task<ExchangeRateApiResponse> GetBidirectionalData(string currencyFrom, string currencyTo, DateTime? date)
         {
@@ -74,7 +73,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
                 return JsonConvert.DeserializeObject<ExchangeRateWithDateApiResponse>(json);
         }
 
-        private void CheckRetrivedData(IDictionary<string, ExchangeRateApi> results, string requestedConversion)
+        private void CheckRetrivedData(IDictionary<string, ExchangeRate> results, string requestedConversion)
         {
             if (results == null || !results.ContainsKey(requestedConversion))
                 throw new CurrencyNotFoundException(requestedConversion);
@@ -87,12 +86,12 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         private Uri GetUri(string currencyFrom, string currencyTo, DateTime? date)
         {
-            var fullConversion = GetSingleConversion(currencyFrom, currencyTo) + SEPARATOR_CONVERSIONS + GetSingleConversion(currencyTo, currencyFrom);
+            var fullConversion = GetSingleConversion(currencyFrom, currencyTo) + ExchangeRateConstants.SEPARATOR_CONVERSIONS + GetSingleConversion(currencyTo, currencyFrom);
 
             var uriBuilder = GetBaseUri().AddParameter(PARAM_PREFIX.ToString(), fullConversion);
 
             if (date != null)
-                uriBuilder.AddParameter(DATE_PARAM_NAME, date.Value.ToString("yyyy-MM-dd"));
+                uriBuilder.AddParameter(DATE_PARAM_NAME, date.Value.ToString(ExchangeRateConstants.DATE_API_FORMAT));
 
             return uriBuilder.Uri;
         }
