@@ -1039,7 +1039,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ChustaSoft.Common" Version="1.0.5" />
+    <PackageReference Include="ChustaSoft.Common" Version="1.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
@@ -1051,6 +1051,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    
     <Compile Update="Services\CityService.cs">
       <DependentUpon>ICityService.cs</DependentUpon>
     </Compile>
@@ -1060,6 +1061,7 @@
     <Compile Update="Services\CurrencyService.cs">
       <DependentUpon>ICurrencyService.cs</DependentUpon>
     </Compile>
+    
     <Compile Update="Repositories\CountryLocalRepository.cs">
       <DependentUpon>ICountryRepository.cs</DependentUpon>
     </Compile>
@@ -1069,12 +1071,16 @@
     <Compile Update="Repositories\ExchangeRateExternalService.cs">
       <DependentUpon>IExchangeRateRepository.cs</DependentUpon>
     </Compile>
+    <Compile Update="Repositories\ExchangeRateQueryableExternalService.cs">
+      <DependentUpon>IExchangeRateQueryableRepository.cs</DependentUpon>
+    </Compile>
     <Compile Update="Repositories\CurrencyExternalService.cs">
       <DependentUpon>ICurrencyRepository.cs</DependentUpon>
     </Compile>
     <Compile Update="Repositories\CityLocalRepository.cs">
       <DependentUpon>ICityRepository.cs</DependentUpon>
     </Compile>
+    
   </ItemGroup>
   
 </Project>

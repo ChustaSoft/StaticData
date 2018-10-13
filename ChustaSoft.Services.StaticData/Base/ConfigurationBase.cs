@@ -23,6 +23,8 @@ namespace ChustaSoft.Services.StaticData.Base
 
         internal string ExchangeRatesApiUrl { get; set; }
 
+        internal string ExchangeRatesQueryableApiUrl { get; set; }
+
         #endregion
 
 
@@ -33,6 +35,7 @@ namespace ChustaSoft.Services.StaticData.Base
             CountriesApiUrl = ApiConnection.CountriesApiUrl;
             CurrenciesApiUrl = ApiConnection.CurrenciesApiUrl;
             ExchangeRatesApiUrl = ApiConnection.ExchangeRatesApiUrl;
+            ExchangeRatesQueryableApiUrl = ApiConnection.ExchangeRatesQueryableApiUrl;
         }
 
         #endregion
