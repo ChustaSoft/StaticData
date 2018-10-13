@@ -1,8 +1,9 @@
 ﻿using ChustaSoft.Services.StaticData.Base;
 using ChustaSoft.Services.StaticData.Exceptions;
 using ChustaSoft.Services.StaticData.Models;
+using System;
 using System.Collections.Generic;
-using System.IO;
+
 
 namespace ChustaSoft.Services.StaticData.Repositories
 {
@@ -15,11 +16,11 @@ namespace ChustaSoft.Services.StaticData.Repositories
         {
             try
             {
-                var countryCities = GetParsedData<CountryLocalParsed>(country);
+                var countryCities = GetParsedElement<CountryLocalParsed>(country);
 
                 return countryCities.Cities;
             }
-            catch (FileNotFoundException ex)
+            catch (Exception ex)
             {
                 throw new CountryNotFoundException(country, ex);
             }

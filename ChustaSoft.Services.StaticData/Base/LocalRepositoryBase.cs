@@ -21,45 +21,34 @@ namespace ChustaSoft.Services.StaticData.Base
         
         #region Protected methods
 
-        protected T GetParsedData<T>(string internalFileName)
+        protected T GetParsedElement<T>(string internalFileName)
         {
             #if DEBUG
-            return GetParsedNonInternalData<T>(internalFileName);
-            
+            return GetParsedElementFromSolutionData<T>(internalFileName);
             #else
-            return GetParsedInternalData<T>(internalFileName);
+            return GetParsedElementFromAssemblyData<T>(internalFileName);
             #endif
         }
 
-        protected IEnumerable<T> GetAllFileData<T>(string fileName)
+        protected IEnumerable<T> GetParsedCollection<T>(string internalFileName)
         {
-            var fullPath = GetFilePath(fileName);
-
-            using (StreamReader file = File.OpenText(fullPath))
-            {
-                JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings { Error = HandleDeserializationError });
-
-                return (List<T>)serializer.Deserialize(file, typeof(List<T>));
-            }
-        }
-
-        protected void HandleDeserializationError(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs errorArgs)
-        {
-            var currentError = errorArgs.ErrorContext.Error.Message;
-            errorArgs.ErrorContext.Handled = true;
+            #if DEBUG
+            return GetParsedCollectionFromSolutionData<T>(internalFileName);
+            #else
+            return GetParsedCollectionFromAssemblyData<T>(internalFileName);
+            #endif
         }
 
         #endregion
 
 
         #region Private methods
-        
-        private T GetParsedInternalData<T>(string internalFileName)
-        {
-            var assembly = Assembly.GetCallingAssembly();
-            var fullPath = GetAssemblyPath(assembly, internalFileName);
 
-            using (Stream stream = assembly.GetManifestResourceStream(fullPath))
+        private T GetParsedElementFromAssemblyData<T>(string internalFileName)
+        {
+            var fullPath = GetAssemblyFilePath(internalFileName);
+
+            using (Stream stream = Assembly.GetCallingAssembly().GetManifestResourceStream(fullPath))
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {
@@ -70,29 +59,62 @@ namespace ChustaSoft.Services.StaticData.Base
             }
         }
 
-        private T GetParsedNonInternalData<T>(string internalFileName)
+        private T GetParsedElementFromSolutionData<T>(string internalFileName)
         {
-            var fullPath = GetFilePath(internalFileName);
+            var fullPath = GetSolutionFilePath(internalFileName);
 
-            using (StreamReader file = File.OpenText(fullPath))
+            using (StreamReader reader = File.OpenText(fullPath))
             {
                 var serializer = JsonSerializer.Create(new JsonSerializerSettings { Error = HandleDeserializationError });
-                var stringData = file.ReadToEnd();
+                var stringData = reader.ReadToEnd();
 
                 return JsonConvert.DeserializeObject<T>(stringData);
             }
         }
 
-        private string GetFilePath(string internalFileName)
+        private IEnumerable<T> GetParsedCollectionFromAssemblyData<T>(string internalFileName)
+        {
+            var fullPath = GetAssemblyFilePath(internalFileName);
+
+            using (Stream stream = Assembly.GetCallingAssembly().GetManifestResourceStream(fullPath))
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    var serializer = JsonSerializer.Create(new JsonSerializerSettings { Error = HandleDeserializationError });
+
+                    return (List<T>)serializer.Deserialize(reader, typeof(List<T>));
+                }
+            }
+        }
+
+        private IEnumerable<T> GetParsedCollectionFromSolutionData<T>(string internalFileName)
+        {
+            var fullPath = GetSolutionFilePath(internalFileName);
+
+            using (StreamReader reader = File.OpenText(fullPath))
+            {
+                var serializer = JsonSerializer.Create(new JsonSerializerSettings { Error = HandleDeserializationError });
+
+                return (List<T>)serializer.Deserialize(reader, typeof(List<T>));
+            }
+        }
+
+        private string GetSolutionFilePath(string internalFileName)
         {
             return DATA_FOLDER + FOLDER_SEPARATOR + internalFileName + JSON_EXTENSION;
         }
 
-        private string GetAssemblyPath(Assembly assembly, string internalFileName)
+        private string GetAssemblyFilePath(string internalFileName)
         {
             var nameSpace = typeof(LocalRepositoryBase).Assembly.GetName().Name;
 
             return nameSpace + NAMESPACE_SEPARATOR + DATA_FOLDER + NAMESPACE_SEPARATOR + (internalFileName == string.Empty ? string.Empty : internalFileName + JSON_EXTENSION);
+        }
+
+        private void HandleDeserializationError(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs errorArgs)
+        {
+            var currentError = errorArgs.ErrorContext.Error.Message;
+            errorArgs.ErrorContext.Handled = true;
         }
 
         #endregion

@@ -23,14 +23,14 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         public async Task<Country> Get(string countryName)
         {
-            var allCountries = GetAllFileData<CountryLocal>(COUNTRIES_FILE_NAME);
+            var allCountries = GetParsedCollection<CountryLocal>(COUNTRIES_FILE_NAME);
 
             return allCountries.First(x => x.Name == countryName);
         }
 
         public async Task<Country> Get(AlphaCodeType alphaType, string alphaCode)
         {
-            var allCountries = GetAllFileData<CountryLocal>(COUNTRIES_FILE_NAME);
+            var allCountries = GetParsedCollection<CountryLocal>(COUNTRIES_FILE_NAME);
 
             switch (alphaType)
             {
@@ -47,7 +47,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         public async Task<IEnumerable<Country>> GetAll()
         {
-            return GetAllFileData<CountryLocal>(COUNTRIES_FILE_NAME);
+            return GetParsedCollection<CountryLocal>(COUNTRIES_FILE_NAME);
         }
 
         #endregion
