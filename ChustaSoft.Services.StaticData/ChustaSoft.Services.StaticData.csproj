@@ -1061,6 +1061,9 @@
     <Compile Update="Services\CurrencyService.cs">
       <DependentUpon>ICurrencyService.cs</DependentUpon>
     </Compile>
+    <Compile Update="Services\ExchangeRateService.cs">
+      <DependentUpon>IExchangeRateService.cs</DependentUpon>
+    </Compile>
     
     <Compile Update="Repositories\CountryLocalRepository.cs">
       <DependentUpon>ICountryRepository.cs</DependentUpon>
@@ -1068,11 +1071,11 @@
     <Compile Update="Repositories\CountryExternalService.cs">
       <DependentUpon>ICountryRepository.cs</DependentUpon>
     </Compile>
-    <Compile Update="Repositories\ExchangeRateExternalService.cs">
-      <DependentUpon>IExchangeRateRepository.cs</DependentUpon>
+    <Compile Update="Repositories\ExchangeRateSingleExternalService.cs">
+      <DependentUpon>IExchangeRateSingleRepository.cs</DependentUpon>
     </Compile>
-    <Compile Update="Repositories\ExchangeRateQueryableExternalService.cs">
-      <DependentUpon>IExchangeRateQueryableRepository.cs</DependentUpon>
+    <Compile Update="Repositories\ExchangeRateMultipleExternalService.cs">
+      <DependentUpon>IExchangeRateMultipleRepository.cs</DependentUpon>
     </Compile>
     <Compile Update="Repositories\CurrencyExternalService.cs">
       <DependentUpon>ICurrencyRepository.cs</DependentUpon>

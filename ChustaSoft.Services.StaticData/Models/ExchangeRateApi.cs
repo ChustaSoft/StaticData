@@ -20,6 +20,8 @@ namespace ChustaSoft.Services.StaticData.Models
 
     }
 
+    #region Inherited ExchangeRateApi Single Classes
+
     public class ExchangeRateWithDateApi : ExchangeRateApi
     {
 
@@ -28,16 +30,16 @@ namespace ChustaSoft.Services.StaticData.Models
         {
             get
             {
-                return _value;
+                return _values;
             }
             set
             {
-                _value = value;
+                _values = value;
                 base.Date = value.FirstOrDefault().Key;
                 base.Rate = value.FirstOrDefault().Value;
             }
         }
-        private IDictionary<DateTime, double> _value;
+        private IDictionary<DateTime, double> _values;
 
     }
 
@@ -48,5 +50,7 @@ namespace ChustaSoft.Services.StaticData.Models
         public override double Rate { get; set; }
 
     }
+
+    #endregion
 
 }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ChustaSoft.Services.StaticData.Repositories
 {
-    public class ExchangeRateExternalService : ExternalServiceBase, IExchangeRateRepository
+    public class ExchangeRateMultipleExternalService : ExternalServiceBase, IExchangeRateMultipleRepository
     {
 
         #region Fields
@@ -27,7 +27,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Constructor
 
-        public ExchangeRateExternalService(ConfigurationBase configuration) : base(configuration) { }
+        public ExchangeRateMultipleExternalService(ConfigurationBase configuration) : base(configuration) { }
 
         #endregion
 

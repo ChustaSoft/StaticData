@@ -11,12 +11,12 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
 {
     [TestClass]
     [TestCategory(TestCategories.ExchangeRateTestCategory)]
-    public class ExchangeRateQueryableExternalServiceIntegrationTest
+    public class ExchangeRateSingleExternalServiceIntegrationTest
     {
 
         #region Test Fields
 
-        private IExchangeRateQueryableRepository _serviceUnderTest;
+        private IExchangeRateSingleRepository _serviceUnderTest;
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
         [TestInitialize]
         public void TestInitialize()
         {
-            _serviceUnderTest = ExchangeRateTestHelper.CreateMockQueryableRepository();
+            _serviceUnderTest = ExchangeRateTestHelper.CreateMockSingleRepository();
         }
 
         #endregion
@@ -88,6 +88,24 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
             Assert.IsTrue(data.Any(x => x.To == currencyFrom));
             Assert.IsTrue(data.All(x => x.Rate > 0));
             Assert.IsTrue(data.All(x => x.Date == date));
+        }
+
+        [TestMethod]
+        public void Given_CurrenciesAndDateRange_When_GetHistoricalInvoked_Then_ExchangeRatesRetrived()
+        {
+            string currencyFrom = "USD", currencyTo = "EUR";
+            DateTime beginDate = new DateTime(2018, 1, 1), endDate = new DateTime(2018, 1, 7);
+
+            var data = _serviceUnderTest.GetHistorical(currencyFrom, currencyTo, beginDate, endDate).Result;
+
+            Assert.IsNotNull(data);
+            Assert.IsTrue(data.Any());
+            Assert.IsTrue(data.Any(x => x.From == currencyFrom));
+            Assert.IsTrue(data.Any(x => x.From == currencyTo));
+            Assert.IsTrue(data.Any(x => x.To == currencyTo));
+            Assert.IsTrue(data.Any(x => x.To == currencyFrom));
+            Assert.IsTrue(data.All(x => x.Rate > 0));
+            Assert.IsTrue(data.All(x => x.Date >= beginDate && x.Date <= endDate));
         }
 
         #endregion

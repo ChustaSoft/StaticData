@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChustaSoft.Services.StaticData.Repositories
 {
-    public interface IExchangeRateRepository
+    public interface IExchangeRateMultipleRepository
     {
 
         Task<IEnumerable<ExchangeRate>> GetLatest(string currency);

@@ -7,11 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ChustaSoft.Services.StaticData.Constants;
-
+using System.Linq;
 
 namespace ChustaSoft.Services.StaticData.Repositories
 {
-    public class ExchangeRateQueryableExternalService : ExternalServiceBase, IExchangeRateQueryableRepository
+    public class ExchangeRateSingleExternalService : ExternalServiceBase, IExchangeRateSingleRepository
     {
         
         #region Fields
@@ -19,13 +19,14 @@ namespace ChustaSoft.Services.StaticData.Repositories
         private const char PARAM_PREFIX = 'q';
 
         private const string DATE_PARAM_NAME = "date";
+        private const string END_DATE_PARAM_NAME = "endDate";
 
         #endregion
 
 
         #region Constructor
 
-        public ExchangeRateQueryableExternalService(ConfigurationBase configuration) : base(configuration) { }
+        public ExchangeRateSingleExternalService(ConfigurationBase configuration) : base(configuration) { }
 
         #endregion
 
@@ -54,6 +55,15 @@ namespace ChustaSoft.Services.StaticData.Repositories
             var bidirectionalData = await GetBidirectionalData(currencyFrom, currencyTo, date);
 
             return bidirectionalData.Response.Values;
+        }
+
+        public async Task<IEnumerable<ExchangeRate>> GetHistorical(string currencyFrom, string currencyTo, DateTime beginDate, DateTime endDate)
+        {
+            var json = await GetStringData(GetUri(currencyFrom, currencyTo, beginDate, endDate));
+
+            var data = JsonConvert.DeserializeObject<ExchangeRateWithMultipleRateApiResponse>(json).Response;
+
+            return data.Values;
         }
 
         #endregion
@@ -92,6 +102,18 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
             if (date != null)
                 uriBuilder.AddParameter(DATE_PARAM_NAME, date.Value.ToString(ExchangeRateConstants.DATE_API_FORMAT));
+
+            return uriBuilder.Uri;
+        }
+
+        private Uri GetUri(string currencyFrom, string currencyTo, DateTime beginDate, DateTime endDate)
+        {
+            var fullConversion = GetSingleConversion(currencyFrom, currencyTo) + ExchangeRateConstants.SEPARATOR_CONVERSIONS + GetSingleConversion(currencyTo, currencyFrom);
+
+            var uriBuilder = GetBaseUri()
+                .AddParameter(PARAM_PREFIX.ToString(), fullConversion)
+                .AddParameter(DATE_PARAM_NAME, beginDate.ToString(ExchangeRateConstants.DATE_API_FORMAT))
+                .AddParameter(END_DATE_PARAM_NAME, endDate.ToString(ExchangeRateConstants.DATE_API_FORMAT));
 
             return uriBuilder.Uri;
         }

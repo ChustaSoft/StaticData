@@ -20,7 +20,7 @@ namespace ChustaSoft.Services.StaticData.Models
     }
 
 
-    #region Inherited ExchangeRateApiResponse DataCollection classes
+    #region Inherited ExchangeRateApiResponse Multiple classes
 
     public class ExchangeRateDataApiResponse : ExchangeRateApiResponse
     {
@@ -84,7 +84,7 @@ namespace ChustaSoft.Services.StaticData.Models
     #endregion
 
 
-    #region Inherited ExchangeRateApiResponse Queryable classes
+    #region Inherited ExchangeRateApiResponse Single classes
 
     public class ExchangeRateWithDateApiResponse : ExchangeRateApiResponse
     {
@@ -96,6 +96,29 @@ namespace ChustaSoft.Services.StaticData.Models
 
                 foreach (var er in ResultsCustom)
                     castedData[er.Key] = er.Value;
+
+                return castedData;
+            }
+            set => base.Response = value;
+        }
+
+        [JsonProperty("results")]
+        public IDictionary<string, ExchangeRateWithDateApi> ResultsCustom { get; set; }
+
+    }
+
+    public class ExchangeRateWithMultipleRateApiResponse : ExchangeRateApiResponse
+    {
+        public override IDictionary<string, ExchangeRate> Response
+        {
+            get
+            {
+                var castedData = new Dictionary<string, ExchangeRate>();
+
+                foreach (var er in ResultsCustom)
+                    foreach(var erh in er.Value.DateRate)
+                        castedData[er.Key + ExchangeRateConstants.SEPARATOR_CURRENCIES + erh.Key.ToString(ExchangeRateConstants.DATE_API_FORMAT)] 
+                            = new ExchangeRate { Date = erh.Key, From = er.Value.From, To = er.Value.To, Rate = erh.Value };
 
                 return castedData;
             }

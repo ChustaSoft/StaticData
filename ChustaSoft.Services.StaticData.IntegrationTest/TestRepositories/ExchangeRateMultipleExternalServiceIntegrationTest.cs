@@ -11,12 +11,12 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
 {
     [TestClass]
     [TestCategory(TestCategories.ExchangeRateTestCategory)]
-    public class ExchangeRateExternalServiceIntegrationTest
+    public class ExchangeRateMultipleExternalServiceIntegrationTest
     {
 
         #region Test Fields
 
-        private IExchangeRateRepository _serviceUnderTest;
+        private IExchangeRateMultipleRepository _serviceUnderTest;
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
         [TestInitialize]
         public void TestInitialize()
         {
-            _serviceUnderTest = ExchangeRateTestHelper.CreateMockRepository();
+            _serviceUnderTest = ExchangeRateTestHelper.CreateMockMultipleRepository();
         }
 
         #endregion
@@ -74,7 +74,6 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
 
             Assert.ThrowsExceptionAsync<CurrencyNotFoundException>(() => _serviceUnderTest.GetHistorical(currency, beginDate, endDate));
         }
-
 
         #endregion
 
