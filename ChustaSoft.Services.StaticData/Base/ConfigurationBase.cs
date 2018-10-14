@@ -1,4 +1,5 @@
 ﻿using ChustaSoft.Services.StaticData.Constants;
+using System.Collections.Generic;
 
 
 namespace ChustaSoft.Services.StaticData.Base
@@ -23,6 +24,12 @@ namespace ChustaSoft.Services.StaticData.Base
 
         internal string ExchangeRatesApiUrl { get; set; }
 
+        internal string ExchangeRatesQueryableApiUrl { get; set; }
+
+        internal string ConfiguredBaseCurrency { get; set; }
+
+        internal IEnumerable<string> ConfiguredCurrencies { get; set; }
+
         #endregion
 
 
@@ -33,6 +40,7 @@ namespace ChustaSoft.Services.StaticData.Base
             CountriesApiUrl = ApiConnection.CountriesApiUrl;
             CurrenciesApiUrl = ApiConnection.CurrenciesApiUrl;
             ExchangeRatesApiUrl = ApiConnection.ExchangeRatesApiUrl;
+            ExchangeRatesQueryableApiUrl = ApiConnection.ExchangeRatesQueryableApiUrl;
         }
 
         #endregion
@@ -43,6 +51,16 @@ namespace ChustaSoft.Services.StaticData.Base
         public void SetCountriesFromApi(bool countriesFromApi)
         {
             _countriesFromApi = countriesFromApi;
+        }
+
+        public void SetBaseCurency(string configuredBaseCurrency)
+        {
+            ConfiguredBaseCurrency = configuredBaseCurrency;
+        }
+
+        public void SetConfiguredCurrencies(IEnumerable<string> configuredCurrencies)
+        {
+            ConfiguredCurrencies = configuredCurrencies;
         }
 
         #endregion

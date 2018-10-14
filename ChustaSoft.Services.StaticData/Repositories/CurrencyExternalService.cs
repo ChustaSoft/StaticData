@@ -19,10 +19,14 @@ namespace ChustaSoft.Services.StaticData.Repositories
         #endregion
 
 
-        #region Public methods
+        #region Protected methods
 
         protected override UriBuilder GetBaseUri() => new UriBuilder(_configuration.CurrenciesApiUrl);
 
+        #endregion
+
+
+        #region Public methods
 
         public async Task<IEnumerable<Currency>> GetAll()
         {

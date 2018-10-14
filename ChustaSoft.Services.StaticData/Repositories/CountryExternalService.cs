@@ -16,7 +16,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Fields
 
-        private const string ParamPrefixConst = "p";
+        private const char PARAM_PREFIX = 'p';
 
         #endregion
 
@@ -28,10 +28,14 @@ namespace ChustaSoft.Services.StaticData.Repositories
         #endregion
 
 
-        #region Public methods
+        #region Protected methods
 
         protected override UriBuilder GetBaseUri() => new UriBuilder(_configuration.CountriesApiUrl);
 
+        #endregion
+
+
+        #region Public methods
 
         public async Task<IEnumerable<Country>> GetAll()
         {
@@ -68,7 +72,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
         private Uri GetUri(string countryName)
         {
             return GetBaseUri()
-                .AddParameter(ParamPrefixConst + nameof(Country.Name), countryName)
+                .AddParameter(PARAM_PREFIX + nameof(Country.Name), countryName)
                 .Uri;
         }
 
@@ -79,10 +83,10 @@ namespace ChustaSoft.Services.StaticData.Repositories
             switch (alphaType)
             {
                 case AlphaCodeType.Alpha2:
-                    uriBuilder.AddParameter(ParamPrefixConst + nameof(Country.Alpha2Code), alphaCode);
+                    uriBuilder.AddParameter(PARAM_PREFIX + nameof(Country.Alpha2Code), alphaCode);
                     break;
                 case AlphaCodeType.Alpha3:
-                    uriBuilder.AddParameter(ParamPrefixConst + nameof(Country.Alpha3Code), alphaCode);
+                    uriBuilder.AddParameter(PARAM_PREFIX + nameof(Country.Alpha3Code), alphaCode);
                     break;
             }
 
