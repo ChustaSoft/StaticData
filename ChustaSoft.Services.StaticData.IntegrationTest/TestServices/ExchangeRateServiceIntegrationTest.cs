@@ -26,7 +26,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         [TestInitialize]
         public void TestInitialize()
         {
-            _serviceUnderTest = ExchangeRateTestHelper.CreateMockService();
+            _serviceUnderTest = ExchangeRateTestHelper.CreateMockService(true);
         }
 
         #endregion
@@ -152,7 +152,14 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         [TestMethod]
         public void Given_OneUnknownConfiguredCurrencyWithMore_When_GetConfiguredLatestInvoked_Then_ActionResponseWithConfiguredAndBaseExchangeRatesAndErrorsRetrived()
         {
-            //TODO: Pending from CommonNET ActionResponseBuilder changes
+            _serviceUnderTest = ExchangeRateTestHelper.CreateMockService(false);
+
+            var actionResponse = _serviceUnderTest.GetConfiguredLatest();
+
+            Assert.IsNotNull(actionResponse);
+            Assert.IsTrue(actionResponse.Data.All(x => x.To == ExchangeRateTestHelper.GetMockedConfiguredCurrencyBase()));
+            Assert.IsTrue(actionResponse.Errors.Any());
+            Assert.AreEqual(actionResponse.Flag, Common.Enums.ActionResponseType.Warning);
         }
 
         [TestMethod]
@@ -170,7 +177,14 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         [TestMethod]
         public void Given_OneUnknownConfiguredCurrencyWithMoreAndDates_When_GetGetConfiguredHistoricalInvoked_Then_ActionResponseWithConfiguredAndBaseExchangeRatesRetrived()
         {
-            //TODO: Pending from CommonNET ActionResponseBuilder changes
+            _serviceUnderTest = ExchangeRateTestHelper.CreateMockService(false);
+            DateTime beginDate = new DateTime(2018, 1, 1), endDate = new DateTime(2018, 1, 7);
+
+            var actionResponse = _serviceUnderTest.GetConfiguredHistorical(beginDate, endDate);
+
+            Assert.IsNotNull(actionResponse);
+            Assert.IsTrue(actionResponse.Errors.Any());
+            Assert.AreEqual(actionResponse.Flag, Common.Enums.ActionResponseType.Warning);
         }
 
         #endregion

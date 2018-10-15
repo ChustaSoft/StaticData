@@ -17,9 +17,9 @@ namespace ChustaSoft.Services.StaticData.Services
 
         ActionResponse<IEnumerable<ExchangeRate>> GetBidirectional(string currencyFrom, string currencyTo, DateTime? date = null);
 
-        ActionResponse<IEnumerable<ExchangeRate>> GetConfiguredLatest();
+        ActionResponse<ICollection<ExchangeRate>> GetConfiguredLatest();
 
-        ActionResponse<IEnumerable<ExchangeRate>> GetConfiguredHistorical(DateTime beginDate, DateTime endDate);
+        ActionResponse<ICollection<ExchangeRate>> GetConfiguredHistorical(DateTime beginDate, DateTime endDate);
 
     }
 }

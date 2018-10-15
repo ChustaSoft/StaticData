@@ -36,7 +36,7 @@ namespace ChustaSoft.Services.StaticData.Services
             {
                 var currency = _currencyRepository.Get(currencySymbol).Result;
 
-                arBuilder.AddData(currency);
+                arBuilder.SetData(currency);
             }
             catch (System.Exception ex)
             {
@@ -52,7 +52,7 @@ namespace ChustaSoft.Services.StaticData.Services
             {
                 var currencies = _currencyRepository.GetAll().Result;
 
-                arBuilder.AddData(currencies);
+                arBuilder.SetData(currencies);
             }
             catch (System.Exception ex)
             {

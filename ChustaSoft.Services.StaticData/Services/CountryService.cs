@@ -37,7 +37,7 @@ namespace ChustaSoft.Services.StaticData.Services
             {
                 var country = _countryRepository.Get(countryName).Result;
 
-                arBuilder.AddData(country);
+                arBuilder.SetData(country);
             }
             catch (System.Exception ex)
             {
@@ -53,7 +53,7 @@ namespace ChustaSoft.Services.StaticData.Services
             {
                 var country = _countryRepository.Get(alphaType, alphaCode).Result;
 
-                arBuilder.AddData(country);
+                arBuilder.SetData(country);
             }
             catch (System.Exception ex)
             {
@@ -69,7 +69,7 @@ namespace ChustaSoft.Services.StaticData.Services
             {
                 var countries = _countryRepository.GetAll().Result;
 
-                arBuilder.AddData(countries);
+                arBuilder.SetData(countries);
             }
             catch (System.Exception ex)
             {
