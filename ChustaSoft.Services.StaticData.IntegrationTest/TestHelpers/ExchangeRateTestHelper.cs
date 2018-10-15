@@ -25,11 +25,15 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers
             return new ExchangeRateSingleExternalService(mockedConfiguration);
         }
 
-        internal static IExchangeRateService CreateMockService()
+        internal static IExchangeRateService CreateMockService(bool goodConfiguration)
         {
             var configuration = new ConfigurationBase();
             configuration.SetBaseCurency(GetMockedConfiguredCurrencyBase());
-            configuration.SetConfiguredCurrencies(GetMockedConfiguredCurrencies());
+
+            if(goodConfiguration)
+                configuration.SetConfiguredCurrencies(GetMockedConfiguredCurrencies());
+            else
+                configuration.SetConfiguredCurrencies(GetMockedConfiguredCurrenciesWithUnknown());
 
             var multipleRepository = CreateMockMultipleRepository();
             var singleRepository = CreateMockSingleRepository();
@@ -39,7 +43,10 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers
 
         internal static string GetMockedConfiguredCurrencyBase() => "USD";
 
+
         internal static List<string> GetMockedConfiguredCurrencies() => new List<string> { "XOF", "HKD" };
+
+        internal static List<string> GetMockedConfiguredCurrenciesWithUnknown() => new List<string> { "XOF", "TEST" };
 
 
         #endregion

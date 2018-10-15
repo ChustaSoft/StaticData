@@ -34,16 +34,18 @@ namespace ChustaSoft.Services.StaticData.Services
         public ActionResponse<IEnumerable<City>> Get(string country)
         {
             var arBuilder = new ActionResponseBuilder<IEnumerable<City>>();
+
             try
             {
                 var data = _cityRepository.Get(country);
 
-                arBuilder.AddData(data);
+                arBuilder.SetData(data);
             }
             catch (BusinessException ex)
             {
                 arBuilder.AddError(ex);
             }
+
             return arBuilder.Build();
         }
 
@@ -65,7 +67,7 @@ namespace ChustaSoft.Services.StaticData.Services
                 }
             }
             
-            return arBuilder.AddData(cities).Build();
+            return arBuilder.SetData(cities).Build();
         }
 
         #endregion
