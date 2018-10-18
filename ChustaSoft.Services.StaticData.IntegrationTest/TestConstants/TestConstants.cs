@@ -1,4 +1,5 @@
-﻿using ChustaSoft.Services.StaticData.Models;
+﻿using ChustaSoft.Services.StaticData.Factories;
+using ChustaSoft.Services.StaticData.Models;
 
 
 namespace ChustaSoft.Services.StaticData.IntegrationTest.TestConstants
@@ -10,6 +11,8 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestConstants
         public const string CityTestCategory = nameof(City);
         public const string CurrencyTestCategory = nameof(Currency);
         public const string ExchangeRateTestCategory = nameof(ExchangeRate);
+
+        public const string StaticDataServiceFactoryCategory = nameof(StaticDataServiceFactory);
 
     }
 }

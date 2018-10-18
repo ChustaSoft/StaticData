@@ -25,7 +25,7 @@ namespace ChustaSoft.Services.StaticData.Services
 
         #region Constructor
 
-        public ExchangeRateService(ConfigurationBase configurationBase, IExchangeRateSingleRepository exchangeRateSingleRepository, IExchangeRateMultipleRepository exchangeRateMultipleRepository)
+        internal ExchangeRateService(ConfigurationBase configurationBase, IExchangeRateSingleRepository exchangeRateSingleRepository, IExchangeRateMultipleRepository exchangeRateMultipleRepository)
         {
             _configurationBase = configurationBase;
 

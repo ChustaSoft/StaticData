@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ChustaSoft.Services.StaticData.Repositories
 {
-    public interface ICityRepository
+    internal interface ICityRepository
     {
 
         IEnumerable<City> Get(string country);

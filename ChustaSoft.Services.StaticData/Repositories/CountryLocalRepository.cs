@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ChustaSoft.Services.StaticData.Repositories
 {
-    public class CountryLocalRepository : LocalRepositoryBase, ICountryRepository
+    internal class CountryLocalRepository : LocalRepositoryBase, ICountryRepository
     {
         
         #region Fields

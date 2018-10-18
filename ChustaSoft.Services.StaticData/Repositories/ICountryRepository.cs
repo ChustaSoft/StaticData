@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChustaSoft.Services.StaticData.Repositories
 {
-    public interface ICountryRepository
+    internal interface ICountryRepository
     {
 
         Task<IEnumerable<Country>> GetAll();

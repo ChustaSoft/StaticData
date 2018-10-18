@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace ChustaSoft.Services.StaticData.Services
 {
-    public class CountryService : ICountryService
+    internal class CountryService : ICountryService
     {
 
         #region Fields
@@ -17,10 +17,10 @@ namespace ChustaSoft.Services.StaticData.Services
 
         #endregion
 
-        
+
         #region Constructor
 
-        public CountryService(ICountryRepository countryRepository)
+        internal CountryService(ICountryRepository countryRepository)
         {
             _countryRepository = countryRepository;
         }

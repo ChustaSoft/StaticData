@@ -19,7 +19,7 @@ namespace ChustaSoft.Services.StaticData.Services
 
         #region Constructor
 
-        public CurrencyService(ICurrencyRepository currencyRepository)
+        internal CurrencyService(ICurrencyRepository currencyRepository)
         {
             _currencyRepository = currencyRepository;
         }

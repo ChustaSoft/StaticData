@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace ChustaSoft.Services.StaticData.Repositories
 {
-    public class CityLocalRepository : LocalRepositoryBase, ICityRepository
+    internal class CityLocalRepository : LocalRepositoryBase, ICityRepository
     {
 
         #region Public methods
