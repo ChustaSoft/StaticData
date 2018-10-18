@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace ChustaSoft.Services.StaticData.Repositories
 {
-    public class CurrencyExternalService : ExternalServiceBase, ICurrencyRepository
+    internal class CurrencyExternalService : ExternalServiceBase, ICurrencyRepository
     {
 
         #region Constructor
 
-        public CurrencyExternalService(ConfigurationBase configuration) : base(configuration) { }
+        internal CurrencyExternalService(ConfigurationBase configuration) : base(configuration) { }
 
         #endregion
 

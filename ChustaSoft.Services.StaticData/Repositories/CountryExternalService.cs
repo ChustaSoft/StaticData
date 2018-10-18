@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ChustaSoft.Services.StaticData.Repositories
 {
-    public class CountryExternalService : ExternalServiceBase, ICountryRepository
+    internal class CountryExternalService : ExternalServiceBase, ICountryRepository
     {
 
         #region Fields
@@ -23,7 +23,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Constructor
 
-        public CountryExternalService(ConfigurationBase configuration) : base(configuration) { }
+        internal CountryExternalService(ConfigurationBase configuration) : base(configuration) { }
 
         #endregion
 

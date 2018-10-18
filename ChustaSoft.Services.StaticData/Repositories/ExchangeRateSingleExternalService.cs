@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace ChustaSoft.Services.StaticData.Repositories
 {
-    public class ExchangeRateSingleExternalService : ExternalServiceBase, IExchangeRateSingleRepository
+    internal class ExchangeRateSingleExternalService : ExternalServiceBase, IExchangeRateSingleRepository
     {
         
         #region Fields
@@ -26,7 +26,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Constructor
 
-        public ExchangeRateSingleExternalService(ConfigurationBase configuration) : base(configuration) { }
+        internal ExchangeRateSingleExternalService(ConfigurationBase configuration) : base(configuration) { }
 
         #endregion
 

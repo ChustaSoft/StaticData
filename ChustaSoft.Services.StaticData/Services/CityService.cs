@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace ChustaSoft.Services.StaticData.Services
 {
-    public class CityService : ICityService
+    internal class CityService : ICityService
     {
         
         #region Fields
@@ -21,7 +21,7 @@ namespace ChustaSoft.Services.StaticData.Services
 
         #region Constructor
 
-        public CityService(ICityRepository cityRepository)
+        internal CityService(ICityRepository cityRepository)
         {
             _cityRepository = cityRepository;
         }

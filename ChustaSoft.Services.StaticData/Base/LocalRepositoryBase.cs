@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace ChustaSoft.Services.StaticData.Base
 {
-    public class LocalRepositoryBase
+    internal class LocalRepositoryBase
     {
         
         #region Fields

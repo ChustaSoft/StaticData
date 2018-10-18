@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChustaSoft.Services.StaticData.Repositories
 {
-    public interface IExchangeRateSingleRepository
+    internal interface IExchangeRateSingleRepository
     {
 
         Task<ExchangeRate> Get(string currencyFrom, string currencyTo, DateTime? today = null);

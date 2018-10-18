@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ChustaSoft.Services.StaticData.Repositories
 {
-    public interface ICurrencyRepository
+    internal interface ICurrencyRepository
     {
 
         Task<IEnumerable<Currency>> GetAll();
