@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PackageId>ChustaSoft.StaticData.AspMvc</PackageId>
+    <RootNamespace>ChustaSoft.Services.StaticData</RootNamespace>
+    <Description>ASPMVC Core extension for using ChustaSoft.StaticData</Description>
+    <Copyright>ChustaSoft</Copyright>
+    <Authors>Xelit3</Authors>
+    <Company>ChustaSoft</Company>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <PackageId>ChustaSoft.StaticData.AspMvc</PackageId>
+    <Version>1.0.0.0-beta</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <PackageProjectUrl>https://github.com/Xelit3/StaticData</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Xelit3/StaticData/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/Xelit3/StaticData.git</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <PackageTags>Utilities;Helpers;Core;StaticData;Country;Countries;City;Cities;Currency;Currencies;ExchangeRate;ExchangeRates;ASPMVC;ASPNET</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ChustaSoft.Services.StaticData\ChustaSoft.Services.StaticData.csproj" />
+  </ItemGroup>
+
+</Project>
