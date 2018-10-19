@@ -25,3 +25,4 @@ using System.Runtime.InteropServices;
 //      Revision
 //
 [assembly: InternalsVisibleTo("ChustaSoft.Services.StaticData.IntegrationTest")]
+[assembly: InternalsVisibleTo("ChustaSoft.Services.StaticData.AspNet")]

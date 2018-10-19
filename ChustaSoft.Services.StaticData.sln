@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChustaSoft.Services.StaticData", "ChustaSoft.Services.StaticData\ChustaSoft.Services.StaticData.csproj", "{E01B739B-4AAA-4601-8F29-35B9B655F833}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChustaSoft.Services.StaticData.IntegrationTest", "ChustaSoft.Services.StaticData.IntegrationTest\ChustaSoft.Services.StaticData.IntegrationTest.csproj", "{13BECB28-AB3E-4496-A454-D5520BCAE231}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChustaSoft.Services.StaticData.IntegrationTest", "ChustaSoft.Services.StaticData.IntegrationTest\ChustaSoft.Services.StaticData.IntegrationTest.csproj", "{13BECB28-AB3E-4496-A454-D5520BCAE231}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChustaSoft.Services.StaticData.AspNet", "ChustaSoft.Services.StaticData.AspNet\ChustaSoft.Services.StaticData.AspNet.csproj", "{DE68F789-1B45-4C19-9DAE-5505FC71894D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{13BECB28-AB3E-4496-A454-D5520BCAE231}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13BECB28-AB3E-4496-A454-D5520BCAE231}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13BECB28-AB3E-4496-A454-D5520BCAE231}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE68F789-1B45-4C19-9DAE-5505FC71894D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE68F789-1B45-4C19-9DAE-5505FC71894D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE68F789-1B45-4C19-9DAE-5505FC71894D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE68F789-1B45-4C19-9DAE-5505FC71894D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
