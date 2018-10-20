@@ -1,8 +1,9 @@
 ﻿using ChustaSoft.Services.StaticData.Base;
-using ChustaSoft.Services.StaticData.Repositories;
-using ChustaSoft.Services.StaticData.Services;
+using ChustaSoft.Services.StaticData.Factories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using System.Linq;
 
 
 namespace ChustaSoft.Services.StaticData.AspNet.Configuration
@@ -13,6 +14,8 @@ namespace ChustaSoft.Services.StaticData.AspNet.Configuration
         #region Fields
 
         private const string STATICDATA_CONFIGURATION_CONFIG_PARAM = "StaticDataConfiguration";
+        private const string DEFAULT_BASE_CURRENCY = "USD";
+        private const bool DEFAULT_API_CONFIGURATION = false;
 
         #endregion
 
@@ -24,10 +27,14 @@ namespace ChustaSoft.Services.StaticData.AspNet.Configuration
             var configurationSection = configuration.GetSection(STATICDATA_CONFIGURATION_CONFIG_PARAM).Get<StaticDataConfiguration>();
             var configurationBase = GetConfiguration(configurationSection);
 
-            services.AddSingleton(configurationBase);
+            RegisterServicesSingleton(services, configurationBase);
+        }
 
-            RegisterRepositories(services, configurationSection.ApiDataPeferably);
-            RegisterServices(services);
+        public static void RegisterStaticDataServices(this IServiceCollection services, bool apiDataPeferably, string baseCurrency, IEnumerable<string> configuredCurrencies)
+        {
+            var configurationBase = GetConfiguration(apiDataPeferably, baseCurrency, configuredCurrencies);
+
+            RegisterServicesSingleton(services, configurationBase);
         }
 
         #endregion
@@ -35,36 +42,38 @@ namespace ChustaSoft.Services.StaticData.AspNet.Configuration
 
         #region Private methods
 
-        private static void RegisterServices(IServiceCollection services)
-        {
-            services.AddTransient<ICityService, CityService>();
-            services.AddTransient<ICountryService, CountryService>();
-            services.AddTransient<ICurrencyService, CurrencyService>();
-            services.AddTransient<IExchangeRateService, ExchangeRateService>();
-        }
-
-        private static void RegisterRepositories(IServiceCollection services, bool apiDataPeferably)
-        {
-            if (apiDataPeferably)
-                services.AddTransient<ICountryRepository, CountryExternalService>();
-            else
-                services.AddTransient<ICountryRepository, CountryLocalRepository>();
-
-            services.AddTransient<ICityRepository, CityLocalRepository>();
-            services.AddTransient<ICurrencyRepository, CurrencyExternalService>();
-            services.AddTransient<IExchangeRateSingleRepository, ExchangeRateSingleExternalService>();
-            services.AddTransient<IExchangeRateMultipleRepository, ExchangeRateMultipleExternalService>();
-        }
-
         private static ConfigurationBase GetConfiguration(StaticDataConfiguration staticDataConfiguration)
+        {
+            if (staticDataConfiguration != null)
+                return ConstructConfiguration(staticDataConfiguration.ApiDataPeferably, staticDataConfiguration.BaseCurrency, staticDataConfiguration.ConfiguredCurrencies);
+            else
+                return ConstructConfiguration(DEFAULT_API_CONFIGURATION, DEFAULT_BASE_CURRENCY, Enumerable.Empty<string>());
+        }
+
+        private static ConfigurationBase GetConfiguration(bool apiDataPeferably, string baseCurrency, IEnumerable<string> configuredCurrencies)
+        {
+            return ConstructConfiguration(apiDataPeferably, baseCurrency, configuredCurrencies);
+        }
+
+        private static ConfigurationBase ConstructConfiguration(bool apiDataPeferably, string baseCurrency, IEnumerable<string> configuredCurrencies)
         {
             var configuration = new ConfigurationBase();
 
-            configuration.SetCountriesFromApi(staticDataConfiguration.ApiDataPeferably);
-            configuration.SetBaseCurency(staticDataConfiguration.BaseCurrency);
-            configuration.SetConfiguredCurrencies(staticDataConfiguration.ConfiguredCurrencies);
+            configuration.SetCountriesFromApi(apiDataPeferably);
+            configuration.SetBaseCurency(string.IsNullOrEmpty(baseCurrency) ? DEFAULT_BASE_CURRENCY : baseCurrency);
+            configuration.SetConfiguredCurrencies(configuredCurrencies);
 
             return configuration;
+        }
+
+        private static void RegisterServicesSingleton(IServiceCollection services, ConfigurationBase configurationBase)
+        {
+            services.AddSingleton(configurationBase);
+
+            services.AddSingleton(StaticDataServiceFactory.GetCityService(configurationBase));
+            services.AddSingleton(StaticDataServiceFactory.GetCountryService(configurationBase));
+            services.AddSingleton(StaticDataServiceFactory.GetCurrencyService(configurationBase));
+            services.AddSingleton(StaticDataServiceFactory.GetExchangeRateService(configurationBase));
         }
 
         #endregion

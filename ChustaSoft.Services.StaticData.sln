@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChustaSoft.Services.StaticD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChustaSoft.Services.StaticData.IntegrationTest", "ChustaSoft.Services.StaticData.IntegrationTest\ChustaSoft.Services.StaticData.IntegrationTest.csproj", "{13BECB28-AB3E-4496-A454-D5520BCAE231}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChustaSoft.Services.StaticData.AspNet", "ChustaSoft.Services.StaticData.AspNet\ChustaSoft.Services.StaticData.AspNet.csproj", "{DE68F789-1B45-4C19-9DAE-5505FC71894D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChustaSoft.Services.StaticData.AspNet", "ChustaSoft.Services.StaticData.AspNet\ChustaSoft.Services.StaticData.AspNet.csproj", "{DE68F789-1B45-4C19-9DAE-5505FC71894D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
