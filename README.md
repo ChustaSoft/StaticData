@@ -24,7 +24,7 @@ Once dependencies are registered, you can use by injecting the different availai
 - ICurrencyService
 - IExcangeRateService
 
-Another implementation that the ASPNET nuget provides is a Controller that provides of all needed methods for retrieving information of all services, without doing anything else.
+Another implementation that the ASPNET nuget provides is a Controller with all needed methods for retrieving information of all services, without doing anything else.
 
 - Root path: api/staticdata
   - cities/{country}
