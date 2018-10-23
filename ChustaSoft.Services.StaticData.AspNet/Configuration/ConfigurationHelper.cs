@@ -22,6 +22,12 @@ namespace ChustaSoft.Services.StaticData.AspNet.Configuration
 
         #region Public methods
 
+        /// <summary>
+        /// Extension method availaible for configuring StaticData services
+        /// Could be used for default configuration, or appsettings configurations inside Startup
+        /// </summary>
+        /// <param name="services">DI container</param>
+        /// <param name="configuration">ASPNET Core configuration</param>
         public static void RegisterStaticDataServices(this IServiceCollection services, IConfiguration configuration)
         {
             var configurationSection = configuration.GetSection(STATICDATA_CONFIGURATION_CONFIG_PARAM).Get<StaticDataConfiguration>();
@@ -30,6 +36,14 @@ namespace ChustaSoft.Services.StaticData.AspNet.Configuration
             RegisterServicesSingleton(services, configurationBase);
         }
 
+        /// <summary>
+        /// Extension method availaible for configuring StaticData services
+        /// Could be used for manual configuring inside Startup
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="apiDataPeferably"></param>
+        /// <param name="baseCurrency"></param>
+        /// <param name="configuredCurrencies"></param>
         public static void RegisterStaticDataServices(this IServiceCollection services, bool apiDataPeferably, string baseCurrency, IEnumerable<string> configuredCurrencies)
         {
             var configurationBase = GetConfiguration(apiDataPeferably, baseCurrency, configuredCurrencies);
