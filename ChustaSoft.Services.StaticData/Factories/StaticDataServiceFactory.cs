@@ -5,8 +5,9 @@ using ChustaSoft.Services.StaticData.Services;
 
 namespace ChustaSoft.Services.StaticData.Factories
 {
-
-
+    /// <summary>
+    /// This Factory provides of all the needed services inside StaticData application
+    /// </summary>
     public class StaticDataServiceFactory
     {
 
