@@ -1,11 +1,12 @@
 # StaticData 
 
 
-· Description
+· Description:
+
 Tool with Common Data used in multiple .NET applications like Countries, Cities, Currencies, ExchangeRates...
 
 
-· Getting started
+· Getting started:
 
 There are two ways for using StaticData tool.
 Examples on Wiki are availaible
