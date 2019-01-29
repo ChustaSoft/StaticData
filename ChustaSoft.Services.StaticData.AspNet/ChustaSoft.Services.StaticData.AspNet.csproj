@@ -1,15 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <PackageId>ChustaSoft.StaticData.AspMvc</PackageId>
+    <PackageId>ChustaSoft.StaticData.AspNet</PackageId>
     <RootNamespace>ChustaSoft.Services.StaticData</RootNamespace>
     <Description>ASPMVC Core extension for using ChustaSoft.StaticData</Description>
     <Copyright>ChustaSoft</Copyright>
     <Authors>Xelit3</Authors>
     <Company>ChustaSoft</Company>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
-    <PackageId>ChustaSoft.StaticData.AspMvc</PackageId>
     <Version>1.0.1.1</Version>
     <AssemblyVersion>1.0.1.1</AssemblyVersion>
     <FileVersion>1.0.1.1</FileVersion>
