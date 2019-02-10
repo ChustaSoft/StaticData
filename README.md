@@ -17,6 +17,7 @@ In this case, if the intention is to use only the core features of the project, 
 - By using ASPNET project (Only ASP.NET Core 2.0 and above)
 In this case, the tool provides of an extension method for configuring services inside the DI Container. 
 ConfigurationHelper -> RegisterStaticDataServices
+
 NOTE: NuGet has been renamed from ChustaSoft.StaticData.AspMvc to ChustaSoft.StaticData.AspNet since version 1.0.1.2, which is compatible with the last ChustaSoft.StaticData.AspMvc version. Update the NuGet to the new one is recomended
 
 Once dependencies are registered, you can use by injecting the different availaible services on the needed class
