@@ -165,7 +165,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         [TestMethod]
         public void Given_ConfiguredCurrenciesAndDates_When_GetGetConfiguredHistoricalInvoked_Then_ActionResponseWithConfiguredAndBaseExchangeRatesRetrived()
         {
-            DateTime beginDate = new DateTime(2018, 1, 1), endDate = new DateTime(2018, 1, 7);
+            DateTime beginDate = DateTime.Now.AddMonths(-1), endDate = DateTime.Now.AddMonths(-1).AddDays(7);
 
             var actionResponse = _serviceUnderTest.GetConfiguredHistorical(beginDate, endDate);
 

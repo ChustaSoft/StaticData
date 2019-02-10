@@ -8,8 +8,7 @@ namespace ChustaSoft.Services.StaticData.Exceptions
     {
 
         private static string ErrorMessage = "One or more of the specified currencies could not be found: {0}";
-        private string requestedConversion;
-
+        
 
         public CurrencyNotFoundException(string currencyName) : base(string.Format(ErrorMessage, currencyName)) { }
         

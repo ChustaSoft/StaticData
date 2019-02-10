@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
@@ -10,9 +10,9 @@
     <Company>ChustaSoft</Company>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <PackageId>ChustaSoft.StaticData</PackageId>
-    <Version>1.1.0.2</Version>
-    <AssemblyVersion>1.1.0.2</AssemblyVersion>
-    <FileVersion>1.1.0.2</FileVersion>
+    <Version>1.1.0.3</Version>
+    <AssemblyVersion>1.1.0.3</AssemblyVersion>
+    <FileVersion>1.1.0.3</FileVersion>
     <PackageProjectUrl>https://github.com/Xelit3/StaticData</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/Xelit3/StaticData/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/Xelit3/StaticData.git</RepositoryUrl>
@@ -1041,8 +1041,8 @@ https://github.com/Xelit3/StaticData/wiki</PackageReleaseNotes>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ChustaSoft.Common" Version="1.0.10" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="ChustaSoft.Common" Version="1.0.20.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 
