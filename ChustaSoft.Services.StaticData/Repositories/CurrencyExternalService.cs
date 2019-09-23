@@ -30,17 +30,22 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         public async Task<IEnumerable<Currency>> GetAll()
         {
-            return GetAllCurrencies()
-                .Result.Values
-                .AsEnumerable<Currency>();
+            var task = new Task<IEnumerable<Currency>>(() => {
+                return GetAllCurrencies().Result.Values.AsEnumerable<Currency>();
+            });
+            task.Start();
+
+            return await task;
         }
 
         public async Task<Currency> Get(string currencySymbol)
         {
-            return GetAllCurrencies()
-                .Result
-                .First(currency => currency.Key == currencySymbol)
-                .Value;
+            var task = new Task<Currency>(() => {
+                return GetAllCurrencies().Result.First(currency => currency.Key == currencySymbol).Value;
+            });
+            task.Start();
+
+            return await task;
         }
 
         #endregion
