@@ -4,6 +4,7 @@ using ChustaSoft.Common.Helpers;
 using ChustaSoft.Common.Utilities;
 using ChustaSoft.Services.StaticData.Models;
 using ChustaSoft.Services.StaticData.Repositories;
+using System;
 using System.Collections.Generic;
 
 
@@ -31,6 +32,7 @@ namespace ChustaSoft.Services.StaticData.Services
 
         #region Public methods
 
+        [Obsolete("Version 2.0 will make it async and replace ActionResponse in this layer")]
         public ActionResponse<IEnumerable<City>> Get(string country)
         {
             var arBuilder = new ActionResponseBuilder<IEnumerable<City>>();
@@ -49,6 +51,7 @@ namespace ChustaSoft.Services.StaticData.Services
             return arBuilder.Build();
         }
 
+        [Obsolete("Version 2.0 will make it async and replace ActionResponse in this layer")]
         public ActionResponse<IEnumerable<City>> Get(List<string> countries)
         {
             var arBuilder = new ActionResponseBuilder<IEnumerable<City>>();

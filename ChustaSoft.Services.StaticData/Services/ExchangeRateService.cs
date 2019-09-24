@@ -38,6 +38,7 @@ namespace ChustaSoft.Services.StaticData.Services
 
         #region Public methods
 
+        [Obsolete("Version 2.0 will make it async and replace ActionResponse in this layer")]
         public ActionResponse<ExchangeRate> Get(string currencyFrom, string currencyTo, DateTime? date = null)
         {
             var arBuilder = new ActionResponseBuilder<ExchangeRate>();
@@ -54,6 +55,7 @@ namespace ChustaSoft.Services.StaticData.Services
             return arBuilder.Build();
         }
 
+        [Obsolete("Version 2.0 will make it async and replace ActionResponse in this layer")]
         public ActionResponse<IEnumerable<ExchangeRate>> GetBidirectional(string currencyFrom, string currencyTo, DateTime? date = null)
         {
             var arBuilder = new ActionResponseBuilder<IEnumerable<ExchangeRate>>();
@@ -70,6 +72,7 @@ namespace ChustaSoft.Services.StaticData.Services
             return arBuilder.Build();
         }
 
+        [Obsolete("Version 2.0 will make it async and replace ActionResponse in this layer")]
         public ActionResponse<IEnumerable<ExchangeRate>> GetHistorical(string currency, DateTime beginDate, DateTime endDate)
         {
             var arBuilder = new ActionResponseBuilder<IEnumerable<ExchangeRate>>();
@@ -86,6 +89,7 @@ namespace ChustaSoft.Services.StaticData.Services
             return arBuilder.Build();
         }
 
+        [Obsolete("Version 2.0 will make it async and replace ActionResponse in this layer")]
         public ActionResponse<IEnumerable<ExchangeRate>> GetLatest(string currency)
         {
             var arBuilder = new ActionResponseBuilder<IEnumerable<ExchangeRate>>();
@@ -102,6 +106,7 @@ namespace ChustaSoft.Services.StaticData.Services
             return arBuilder.Build();
         }
 
+        [Obsolete("Version 2.0 will make it async and replace ActionResponse in this layer")]
         public ActionResponse<ICollection<ExchangeRate>> GetConfiguredLatest()
         {
             var arBuilder = new ActionResponseBuilder<ICollection<ExchangeRate>>();
@@ -116,6 +121,7 @@ namespace ChustaSoft.Services.StaticData.Services
             return arBuilder.Build();
         }
 
+        [Obsolete("Version 2.0 will make it async and replace ActionResponse in this layer")]
         public ActionResponse<ICollection<ExchangeRate>> GetConfiguredHistorical(DateTime beginDate, DateTime endDate)
         {
             var arBuilder = new ActionResponseBuilder<ICollection<ExchangeRate>>();

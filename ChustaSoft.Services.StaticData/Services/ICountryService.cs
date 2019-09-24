@@ -1,6 +1,7 @@
 ﻿using ChustaSoft.Common.Utilities;
 using ChustaSoft.Services.StaticData.Enums;
 using ChustaSoft.Services.StaticData.Models;
+using System;
 using System.Collections.Generic;
 
 
@@ -12,12 +13,14 @@ namespace ChustaSoft.Services.StaticData.Services
     public interface ICountryService
     {
 
+        [Obsolete("Version 2.0 will make it async and replace ActionResponse in this layer")]
         /// <summary>
         /// Gets all countries
         /// </summary>
         /// <returns>ActionResponse with countries retrived</returns>
         ActionResponse<IEnumerable<Country>> GetAll();
 
+        [Obsolete("Version 2.0 will make it async and replace ActionResponse in this layer")]
         /// <summary>
         /// Get Country Information by it's name
         /// </summary>
@@ -25,6 +28,7 @@ namespace ChustaSoft.Services.StaticData.Services
         /// <returns>ActionResponse with retrived country</returns>
         ActionResponse<Country> Get(string countryName);
 
+        [Obsolete("Version 2.0 will make it async and replace ActionResponse in this layer")]
         /// <summary>
         /// Get Country by Alpha Code
         /// </summary>
