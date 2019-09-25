@@ -1,4 +1,5 @@
-﻿using ChustaSoft.Services.StaticData.Models;
+﻿using ChustaSoft.Services.StaticData.Exceptions;
+using ChustaSoft.Services.StaticData.Models;
 using ChustaSoft.Services.StaticData.Repositories;
 using System.Collections.Generic;
 using System.IO;
@@ -30,7 +31,14 @@ namespace ChustaSoft.Services.StaticData.Services
 
         public IEnumerable<City> Get(string country)
         {
-            return _cityRepository.Get(country);
+            try
+            {
+                return _cityRepository.Get(country);
+            }
+            catch (FileNotFoundException ex)
+            {
+                throw new CountryNotFoundException(country, ex);
+            }
         }
 
         public IDictionary<string, (bool Found, IEnumerable<City> Cities)> Get(IEnumerable<string> countries)
