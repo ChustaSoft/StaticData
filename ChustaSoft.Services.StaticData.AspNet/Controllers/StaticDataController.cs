@@ -1,8 +1,10 @@
-﻿using ChustaSoft.Common.Utilities;
+﻿using ChustaSoft.Common.Base;
+using ChustaSoft.Common.Utilities;
 using ChustaSoft.Services.StaticData.Enums;
 using ChustaSoft.Services.StaticData.Models;
 using ChustaSoft.Services.StaticData.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 
@@ -11,7 +13,7 @@ namespace ChustaSoft.Services.StaticData.AspNet.Controllers
 {
 
     [Route("api/staticdata")]
-    public class StaticDataController : Controller
+    public class StaticDataController : ApiControllerBase<StaticDataController>
     {
         
         #region Fields
@@ -26,7 +28,8 @@ namespace ChustaSoft.Services.StaticData.AspNet.Controllers
 
         #region Constructor
 
-        public StaticDataController(ICityService cityService, ICountryService countryService, ICurrencyService currencyService, IExchangeRateService exchangeRateService)
+        public StaticDataController(ILogger<StaticDataController> logger, ICityService cityService, ICountryService countryService, ICurrencyService currencyService, IExchangeRateService exchangeRateService)
+            : base(logger)
         {
             _cityService = cityService;
             _countryService = countryService;
@@ -40,15 +43,31 @@ namespace ChustaSoft.Services.StaticData.AspNet.Controllers
         #region Public methods
 
         [HttpGet("cities/{country}")]
-        public ActionResponse<IEnumerable<City>> GetCities(string country)
+        public IActionResult GetCities(string country)
         {
-            return _cityService.Get(country);
+            var actionResponse = GetEmptyResponseBuilder<IEnumerable<City>>();
+            try
+            {
+                return Ok(_cityService.Get(country));
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
         [HttpGet("cities")]
-        public ActionResponse<IEnumerable<City>> GetCities([FromBody] List<string> countries)
+        public IActionResult GetCities([FromBody] IEnumerable<string> countries)
         {
-            return _cityService.Get(countries);
+            var actionResponse = GetEmptyResponseBuilder<IEnumerable<City>>();
+            try
+            {
+                return Ok(_cityService.Get(countries));
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
         [HttpGet("countries")]

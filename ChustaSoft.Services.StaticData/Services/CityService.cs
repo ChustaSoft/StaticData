@@ -1,11 +1,8 @@
-﻿using ChustaSoft.Common.Builders;
-using ChustaSoft.Common.Enums;
-using ChustaSoft.Common.Exceptions;
-using ChustaSoft.Common.Utilities;
-using ChustaSoft.Services.StaticData.Models;
+﻿using ChustaSoft.Services.StaticData.Models;
 using ChustaSoft.Services.StaticData.Repositories;
 using System.Collections.Generic;
-
+using System.IO;
+using System.Linq;
 
 namespace ChustaSoft.Services.StaticData.Services
 {
@@ -31,43 +28,28 @@ namespace ChustaSoft.Services.StaticData.Services
 
         #region Public methods
 
-        public ActionResponse<IEnumerable<City>> Get(string country)
+        public IEnumerable<City> Get(string country)
         {
-            var arBuilder = new ActionResponseBuilder<IEnumerable<City>>();
-
-            try
-            {
-                var data = _cityRepository.Get(country);
-
-                arBuilder.SetData(data);
-            }
-            catch (BusinessException ex)
-            {
-                arBuilder.AddError(ex);
-            }
-
-            return arBuilder.Build();
+            return _cityRepository.Get(country);
         }
 
-        public ActionResponse<IEnumerable<City>> Get(List<string> countries)
+        public IDictionary<string, (bool Found, IEnumerable<City> Cities)> Get(IEnumerable<string> countries)
         {
-            var arBuilder = new ActionResponseBuilder<IEnumerable<City>>();
-            var cities = new List<City>();
+            var citiesResult = new Dictionary<string, (bool, IEnumerable<City>)>();
 
             foreach (var country in countries)
             {
                 try
                 {
-                    cities.AddRange(_cityRepository.Get(country));
+                    citiesResult.Add(country, (true, _cityRepository.Get(country)));
                 }
-                catch (BusinessException ex)
+                catch (FileNotFoundException)
                 {
-                    arBuilder.AddError(ex);
-                    arBuilder.SetStatus(ActionResponseType.Warning);
+                    citiesResult.Add(country, (false, Enumerable.Empty<City>()));
                 }
             }
-            
-            return arBuilder.SetData(cities).Build();
+
+            return citiesResult;
         }
 
         #endregion

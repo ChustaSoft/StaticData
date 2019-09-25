@@ -1,9 +1,9 @@
 ﻿using ChustaSoft.Services.StaticData.IntegrationTest.TestConstants;
 using ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers;
-using ChustaSoft.Services.StaticData.Repositories;
 using ChustaSoft.Services.StaticData.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 
@@ -39,46 +39,47 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         {
             var country = "Burkina Faso";
 
-            var actionResponse = _serviceUnderTest.Get(country);
+            var result = _serviceUnderTest.Get(country);
 
-            Assert.IsTrue(actionResponse.Data.Any());
+            Assert.IsTrue(result.Any());
         }
 
         [TestMethod]
-        public void Given_UnexistingCountryStr_When_GetInvoked_Then_ErrorsRetrived()
+        public void Given_UnexistingCountryStr_When_GetInvoked_Then_ExceptionThrown()
         {
-            var country = "Solar system";
-
-            var actionResponse = _serviceUnderTest.Get(country);
-
-            Assert.IsTrue(actionResponse.Errors.Any());
+            Assert.ThrowsException<FileNotFoundException>(() => _serviceUnderTest.Get("Solar system"));
         }
 
         [TestMethod]
         public void Given_CountryStrList_When_GetInvoked_Then_CitiesRetrived()
         {
-            var countries = new List<string> { "Burkina Faso", "Angola", "Ghana" };
+            string country1 = "Burkina Faso", country2 = "Angola", country3 = "Ghana";
+            var countries = new List<string> { country1, country2, country3 };
 
-            var actionResponse = _serviceUnderTest.Get(countries);
+            var result = _serviceUnderTest.Get(countries);
 
-            Assert.IsTrue(actionResponse.Data.Any());
-            Assert.IsTrue(actionResponse.Data.Any(x => x.CountryAlpha2Code == "BF"));
-            Assert.IsTrue(actionResponse.Data.Any(x => x.CountryAlpha2Code == "AO"));
-            Assert.IsTrue(actionResponse.Data.Any(x => x.CountryAlpha2Code == "GH"));
+            Assert.IsTrue(result[country1].Found);
+            Assert.IsTrue(result[country2].Found);
+            Assert.IsTrue(result[country3].Found);
+            Assert.IsTrue(result[country1].Cities.All(x => x.CountryAlpha2Code == "BF"));
+            Assert.IsTrue(result[country2].Cities.All(x => x.CountryAlpha2Code == "AO"));
+            Assert.IsTrue(result[country3].Cities.All(x => x.CountryAlpha2Code == "GH"));
         }
 
         [TestMethod]
         public void Given_ExistingAndUnexistingCountryStrList_When_GetInvoked_Then_CitiesAndErrorsRetrived()
         {
-            var unexistingCountry = "Solar System";
-            var countries = new List<string> { "Burkina Faso", "Ghana", unexistingCountry };
+            string country1 = "Burkina Faso", country2 = "Angola", unexistingCountry = "Solar System";
+            var countries = new List<string> { country1, country2, unexistingCountry };
 
-            var actionResponse = _serviceUnderTest.Get(countries);
+            var result = _serviceUnderTest.Get(countries);
 
-            Assert.IsTrue(actionResponse.Data.Any());
-            Assert.IsTrue(actionResponse.Data.Any(x => x.CountryAlpha2Code == "BF"));
-            Assert.IsTrue(actionResponse.Data.Any(x => x.CountryAlpha2Code == "GH"));
-            Assert.IsTrue(actionResponse.Errors.Any(x => x.Text.Contains(unexistingCountry)));
+            Assert.IsTrue(result[country1].Found);
+            Assert.IsTrue(result[country2].Found);
+            Assert.IsFalse(result[unexistingCountry].Found);
+            Assert.IsTrue(result[country1].Cities.All(x => x.CountryAlpha2Code == "BF"));
+            Assert.IsTrue(result[country2].Cities.All(x => x.CountryAlpha2Code == "AO"));
+            Assert.IsFalse(result[unexistingCountry].Cities.Any());
         }
 
         #endregion
