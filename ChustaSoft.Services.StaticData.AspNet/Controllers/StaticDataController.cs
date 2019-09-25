@@ -1,4 +1,5 @@
 ﻿using ChustaSoft.Common.Base;
+using ChustaSoft.Common.Helpers;
 using ChustaSoft.Common.Utilities;
 using ChustaSoft.Services.StaticData.Enums;
 using ChustaSoft.Services.StaticData.Models;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 
 namespace ChustaSoft.Services.StaticData.AspNet.Controllers
 {
@@ -48,7 +49,9 @@ namespace ChustaSoft.Services.StaticData.AspNet.Controllers
             var actionResponse = GetEmptyResponseBuilder<IEnumerable<City>>();
             try
             {
-                return Ok(_cityService.Get(country));
+                actionResponse.SetData(_cityService.Get(country));
+
+                return Ok(actionResponse);
             }
             catch (Exception ex)
             {
@@ -59,10 +62,13 @@ namespace ChustaSoft.Services.StaticData.AspNet.Controllers
         [HttpGet("cities")]
         public IActionResult GetCities([FromBody] IEnumerable<string> countries)
         {
-            var actionResponse = GetEmptyResponseBuilder<IEnumerable<City>>();
+            var actionResponse = GetEmptyResponseBuilder<List<City>>();
             try
             {
-                return Ok(_cityService.Get(countries));
+                var data = _cityService.Get(countries).SelectMany(x => x.Value.Cities).ToList();
+                actionResponse.SetData(data);
+
+                return Ok(actionResponse);
             }
             catch (Exception ex)
             {
@@ -71,23 +77,52 @@ namespace ChustaSoft.Services.StaticData.AspNet.Controllers
         }
 
         [HttpGet("countries")]
-        public ActionResponse<IEnumerable<Country>> GetCountries()
+        public IActionResult GetCountries()
         {
-            return _countryService.GetAll();
+            var actionResponse = GetEmptyResponseBuilder<IEnumerable<Country>>();
+            try
+            {
+                actionResponse.SetData(_countryService.GetAll());
+
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
         [HttpGet("countries/{countryName}")]
-        public ActionResponse<Country> GetCountry(string countryName)
+        public IActionResult GetCountry(string countryName)
         {
-            return _countryService.Get(countryName);
+            var actionResponse = GetEmptyResponseBuilder<Country>();
+            try
+            {
+                actionResponse.SetData(_countryService.Get(countryName));
+
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
         [HttpGet("countries/{alphaType}/{alphaCode}")]
-        public ActionResponse<Country> GetCountry(string alphaType, string alphaCode)
+        public IActionResult GetCountry(string alphaType, string alphaCode)
         {
-            var enumType = (AlphaCodeType)Enum.Parse(typeof(AlphaCodeType), alphaType);
+            var actionResponse = GetEmptyResponseBuilder<Country>();
+            try
+            {
+                var enumType = EnumsHelper.GetByString<AlphaCodeType>(alphaType);
+                actionResponse.SetData(_countryService.Get(enumType, alphaCode));
 
-            return _countryService.Get(enumType, alphaCode);
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
         [HttpGet("currencies")]

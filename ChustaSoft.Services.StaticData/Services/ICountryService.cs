@@ -1,5 +1,4 @@
-﻿using ChustaSoft.Common.Utilities;
-using ChustaSoft.Services.StaticData.Enums;
+﻿using ChustaSoft.Services.StaticData.Enums;
 using ChustaSoft.Services.StaticData.Models;
 using System.Collections.Generic;
 
@@ -15,23 +14,23 @@ namespace ChustaSoft.Services.StaticData.Services
         /// <summary>
         /// Gets all countries
         /// </summary>
-        /// <returns>ActionResponse with countries retrived</returns>
-        ActionResponse<IEnumerable<Country>> GetAll();
+        /// <returns>Countries retrived</returns>
+        IEnumerable<Country> GetAll();
 
         /// <summary>
         /// Get Country Information by it's name
         /// </summary>
         /// <param name="countryName"></param>
-        /// <returns>ActionResponse with retrived country</returns>
-        ActionResponse<Country> Get(string countryName);
+        /// <returns>Retrived country</returns>
+        Country Get(string countryName);
 
         /// <summary>
         /// Get Country by Alpha Code
         /// </summary>
         /// <param name="alphaType">Alpha Code type for filtering</param>
         /// <param name="alphaCode">Aplha code itself</param>
-        /// <returns>ActionResponse with retrived country</returns>
-        ActionResponse<Country> Get(AlphaCodeType alphaType, string alphaCode);
+        /// <returns>Retrived country</returns>
+        Country Get(AlphaCodeType alphaType, string alphaCode);
 
     }
 }
