@@ -61,21 +61,7 @@ namespace ChustaSoft.Services.StaticData.Services
             var exchangeRates = _exchangeRateMultipleRepository.GetLatest(_configurationBase.ConfiguredBaseCurrency)
                 .Result.ToList();
 
-            foreach (var configCurrency in _configurationBase.ConfiguredCurrencies)
-            {
-                if (!exchangeRates.Any(er => er.From == configCurrency))
-                {
-                    try
-                    {
-                        var currencyLatestExchangeRate = _exchangeRateSingleRepository.Get(configCurrency, _configurationBase.ConfiguredBaseCurrency).Result;
-                        finalData.Add(configCurrency, (true, new List<ExchangeRate>{ currencyLatestExchangeRate } ));
-                    }
-                    catch (Exception)
-                    {
-                        finalData.Add(configCurrency, (false, Enumerable.Empty<ExchangeRate>()));
-                    }
-                }
-            }
+            IterateResults(finalData, exchangeRates);
 
             return finalData;
         }
@@ -86,21 +72,7 @@ namespace ChustaSoft.Services.StaticData.Services
             var exchangeRates = _exchangeRateMultipleRepository.GetHistorical(_configurationBase.ConfiguredBaseCurrency, beginDate, endDate)
                 .Result.ToList();
 
-            foreach (var configCurrency in _configurationBase.ConfiguredCurrencies)
-            {
-                if (!exchangeRates.Any(er => er.From == configCurrency))
-                {
-                    try
-                    {
-                        var currencyLatestExchangeRate = _exchangeRateSingleRepository.Get(configCurrency, _configurationBase.ConfiguredBaseCurrency).Result;
-                        finalData.Add(configCurrency, (true, new List<ExchangeRate> { currencyLatestExchangeRate }));
-                    }
-                    catch (Exception)
-                    {
-                        finalData.Add(configCurrency, (false, Enumerable.Empty<ExchangeRate>()));
-                    }
-                }
-            }
+            IterateResults(finalData, exchangeRates);
 
             return finalData;
         }
@@ -110,7 +82,39 @@ namespace ChustaSoft.Services.StaticData.Services
 
         #region Private methods
 
+        private void IterateResults(Dictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)> finalData, List<ExchangeRate> exchangeRates)
+        {
+            foreach (var configCurrency in _configurationBase.ConfiguredCurrencies)
+            {
+                if (!HasExchangeRate(exchangeRates, configCurrency))
+                    TryGetFromSingleRepository(finalData, configCurrency);
+                else
+                    AddFromRetrivedExchangeRates(finalData, exchangeRates, configCurrency);
+            }
+        }
 
+        private static bool HasExchangeRate(List<ExchangeRate> exchangeRates, string configCurrency)
+        {
+            return exchangeRates.Any(er => er.From == configCurrency);
+        }
+
+        private static void AddFromRetrivedExchangeRates(Dictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)> finalData, List<ExchangeRate> exchangeRates, string configCurrency)
+        {
+            finalData.Add(configCurrency, (true, new List<ExchangeRate> { exchangeRates.First(er => er.From == configCurrency) }));
+        }
+
+        private void TryGetFromSingleRepository(Dictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)> finalData, string configCurrency)
+        {
+            try
+            {
+                var currencyLatestExchangeRate = _exchangeRateSingleRepository.Get(configCurrency, _configurationBase.ConfiguredBaseCurrency).Result;
+                finalData.Add(configCurrency, (true, new List<ExchangeRate> { currencyLatestExchangeRate }));
+            }
+            catch (Exception)
+            {
+                finalData.Add(configCurrency, (false, Enumerable.Empty<ExchangeRate>()));
+            }
+        }
 
         #endregion
 

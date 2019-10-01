@@ -44,7 +44,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers
         internal static string GetMockedConfiguredCurrencyBase() => "USD";
 
 
-        internal static List<string> GetMockedConfiguredCurrencies() => new List<string> { "XOF", "HKD" };
+        internal static List<string> GetMockedConfiguredCurrencies() => new List<string> { "XOF", "EUR" };
 
         internal static List<string> GetMockedConfiguredCurrenciesWithUnknown() => new List<string> { "XOF", "TEST" };
 
