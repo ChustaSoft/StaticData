@@ -1,5 +1,6 @@
 ﻿using ChustaSoft.Common.Helpers;
 using ChustaSoft.Services.StaticData.Base;
+using ChustaSoft.Services.StaticData.Constants;
 using ChustaSoft.Services.StaticData.Models;
 using Newtonsoft.Json;
 using System;
@@ -12,12 +13,6 @@ namespace ChustaSoft.Services.StaticData.Repositories
 {
     internal class CurrencyExternalService : ExternalServiceBase, ICurrencyRepository
     {
-        #region Constants
-
-        private const string APIKEY_PARAM = "apiKey";
-
-        #endregion
-
 
         #region Constructor
 
@@ -29,7 +24,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
         #region Protected methods
 
         protected override UriBuilder GetBaseUri()
-            => new UriBuilder(_configuration.CurrenciesApiUrl ).AddParameter(APIKEY_PARAM, _configuration.CurrencyConverterApiKey);
+            => new UriBuilder(_configuration.CurrenciesApiUrl ).AddParameter(ApiConstants.FreeConverterApiKeyParam, _configuration.CurrencyConverterApiKey);
 
         #endregion
 
