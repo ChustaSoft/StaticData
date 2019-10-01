@@ -26,7 +26,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Constructor
 
-        internal ExchangeRateSingleExternalService(ConfigurationBase configuration) : base(configuration) { }
+        internal ExchangeRateSingleExternalService(InternalConfiguration configuration) : base(configuration) { }
 
         #endregion
 

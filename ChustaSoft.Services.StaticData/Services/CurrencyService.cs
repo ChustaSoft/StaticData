@@ -1,6 +1,4 @@
-﻿using ChustaSoft.Common.Builders;
-using ChustaSoft.Common.Utilities;
-using ChustaSoft.Services.StaticData.Models;
+﻿using ChustaSoft.Services.StaticData.Models;
 using ChustaSoft.Services.StaticData.Repositories;
 using System.Collections.Generic;
 
@@ -29,36 +27,14 @@ namespace ChustaSoft.Services.StaticData.Services
 
         #region Public methods
 
-        public ActionResponse<Currency> Get(string currencySymbol)
+        public Currency Get(string currencySymbol)
         {
-            var arBuilder = new ActionResponseBuilder<Currency>();
-            try
-            {
-                var currency = _currencyRepository.Get(currencySymbol).Result;
-
-                arBuilder.SetData(currency);
-            }
-            catch (System.Exception ex)
-            {
-                arBuilder.AddError(new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message));
-            }
-            return arBuilder.Build();
+            return _currencyRepository.Get(currencySymbol).Result;
         }
 
-        public ActionResponse<IEnumerable<Currency>> GetAll()
+        public IEnumerable<Currency> GetAll()
         {
-            var arBuilder = new ActionResponseBuilder<IEnumerable<Currency>>();
-            try
-            {
-                var currencies = _currencyRepository.GetAll().Result;
-
-                arBuilder.SetData(currencies);
-            }
-            catch (System.Exception ex)
-            {
-                arBuilder.AddError(new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message));
-            }
-            return arBuilder.Build();
+            return _currencyRepository.GetAll().Result;
         }
 
         #endregion

@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-
 namespace ChustaSoft.Services.StaticData.Repositories
 {
     internal class ExchangeRateMultipleExternalService : ExternalServiceBase, IExchangeRateMultipleRepository
@@ -27,7 +26,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Constructor
 
-        internal ExchangeRateMultipleExternalService(ConfigurationBase configuration) : base(configuration) { }
+        internal ExchangeRateMultipleExternalService(InternalConfiguration configuration) : base(configuration) { }
 
         #endregion
 

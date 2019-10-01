@@ -1,4 +1,5 @@
 ﻿using ChustaSoft.Services.StaticData.Base;
+using ChustaSoft.Services.StaticData.Helpers;
 using ChustaSoft.Services.StaticData.Repositories;
 using ChustaSoft.Services.StaticData.Services;
 using System;
@@ -49,9 +50,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers
 
         private static ICountryRepository GetCountryExternalService()
         {
-            var mockedConfiguration = new ConfigurationBase();
-
-            mockedConfiguration.SetCountriesFromApi(true);
+            var mockedConfiguration = new InternalConfiguration(StaticDataConfigurationBuilder.Configure().SetApiPreferably(false));
 
             return new CountryExternalService(mockedConfiguration);
         }

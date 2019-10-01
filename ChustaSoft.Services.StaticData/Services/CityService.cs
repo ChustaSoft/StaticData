@@ -51,7 +51,7 @@ namespace ChustaSoft.Services.StaticData.Services
                 {
                     citiesResult.Add(country, (true, _cityRepository.Get(country)));
                 }
-                catch (FileNotFoundException)
+                catch (CountryNotFoundException)
                 {
                     citiesResult.Add(country, (false, Enumerable.Empty<City>()));
                 }

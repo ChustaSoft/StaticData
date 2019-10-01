@@ -1,6 +1,5 @@
 ﻿using ChustaSoft.Common.Base;
 using ChustaSoft.Common.Helpers;
-using ChustaSoft.Common.Utilities;
 using ChustaSoft.Services.StaticData.Enums;
 using ChustaSoft.Services.StaticData.Models;
 using ChustaSoft.Services.StaticData.Services;
@@ -126,61 +125,106 @@ namespace ChustaSoft.Services.StaticData.AspNet.Controllers
         }
 
         [HttpGet("currencies")]
-        public ActionResponse<IEnumerable<Currency>> GetCurrencies()
+        public IActionResult GetCurrencies()
         {
-            return _currencyService.GetAll();
+            var actionResponse = GetEmptyResponseBuilder<IEnumerable<Currency>>();
+            try
+            {
+                actionResponse.SetData(_currencyService.GetAll());
+
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
         [HttpGet("currencies/{currencySymbol}")]
-        public ActionResponse<Currency> GetCurrency(string currencySymbol)
+        public IActionResult GetCurrency(string currencySymbol)
         {
-            return _currencyService.Get(currencySymbol);
+            var actionResponse = GetEmptyResponseBuilder<Currency>();
+            try
+            {
+                actionResponse.SetData(_currencyService.Get(currencySymbol));
+
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
         [HttpGet("exchangerates/{currencyFrom}/{currencyTo}/{date}")]
-        public ActionResponse<ExchangeRate> GetExchangeRate(string currencyFrom, string currencyTo, string date)
+        public IActionResult GetExchangeRate(string currencyFrom, string currencyTo, string date)
         {
-            var parsedDate = ParseDate(date);
+            var actionResponse = GetEmptyResponseBuilder<ExchangeRate>();
+            try
+            {
+                var parsedDate = ParseDate(date);
 
-            return _exchangeRateService.Get(currencyFrom, currencyTo, parsedDate);
+                actionResponse.SetData(_exchangeRateService.Get(currencyFrom, currencyTo, parsedDate));
+
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
         [HttpGet("exchangerates/latest/{currency}")]
-        public ActionResponse<IEnumerable<ExchangeRate>> GetLatest(string currency)
+        public IActionResult GetLatest(string currency)
         {
-            return _exchangeRateService.GetLatest(currency);
+            var actionResponse = GetEmptyResponseBuilder<IEnumerable<ExchangeRate>>();
+            try
+            {
+                actionResponse.SetData(_exchangeRateService.GetLatest(currency));
+
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
         [HttpGet("exchangerates/historical/{currency}/{beginDate}/{endDate}")]
-        public ActionResponse<IEnumerable<ExchangeRate>> GetHistorical(string currency, string beginDate, string endDate)
+        public IActionResult GetHistorical(string currency, string beginDate, string endDate)
         {
-            var parsedBeginDate = ParseDate(beginDate);
-            var parsedEndDate = ParseDate(endDate);
+            var actionResponse = GetEmptyResponseBuilder<IEnumerable<ExchangeRate>>();
+            try
+            {
+                var parsedBeginDate = ParseDate(beginDate);
+                var parsedEndDate = ParseDate(endDate);
 
-            return _exchangeRateService.GetHistorical(currency, parsedBeginDate.Value, parsedEndDate.Value);
+                actionResponse.SetData(_exchangeRateService.GetHistorical(currency, parsedBeginDate.Value, parsedEndDate.Value));
+
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
         [HttpGet("exchangerates/bidirectional/{currencyFrom}/{currencyTo}/{date}")]
-        public ActionResponse<IEnumerable<ExchangeRate>> GetBidirectional(string currencyFrom, string currencyTo, string date)
+        public IActionResult GetBidirectional(string currencyFrom, string currencyTo, string date)
         {
-            var parsedDate = ParseDate(date);
+            var actionResponse = GetEmptyResponseBuilder<IEnumerable<ExchangeRate>>();
+            try
+            {
+                var parsedDate = ParseDate(date);
 
-            return _exchangeRateService.GetBidirectional(currencyFrom, currencyTo, parsedDate);
-        }
+                actionResponse.SetData(_exchangeRateService.GetBidirectional(currencyFrom, currencyTo, parsedDate));
 
-        [HttpGet("exchangerates/configured/latest")]
-        public ActionResponse<ICollection<ExchangeRate>> GetConfiguredLatest()
-        {
-            return _exchangeRateService.GetConfiguredLatest();
-        }
-
-        [HttpGet("exchangerates/configured/historical/{beginDate}/{endDate}")]
-        public ActionResponse<ICollection<ExchangeRate>> GetConfiguredHistorical(string beginDate, string endDate)
-        {
-            var parsedBeginDate = ParseDate(beginDate);
-            var parsedEndDate = ParseDate(endDate);
-
-            return _exchangeRateService.GetConfiguredHistorical(parsedBeginDate.Value, parsedEndDate.Value);
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
         #endregion

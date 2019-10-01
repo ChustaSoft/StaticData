@@ -1,8 +1,8 @@
 ﻿using ChustaSoft.Services.StaticData.Base;
+using ChustaSoft.Services.StaticData.Helpers;
 using ChustaSoft.Services.StaticData.Repositories;
 using ChustaSoft.Services.StaticData.Services;
 using System.Collections.Generic;
-
 
 namespace ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers
 {
@@ -13,32 +13,31 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers
 
         internal static IExchangeRateMultipleRepository CreateMockMultipleRepository()
         {
-            var mockedConfiguration = new ConfigurationBase();
+            var mockedConfiguration = new InternalConfiguration(StaticDataConfigurationBuilder.Configure());
 
             return new ExchangeRateMultipleExternalService(mockedConfiguration);
         }
 
         internal static IExchangeRateSingleRepository CreateMockSingleRepository()
         {
-            var mockedConfiguration = new ConfigurationBase();
+            var mockedConfiguration = new InternalConfiguration(StaticDataConfigurationBuilder.Configure());
 
             return new ExchangeRateSingleExternalService(mockedConfiguration);
         }
 
         internal static IExchangeRateService CreateMockService(bool goodConfiguration)
         {
-            var configuration = new ConfigurationBase();
-            configuration.SetBaseCurency(GetMockedConfiguredCurrencyBase());
-
+            var mockedConfiguration = StaticDataConfigurationBuilder.Configure().SetBaseCurrency(GetMockedConfiguredCurrencyBase());
+            
             if(goodConfiguration)
-                configuration.SetConfiguredCurrencies(GetMockedConfiguredCurrencies());
+                mockedConfiguration.AddConfiguredCurrencies(GetMockedConfiguredCurrencies());
             else
-                configuration.SetConfiguredCurrencies(GetMockedConfiguredCurrenciesWithUnknown());
+                mockedConfiguration.AddConfiguredCurrencies(GetMockedConfiguredCurrenciesWithUnknown());
 
             var multipleRepository = CreateMockMultipleRepository();
             var singleRepository = CreateMockSingleRepository();
 
-            return new ExchangeRateService(configuration, singleRepository, multipleRepository);
+            return new ExchangeRateService(new InternalConfiguration(mockedConfiguration), singleRepository, multipleRepository);
         }
 
         internal static string GetMockedConfiguredCurrencyBase() => "USD";

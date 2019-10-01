@@ -1,10 +1,7 @@
 ﻿using ChustaSoft.Services.StaticData.Base;
-using ChustaSoft.Services.StaticData.Factories;
+using ChustaSoft.Services.StaticData.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
-using System.Linq;
-
 
 namespace ChustaSoft.Services.StaticData.AspNet.Configuration
 {
@@ -14,8 +11,6 @@ namespace ChustaSoft.Services.StaticData.AspNet.Configuration
         #region Fields
 
         private const string STATICDATA_CONFIGURATION_CONFIG_PARAM = "StaticDataConfiguration";
-        private const string DEFAULT_BASE_CURRENCY = "USD";
-        private const bool DEFAULT_API_CONFIGURATION = false;
 
         #endregion
 
@@ -31,22 +26,21 @@ namespace ChustaSoft.Services.StaticData.AspNet.Configuration
         public static void RegisterStaticDataServices(this IServiceCollection services, IConfiguration configuration)
         {
             var configurationSection = configuration.GetSection(STATICDATA_CONFIGURATION_CONFIG_PARAM).Get<StaticDataConfiguration>();
-            var configurationBase = GetConfiguration(configurationSection);
+            var internalConfiguration = GetConfiguration(configurationSection);
 
-            RegisterServicesSingleton(services, configurationBase);
+            RegisterServicesSingleton(services, internalConfiguration);
         }
+
 
         /// <summary>
         /// Extension method availaible for configuring StaticData services
         /// Could be used for manual configuring inside Startup
         /// </summary>
-        /// <param name="services"></param>
-        /// <param name="apiDataPeferably"></param>
-        /// <param name="baseCurrency"></param>
-        /// <param name="configuredCurrencies"></param>
-        public static void RegisterStaticDataServices(this IServiceCollection services, bool apiDataPeferably, string baseCurrency, IEnumerable<string> configuredCurrencies)
+        /// <param name="services">DI container</param>
+        /// <param name="configurationBuilder">Builder with configured properties</param>
+        public static void RegisterStaticDataServices(this IServiceCollection services, IStaticDataConfigurationBuilder configurationBuilder)
         {
-            var configurationBase = GetConfiguration(apiDataPeferably, baseCurrency, configuredCurrencies);
+            var configurationBase = ConstructConfiguration(configurationBuilder);
 
             RegisterServicesSingleton(services, configurationBase);
         }
@@ -56,31 +50,22 @@ namespace ChustaSoft.Services.StaticData.AspNet.Configuration
 
         #region Private methods
 
-        private static ConfigurationBase GetConfiguration(StaticDataConfiguration staticDataConfiguration)
+        private static InternalConfiguration GetConfiguration(StaticDataConfiguration staticDataConfiguration)
         {
             if (staticDataConfiguration != null)
-                return ConstructConfiguration(staticDataConfiguration.ApiDataPeferably, staticDataConfiguration.BaseCurrency, staticDataConfiguration.ConfiguredCurrencies);
+                return new InternalConfiguration(staticDataConfiguration);
             else
-                return ConstructConfiguration(DEFAULT_API_CONFIGURATION, DEFAULT_BASE_CURRENCY, Enumerable.Empty<string>());
+                return new InternalConfiguration(StaticDataConfigurationBuilder.Configure());
         }
 
-        private static ConfigurationBase GetConfiguration(bool apiDataPeferably, string baseCurrency, IEnumerable<string> configuredCurrencies)
+        private static InternalConfiguration ConstructConfiguration(IStaticDataConfigurationBuilder configurationBuilder)
         {
-            return ConstructConfiguration(apiDataPeferably, baseCurrency, configuredCurrencies);
-        }
-
-        private static ConfigurationBase ConstructConfiguration(bool apiDataPeferably, string baseCurrency, IEnumerable<string> configuredCurrencies)
-        {
-            var configuration = new ConfigurationBase();
-
-            configuration.SetCountriesFromApi(apiDataPeferably);
-            configuration.SetBaseCurency(string.IsNullOrEmpty(baseCurrency) ? DEFAULT_BASE_CURRENCY : baseCurrency);
-            configuration.SetConfiguredCurrencies(configuredCurrencies);
+            var configuration = new InternalConfiguration(configurationBuilder);
 
             return configuration;
         }
 
-        private static void RegisterServicesSingleton(IServiceCollection services, ConfigurationBase configurationBase)
+        private static void RegisterServicesSingleton(IServiceCollection services, InternalConfiguration configurationBase)
         {
             services.AddSingleton(configurationBase);
 

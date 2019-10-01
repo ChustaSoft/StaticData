@@ -1,4 +1,5 @@
-﻿using ChustaSoft.Services.StaticData.Base;
+﻿using ChustaSoft.Common.Helpers;
+using ChustaSoft.Services.StaticData.Base;
 using ChustaSoft.Services.StaticData.Models;
 using Newtonsoft.Json;
 using System;
@@ -11,17 +12,24 @@ namespace ChustaSoft.Services.StaticData.Repositories
 {
     internal class CurrencyExternalService : ExternalServiceBase, ICurrencyRepository
     {
+        #region Constants
+
+        private const string APIKEY_PARAM = "apiKey";
+
+        #endregion
+
 
         #region Constructor
 
-        internal CurrencyExternalService(ConfigurationBase configuration) : base(configuration) { }
+        internal CurrencyExternalService(InternalConfiguration configuration) : base(configuration) { }
 
         #endregion
 
 
         #region Protected methods
 
-        protected override UriBuilder GetBaseUri() => new UriBuilder(_configuration.CurrenciesApiUrl);
+        protected override UriBuilder GetBaseUri()
+            => new UriBuilder(_configuration.CurrenciesApiUrl ).AddParameter(APIKEY_PARAM, _configuration.CurrencyConverterApiKey);
 
         #endregion
 
@@ -30,22 +38,16 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         public async Task<IEnumerable<Currency>> GetAll()
         {
-            var task = new Task<IEnumerable<Currency>>(() => {
-                return GetAllCurrencies().Result.Values.AsEnumerable<Currency>();
-            });
-            task.Start();
-
-            return await task;
+            var currencies = await GetAllCurrencies();
+            
+            return currencies.Values.AsEnumerable<Currency>();
         }
 
         public async Task<Currency> Get(string currencySymbol)
         {
-            var task = new Task<Currency>(() => {
-                return GetAllCurrencies().Result.First(currency => currency.Key == currencySymbol).Value;
-            });
-            task.Start();
+            var currencies = await GetAllCurrencies();
 
-            return await task;
+            return currencies.First(currency => currency.Key == currencySymbol).Value;
         }
 
         #endregion

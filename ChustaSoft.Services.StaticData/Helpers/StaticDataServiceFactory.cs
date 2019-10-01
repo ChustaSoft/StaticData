@@ -2,8 +2,7 @@
 using ChustaSoft.Services.StaticData.Repositories;
 using ChustaSoft.Services.StaticData.Services;
 
-
-namespace ChustaSoft.Services.StaticData.Factories
+namespace ChustaSoft.Services.StaticData.Helpers
 {
     /// <summary>
     /// This Factory provides of all the needed services inside StaticData application
@@ -13,7 +12,7 @@ namespace ChustaSoft.Services.StaticData.Factories
 
         #region Public methods
 
-        public static IExchangeRateService GetExchangeRateService(ConfigurationBase configuration)
+        public static IExchangeRateService GetExchangeRateService(InternalConfiguration configuration)
         {
             var exchangeRateMultipleRepository = new ExchangeRateMultipleExternalService(configuration);
             var exchangeRateSingleRepository = new ExchangeRateSingleExternalService(configuration);
@@ -21,21 +20,21 @@ namespace ChustaSoft.Services.StaticData.Factories
             return new ExchangeRateService(configuration, exchangeRateSingleRepository, exchangeRateMultipleRepository);
         }
 
-        public static ICurrencyService GetCurrencyService(ConfigurationBase configuration)
+        public static ICurrencyService GetCurrencyService(InternalConfiguration configuration)
         {
             var currencyRepository = new CurrencyExternalService(configuration);
 
             return new CurrencyService(currencyRepository);
         }
 
-        public static ICountryService GetCountryService(ConfigurationBase configuration)
+        public static ICountryService GetCountryService(InternalConfiguration configuration)
         {
             var countryRepository = GetConfiguredRepository(configuration);
 
             return new CountryService(countryRepository);
         }
 
-        public static ICityService GetCityService(ConfigurationBase configuration)
+        public static ICityService GetCityService(InternalConfiguration configuration)
         {
             var cityRepository = new CityLocalRepository();
 
@@ -47,7 +46,7 @@ namespace ChustaSoft.Services.StaticData.Factories
 
         #region Private methods
 
-        private static ICountryRepository GetConfiguredRepository(ConfigurationBase configuration)
+        private static ICountryRepository GetConfiguredRepository(InternalConfiguration configuration)
         {
             if (configuration.CountriesFromApi)
                 return new CountryExternalService(configuration);

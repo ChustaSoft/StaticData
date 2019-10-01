@@ -1,13 +1,9 @@
-﻿using ChustaSoft.Common.Builders;
-using ChustaSoft.Common.Helpers;
-using ChustaSoft.Common.Utilities;
-using ChustaSoft.Services.StaticData.Base;
+﻿using ChustaSoft.Services.StaticData.Base;
 using ChustaSoft.Services.StaticData.Models;
 using ChustaSoft.Services.StaticData.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 
 namespace ChustaSoft.Services.StaticData.Services
 {
@@ -16,7 +12,7 @@ namespace ChustaSoft.Services.StaticData.Services
 
         #region Fields
 
-        private readonly ConfigurationBase _configurationBase;
+        private readonly InternalConfiguration _configurationBase;
 
         private readonly IExchangeRateSingleRepository _exchangeRateSingleRepository;
         private readonly IExchangeRateMultipleRepository _exchangeRateMultipleRepository;
@@ -26,7 +22,7 @@ namespace ChustaSoft.Services.StaticData.Services
 
         #region Constructor
 
-        internal ExchangeRateService(ConfigurationBase configurationBase, IExchangeRateSingleRepository exchangeRateSingleRepository, IExchangeRateMultipleRepository exchangeRateMultipleRepository)
+        internal ExchangeRateService(InternalConfiguration configurationBase, IExchangeRateSingleRepository exchangeRateSingleRepository, IExchangeRateMultipleRepository exchangeRateMultipleRepository)
         {
             _configurationBase = configurationBase;
 
@@ -39,125 +35,32 @@ namespace ChustaSoft.Services.StaticData.Services
 
         #region Public methods
 
-        public ActionResponse<ExchangeRate> Get(string currencyFrom, string currencyTo, DateTime? date = null)
+        public ExchangeRate Get(string currencyFrom, string currencyTo, DateTime? date = null)
         {
-            var arBuilder = new ActionResponseBuilder<ExchangeRate>();
-            try
-            {
-                var exchangeRate = _exchangeRateSingleRepository.Get(currencyFrom, currencyTo, date).Result;
-
-                arBuilder.SetData(exchangeRate);
-            }
-            catch (Exception ex)
-            {
-                arBuilder.AddError(new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message));
-            }
-            return arBuilder.Build();
+            return _exchangeRateSingleRepository.Get(currencyFrom, currencyTo, date).Result;
         }
 
-        public ActionResponse<IEnumerable<ExchangeRate>> GetBidirectional(string currencyFrom, string currencyTo, DateTime? date = null)
+        public IEnumerable<ExchangeRate> GetBidirectional(string currencyFrom, string currencyTo, DateTime? date = null)
         {
-            var arBuilder = new ActionResponseBuilder<IEnumerable<ExchangeRate>>();
-            try
-            {
-                var exchangeRate = _exchangeRateSingleRepository.GetBidirectional(currencyFrom, currencyTo, date).Result;
-
-                arBuilder.SetData(exchangeRate);
-            }
-            catch (Exception ex)
-            {
-                arBuilder.AddError(new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message));
-            }
-            return arBuilder.Build();
+            return _exchangeRateSingleRepository.GetBidirectional(currencyFrom, currencyTo, date).Result;
         }
 
-        public ActionResponse<IEnumerable<ExchangeRate>> GetHistorical(string currency, DateTime beginDate, DateTime endDate)
+        public IEnumerable<ExchangeRate> GetHistorical(string currency, DateTime beginDate, DateTime endDate)
         {
-            var arBuilder = new ActionResponseBuilder<IEnumerable<ExchangeRate>>();
-            try
-            {
-                var exchangeRate = _exchangeRateMultipleRepository.GetHistorical(currency, beginDate, endDate).Result;
-
-                arBuilder.SetData(exchangeRate);
-            }
-            catch (Exception ex)
-            {
-                arBuilder.AddError(new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message));
-            }
-            return arBuilder.Build();
+            return _exchangeRateMultipleRepository.GetHistorical(currency, beginDate, endDate).Result;
         }
 
-        public ActionResponse<IEnumerable<ExchangeRate>> GetLatest(string currency)
+        public IEnumerable<ExchangeRate> GetLatest(string currency)
         {
-            var arBuilder = new ActionResponseBuilder<IEnumerable<ExchangeRate>>();
-            try
-            {
-                var exchangeRate = _exchangeRateMultipleRepository.GetLatest(currency).Result;
-
-                arBuilder.SetData(exchangeRate);
-            }
-            catch (Exception ex)
-            {
-                arBuilder.AddError(new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message));
-            }
-            return arBuilder.Build();
+            return _exchangeRateMultipleRepository.GetLatest(currency).Result;
         }
 
-        public ActionResponse<ICollection<ExchangeRate>> GetConfiguredLatest()
+        public IDictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)> GetConfiguredLatest()
         {
-            var arBuilder = new ActionResponseBuilder<ICollection<ExchangeRate>>();
-            try
-            {
-                GetAllNeededExchangeRates(arBuilder);
-            }
-            catch (Exception ex)
-            {
-                arBuilder.AddError(new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message));
-            }
-            return arBuilder.Build();
-        }
-
-        public ActionResponse<ICollection<ExchangeRate>> GetConfiguredHistorical(DateTime beginDate, DateTime endDate)
-        {
-            var arBuilder = new ActionResponseBuilder<ICollection<ExchangeRate>>();
-            try
-            {
-                GetAllNeededExchangeRates(arBuilder, beginDate, endDate);
-            }
-            catch (Exception ex)
-            {
-                arBuilder.AddError(new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message));
-            }
-            return arBuilder.Build();
-        }
-
-        #endregion
-
-
-        #region Private methods
-
-        private void GetAllNeededExchangeRates(ActionResponseBuilder<ICollection<ExchangeRate>> arBuilder)
-        {
+            var finalData = new Dictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)>();
             var exchangeRates = _exchangeRateMultipleRepository.GetLatest(_configurationBase.ConfiguredBaseCurrency)
                 .Result.ToList();
 
-            arBuilder.SetData(exchangeRates);
-
-            GetConfiguredExchangeRates(arBuilder, exchangeRates);
-        }
-
-        private void GetAllNeededExchangeRates(ActionResponseBuilder<ICollection<ExchangeRate>> arBuilder, DateTime beginDate, DateTime endDate)
-        {
-            var exchangeRates = _exchangeRateMultipleRepository.GetHistorical(_configurationBase.ConfiguredBaseCurrency, beginDate, endDate)
-                .Result.ToList();
-
-            arBuilder.SetData(exchangeRates);
-
-            GetConfiguredExchangeRates(arBuilder, exchangeRates, beginDate, endDate);
-        }
-
-        private void GetConfiguredExchangeRates(ActionResponseBuilder<ICollection<ExchangeRate>> arBuilder, List<ExchangeRate> exchangeRates)
-        {
             foreach (var configCurrency in _configurationBase.ConfiguredCurrencies)
             {
                 if (!exchangeRates.Any(er => er.From == configCurrency))
@@ -165,41 +68,49 @@ namespace ChustaSoft.Services.StaticData.Services
                     try
                     {
                         var currencyLatestExchangeRate = _exchangeRateSingleRepository.Get(configCurrency, _configurationBase.ConfiguredBaseCurrency).Result;
-
-                        arBuilder.AddElement(currencyLatestExchangeRate);
+                        finalData.Add(configCurrency, (true, new List<ExchangeRate>{ currencyLatestExchangeRate } ));
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        arBuilder
-                            .AddError(new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message))
-                            .SetStatus(Common.Enums.ActionResponseType.Warning);
+                        finalData.Add(configCurrency, (false, Enumerable.Empty<ExchangeRate>()));
                     }
                 }
             }
+
+            return finalData;
         }
 
-        private void GetConfiguredExchangeRates(ActionResponseBuilder<ICollection<ExchangeRate>> arBuilder, List<ExchangeRate> exchangeRates, DateTime beginDate, DateTime endDate)
+        public IDictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)> GetConfiguredHistorical(DateTime beginDate, DateTime endDate)
         {
+            var finalData = new Dictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)>();
+            var exchangeRates = _exchangeRateMultipleRepository.GetHistorical(_configurationBase.ConfiguredBaseCurrency, beginDate, endDate)
+                .Result.ToList();
+
             foreach (var configCurrency in _configurationBase.ConfiguredCurrencies)
             {
                 if (!exchangeRates.Any(er => er.From == configCurrency))
                 {
                     try
                     {
-                        var currencyLatestExchangeRate = _exchangeRateSingleRepository.GetHistorical(configCurrency, _configurationBase.ConfiguredBaseCurrency, beginDate, endDate)
-                            .Result.ToList();
-
-                        arBuilder.AddRange(currencyLatestExchangeRate);
+                        var currencyLatestExchangeRate = _exchangeRateSingleRepository.Get(configCurrency, _configurationBase.ConfiguredBaseCurrency).Result;
+                        finalData.Add(configCurrency, (true, new List<ExchangeRate> { currencyLatestExchangeRate }));
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        arBuilder
-                            .AddError(new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message))
-                            .SetStatus(Common.Enums.ActionResponseType.Warning);
+                        finalData.Add(configCurrency, (false, Enumerable.Empty<ExchangeRate>()));
                     }
                 }
             }
+
+            return finalData;
         }
+
+        #endregion
+
+
+        #region Private methods
+
+
 
         #endregion
 

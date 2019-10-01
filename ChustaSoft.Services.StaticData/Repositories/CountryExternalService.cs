@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-
 namespace ChustaSoft.Services.StaticData.Repositories
 {
     internal class CountryExternalService : ExternalServiceBase, ICountryRepository
@@ -23,7 +22,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Constructor
 
-        internal CountryExternalService(ConfigurationBase configuration) : base(configuration) { }
+        internal CountryExternalService(InternalConfiguration configuration) : base(configuration) { }
 
         #endregion
 

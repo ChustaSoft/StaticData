@@ -2,7 +2,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-
 namespace ChustaSoft.Services.StaticData.Base
 {
 
@@ -11,14 +10,14 @@ namespace ChustaSoft.Services.StaticData.Base
         
         #region Fields
 
-        protected readonly ConfigurationBase _configuration;
+        protected readonly InternalConfiguration _configuration;
 
         #endregion
 
 
         #region Constructor
 
-        public ExternalServiceBase(ConfigurationBase configuration)
+        public ExternalServiceBase(InternalConfiguration configuration)
         {
             _configuration = configuration;
         }
