@@ -1,6 +1,6 @@
 ﻿using ChustaSoft.Common.Contracts;
 
-namespace ChustaSoft.Services.StaticData.Helpers
+namespace ChustaSoft.Services.StaticData.Configuration
 {
     public interface IStaticDataConfigurationBuilder : IBuilder<StaticDataConfiguration>
     {

@@ -3,7 +3,7 @@ using ChustaSoft.Services.StaticData.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ChustaSoft.Services.StaticData.AspNet.Configuration
+namespace ChustaSoft.Services.StaticData.Configuration
 {
     public static class ConfigurationHelper
     {

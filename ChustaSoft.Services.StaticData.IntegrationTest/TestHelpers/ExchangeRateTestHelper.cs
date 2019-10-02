@@ -1,4 +1,5 @@
 ﻿using ChustaSoft.Services.StaticData.Base;
+using ChustaSoft.Services.StaticData.Configuration;
 using ChustaSoft.Services.StaticData.Helpers;
 using ChustaSoft.Services.StaticData.IntegrationTest.TestConstants;
 using ChustaSoft.Services.StaticData.Repositories;

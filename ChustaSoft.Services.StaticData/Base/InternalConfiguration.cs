@@ -1,5 +1,5 @@
-﻿using ChustaSoft.Services.StaticData.Constants;
-using ChustaSoft.Services.StaticData.Helpers;
+﻿using ChustaSoft.Services.StaticData.Configuration;
+using ChustaSoft.Services.StaticData.Constants;
 using System.Collections.Generic;
 
 

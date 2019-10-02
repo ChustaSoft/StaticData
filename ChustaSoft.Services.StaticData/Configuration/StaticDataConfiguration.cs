@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ChustaSoft.Services.StaticData.Helpers
+namespace ChustaSoft.Services.StaticData.Configuration
 {
     public class StaticDataConfiguration
     {
