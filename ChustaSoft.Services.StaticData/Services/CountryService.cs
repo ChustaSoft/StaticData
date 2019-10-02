@@ -2,7 +2,7 @@
 using ChustaSoft.Services.StaticData.Models;
 using ChustaSoft.Services.StaticData.Repositories;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
 
 namespace ChustaSoft.Services.StaticData.Services
 {
@@ -28,21 +28,35 @@ namespace ChustaSoft.Services.StaticData.Services
 
         #region Public methods
 
+        public IEnumerable<Country> GetAll()
+        {
+            return GetAllAsync().Result;
+        }
+
+        public async Task<IEnumerable<Country>> GetAllAsync()
+        {
+            return await _countryRepository.GetAll();
+        }
+
         public Country Get(string countryName)
         {
-            return _countryRepository.Get(countryName).Result;
+            return GetAsync(countryName).Result;
+        }
+
+        public async Task<Country> GetAsync(string countryName)
+        {
+            return await _countryRepository.Get(countryName);
         }
 
         public Country Get(AlphaCodeType alphaType, string alphaCode)
         {
-            return _countryRepository.Get(alphaType, alphaCode).Result;
+            return GetAsync(alphaType, alphaCode).Result;
         }
 
-        public IEnumerable<Country> GetAll()
+        public async Task<Country> GetAsync(AlphaCodeType alphaType, string alphaCode)
         {
-            return _countryRepository.GetAll().Result;
+            return await _countryRepository.Get(alphaType, alphaCode);
         }
-
         #endregion
 
     }

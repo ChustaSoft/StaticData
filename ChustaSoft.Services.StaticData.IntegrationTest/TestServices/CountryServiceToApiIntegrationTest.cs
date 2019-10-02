@@ -6,7 +6,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 
-
 namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
 {
     [TestClass]
@@ -43,9 +42,25 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         }
 
         [TestMethod]
+        public void Given_Nothing_When_GetAllAsyncInvoked_Then_CountriesListRetrived()
+        {
+            var result = _serviceUnderTest.GetAllAsync().Result;
+
+            Assert.IsTrue(result.Any());
+        }
+
+        [TestMethod]
         public void Given_Alpha2Code_When_GetInvoked_Then_CountryRetrived()
         {
             var result = _serviceUnderTest.Get(Enums.AlphaCodeType.Alpha2, "CR");
+
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void Given_Alpha2Code_When_GetAsyncInvoked_Then_CountryRetrived()
+        {
+            var result = _serviceUnderTest.GetAsync(Enums.AlphaCodeType.Alpha2, "CR").Result;
 
             Assert.IsNotNull(result);
         }
@@ -59,9 +74,25 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         }
 
         [TestMethod]
+        public void Given_Alpha3Code_When_GetAsyncInvoked_Then_CountryRetrived()
+        {
+            var result = _serviceUnderTest.GetAsync(Enums.AlphaCodeType.Alpha3, "CRI").Result;
+
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
         public void Given_CountryName_When_GetInvoked_Then_CountryRetrived()
         {
             var result = _serviceUnderTest.Get("Burkina Faso");
+
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void Given_CountryName_When_GetAsyncInvoked_Then_CountryRetrived()
+        {
+            var result = _serviceUnderTest.GetAsync("Burkina Faso").Result;
 
             Assert.IsNotNull(result);
         }
@@ -73,15 +104,33 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         }
 
         [TestMethod]
+        public void Given_UnexistingName_When_GetAsyncInvoked_Then_ExceptionThrown()
+        {
+            Assert.ThrowsExceptionAsync<AggregateException>(() => _serviceUnderTest.GetAsync("Solar system"));
+        }
+
+        [TestMethod]
         public void Given_UnexistingAlpha2Code_When_GetInvoked_Then_ExceptionThrown()
         {
             Assert.ThrowsException<AggregateException>(() => _serviceUnderTest.Get(Enums.AlphaCodeType.Alpha2, "Solar system"));
         }
 
         [TestMethod]
+        public void Given_UnexistingAlpha2Code_When_GetAsyncInvoked_Then_ExceptionThrown()
+        {
+            Assert.ThrowsExceptionAsync<AggregateException>(() => _serviceUnderTest.GetAsync(Enums.AlphaCodeType.Alpha2, "Solar system"));
+        }
+
+        [TestMethod]
         public void Given_UnexistingAlpha3Code_When_GetInvoked_Then_ExceptionThrown()
         {
             Assert.ThrowsException<AggregateException>(() => _serviceUnderTest.Get(Enums.AlphaCodeType.Alpha3, "Solar system"));
+        }
+
+        [TestMethod]
+        public void Given_UnexistingAlpha3Code_When_GetAsyncInvoked_Then_ExceptionThrown()
+        {
+            Assert.ThrowsExceptionAsync<AggregateException>(() => _serviceUnderTest.GetAsync(Enums.AlphaCodeType.Alpha3, "Solar system"));
         }
 
         #endregion
