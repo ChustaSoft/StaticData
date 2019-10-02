@@ -4,6 +4,7 @@ using ChustaSoft.Services.StaticData.Repositories;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ChustaSoft.Services.StaticData.Services
 {
@@ -41,6 +42,14 @@ namespace ChustaSoft.Services.StaticData.Services
             }
         }
 
+        public Task<IEnumerable<City>> GetAsync(string country)
+        {
+            var task = new Task<IEnumerable<City>>(() => Get(country));
+            task.Start();
+
+            return task;
+        }
+
         public IDictionary<string, (bool Found, IEnumerable<City> Cities)> Get(IEnumerable<string> countries)
         {
             var citiesResult = new Dictionary<string, (bool, IEnumerable<City>)>();
@@ -58,6 +67,14 @@ namespace ChustaSoft.Services.StaticData.Services
             }
 
             return citiesResult;
+        }
+
+        public Task<IDictionary<string, (bool Found, IEnumerable<City> Cities)>> GetAsync(IEnumerable<string> countries)
+        {
+            var task = new Task<IDictionary<string, (bool Found, IEnumerable<City> Cities)>>(() => Get(countries));
+            task.Start();
+
+            return task;
         }
 
         #endregion
