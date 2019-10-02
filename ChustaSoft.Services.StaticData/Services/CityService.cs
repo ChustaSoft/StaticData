@@ -42,12 +42,12 @@ namespace ChustaSoft.Services.StaticData.Services
             }
         }
 
-        public Task<IEnumerable<City>> GetAsync(string country)
+        public async Task<IEnumerable<City>> GetAsync(string country)
         {
             var task = new Task<IEnumerable<City>>(() => Get(country));
             task.Start();
 
-            return task;
+            return await task;
         }
 
         public IDictionary<string, (bool Found, IEnumerable<City> Cities)> Get(IEnumerable<string> countries)
@@ -69,12 +69,12 @@ namespace ChustaSoft.Services.StaticData.Services
             return citiesResult;
         }
 
-        public Task<IDictionary<string, (bool Found, IEnumerable<City> Cities)>> GetAsync(IEnumerable<string> countries)
+        public async Task<IDictionary<string, (bool Found, IEnumerable<City> Cities)>> GetAsync(IEnumerable<string> countries)
         {
             var task = new Task<IDictionary<string, (bool Found, IEnumerable<City> Cities)>>(() => Get(countries));
             task.Start();
 
-            return task;
+            return await task;
         }
 
         #endregion
