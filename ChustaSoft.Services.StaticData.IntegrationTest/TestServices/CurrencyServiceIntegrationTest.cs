@@ -41,6 +41,14 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         }
 
         [TestMethod]
+        public void Given_Nothing_When_GetAllAsyncInvoked_Then_CurrenciesRetrived()
+        {
+            var result = _serviceUnderTest.GetAllAsync().Result;
+
+            Assert.IsTrue(result.Any());
+        }
+
+        [TestMethod]
         public void Given_CurrencyCode_When_GetInvoked_Then_CurrencyRetrived()
         {
             var currencySymbol = "EUR";
@@ -52,9 +60,26 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         }
 
         [TestMethod]
+        public void Given_CurrencyCode_When_GetAsyncInvoked_Then_CurrencyRetrived()
+        {
+            var currencySymbol = "EUR";
+
+            var result = _serviceUnderTest.GetAsync(currencySymbol).Result;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(currencySymbol, result.Id);
+        }
+
+        [TestMethod]
         public void Given_UnexistingCurrencyCode_When_GetInvoked_Then_ExceptionThrown()
         {
             Assert.ThrowsException<AggregateException>(() => _serviceUnderTest.Get("TESTBAD"));
+        }
+
+        [TestMethod]
+        public void Given_UnexistingCurrencyCode_When_GetAsyncInvoked_Then_ExceptionThrown()
+        {
+            Assert.ThrowsExceptionAsync<AggregateException>(() => _serviceUnderTest.GetAsync("TESTBAD"));
         }
 
         #endregion
