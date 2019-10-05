@@ -4,6 +4,7 @@ using ChustaSoft.Services.StaticData.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ChustaSoft.Services.StaticData.Services
 {
@@ -37,22 +38,42 @@ namespace ChustaSoft.Services.StaticData.Services
 
         public ExchangeRate Get(string currencyFrom, string currencyTo, DateTime? date = null)
         {
-            return _exchangeRateSingleRepository.Get(currencyFrom, currencyTo, date).Result;
+            return GetAsync(currencyFrom, currencyTo, date).Result;
         }
 
-        public IEnumerable<ExchangeRate> GetBidirectional(string currencyFrom, string currencyTo, DateTime? date = null)
+        public Task<ExchangeRate> GetAsync(string currencyFrom, string currencyTo, DateTime? date = null)
         {
-            return _exchangeRateSingleRepository.GetBidirectional(currencyFrom, currencyTo, date).Result;
-        }
-
-        public IEnumerable<ExchangeRate> GetHistorical(string currency, DateTime beginDate, DateTime endDate)
-        {
-            return _exchangeRateMultipleRepository.GetHistorical(currency, beginDate, endDate).Result;
+            return _exchangeRateSingleRepository.Get(currencyFrom, currencyTo, date);
         }
 
         public IEnumerable<ExchangeRate> GetLatest(string currency)
         {
-            return _exchangeRateMultipleRepository.GetLatest(currency).Result;
+            return GetLatestAsync(currency).Result;
+        }
+
+        public Task<IEnumerable<ExchangeRate>> GetLatestAsync(string currency)
+        {
+            return _exchangeRateMultipleRepository.GetLatest(currency);
+        }
+
+        public IEnumerable<ExchangeRate> GetHistorical(string currency, DateTime beginDate, DateTime endDate)
+        {
+            return GetHistoricalAsync(currency, beginDate, endDate).Result;
+        }
+
+        public Task<IEnumerable<ExchangeRate>> GetHistoricalAsync(string currency, DateTime beginDate, DateTime endDate)
+        {
+            return _exchangeRateMultipleRepository.GetHistorical(currency, beginDate, endDate);
+        }
+
+        public IEnumerable<ExchangeRate> GetBidirectional(string currencyFrom, string currencyTo, DateTime? date = null)
+        {
+            return GetBidirectionalAsync(currencyFrom, currencyTo, date).Result;
+        }
+
+        public Task<IEnumerable<ExchangeRate>> GetBidirectionalAsync(string currencyFrom, string currencyTo, DateTime? date = null)
+        {
+            return _exchangeRateSingleRepository.GetBidirectional(currencyFrom, currencyTo, date);
         }
 
         public IDictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)> GetConfiguredLatest()
@@ -60,6 +81,16 @@ namespace ChustaSoft.Services.StaticData.Services
             var finalData = new Dictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)>();
             var exchangeRates = _exchangeRateMultipleRepository.GetLatest(_configurationBase.ConfiguredBaseCurrency)
                 .Result.ToList();
+
+            IterateResults(finalData, exchangeRates);
+
+            return finalData;
+        }
+
+        public async Task<IDictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)>> GetConfiguredLatestAsync()
+        {
+            var finalData = new Dictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)>();
+            var exchangeRates = await _exchangeRateMultipleRepository.GetLatest(_configurationBase.ConfiguredBaseCurrency);
 
             IterateResults(finalData, exchangeRates);
 
@@ -77,12 +108,22 @@ namespace ChustaSoft.Services.StaticData.Services
             return finalData;
         }
 
+        public async Task<IDictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)>> GetConfiguredHistoricalAsync(DateTime beginDate, DateTime endDate)
+        {
+            var finalData = new Dictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)>();
+            var exchangeRates = await _exchangeRateMultipleRepository.GetHistorical(_configurationBase.ConfiguredBaseCurrency, beginDate, endDate);
+
+            IterateResults(finalData, exchangeRates);
+
+            return finalData;
+        }
+
         #endregion
 
 
         #region Private methods
 
-        private void IterateResults(Dictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)> finalData, List<ExchangeRate> exchangeRates)
+        private void IterateResults(Dictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)> finalData, IEnumerable<ExchangeRate> exchangeRates)
         {
             foreach (var configCurrency in _configurationBase.ConfiguredCurrencies)
             {
@@ -93,12 +134,12 @@ namespace ChustaSoft.Services.StaticData.Services
             }
         }
 
-        private static bool HasExchangeRate(List<ExchangeRate> exchangeRates, string configCurrency)
+        private static bool HasExchangeRate(IEnumerable<ExchangeRate> exchangeRates, string configCurrency)
         {
             return exchangeRates.Any(er => er.From == configCurrency);
         }
 
-        private static void AddFromRetrivedExchangeRates(Dictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)> finalData, List<ExchangeRate> exchangeRates, string configCurrency)
+        private static void AddFromRetrivedExchangeRates(Dictionary<string, (bool Found, IEnumerable<ExchangeRate> ExchangeRates)> finalData, IEnumerable<ExchangeRate> exchangeRates, string configCurrency)
         {
             finalData.Add(configCurrency, (true, new List<ExchangeRate> { exchangeRates.First(er => er.From == configCurrency) }));
         }
