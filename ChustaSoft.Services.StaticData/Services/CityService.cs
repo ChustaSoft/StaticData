@@ -1,6 +1,7 @@
 ﻿using ChustaSoft.Services.StaticData.Exceptions;
 using ChustaSoft.Services.StaticData.Models;
 using ChustaSoft.Services.StaticData.Repositories;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -34,20 +35,17 @@ namespace ChustaSoft.Services.StaticData.Services
         {
             try
             {
-                return _cityRepository.Get(country);
+                return GetAsync(country).Result;
             }
-            catch (FileNotFoundException ex)
+            catch (AggregateException ie) when (ie.InnerException is FileNotFoundException fnfe)
             {
-                throw new CountryNotFoundException(country, ex);
+                throw new CountryNotFoundException(country, fnfe);
             }
         }
 
         public async Task<IEnumerable<City>> GetAsync(string country)
         {
-            var task = new Task<IEnumerable<City>>(() => Get(country));
-            task.Start();
-
-            return await task;
+            return await _cityRepository.GetAsync(country);
         }
 
         public IDictionary<string, (bool Found, IEnumerable<City> Cities)> Get(IEnumerable<string> countries)
@@ -58,9 +56,9 @@ namespace ChustaSoft.Services.StaticData.Services
             {
                 try
                 {
-                    citiesResult.Add(country, (true, _cityRepository.Get(country)));
+                    citiesResult.Add(country, (true, _cityRepository.GetAsync(country).Result));
                 }
-                catch (CountryNotFoundException)
+                catch (AggregateException ie) when (ie.InnerException is CountryNotFoundException cie)
                 {
                     citiesResult.Add(country, (false, Enumerable.Empty<City>()));
                 }

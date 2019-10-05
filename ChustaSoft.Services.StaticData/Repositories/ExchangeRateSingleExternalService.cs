@@ -39,7 +39,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Public methods
 
-        public async Task<ExchangeRate> Get(string currencyFrom, string currencyTo, DateTime? date = null)
+        public async Task<ExchangeRate> GetAsync(string currencyFrom, string currencyTo, DateTime? date = null)
         {
             var bidirectionalData = await GetBidirectionalData(currencyFrom, currencyTo, date);
             var requestedConversion = GetSingleConversion(currencyFrom, currencyTo);
@@ -49,14 +49,14 @@ namespace ChustaSoft.Services.StaticData.Repositories
             return bidirectionalData.Response[requestedConversion];
         }
 
-        public async Task<IEnumerable<ExchangeRate>> GetBidirectional(string currencyFrom, string currencyTo, DateTime? date = null)
+        public async Task<IEnumerable<ExchangeRate>> GetBidirectionalAsync(string currencyFrom, string currencyTo, DateTime? date = null)
         {
             var bidirectionalData = await GetBidirectionalData(currencyFrom, currencyTo, date);
 
             return bidirectionalData.Response.Values;
         }
 
-        public async Task<IEnumerable<ExchangeRate>> GetHistorical(string currencyFrom, string currencyTo, DateTime beginDate, DateTime endDate)
+        public async Task<IEnumerable<ExchangeRate>> GetHistoricalAsync(string currencyFrom, string currencyTo, DateTime beginDate, DateTime endDate)
         {
             var json = await GetStringData(GetUri(currencyFrom, currencyTo, beginDate, endDate));
 

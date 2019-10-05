@@ -21,7 +21,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Public methods
 
-        public async Task<Country> Get(string countryName)
+        public async Task<Country> GetAsync(string countryName)
         {
             var task = new Task<Country>(() => PerformGet(countryName));
             task.Start();
@@ -29,7 +29,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
             return await task;
         }
 
-        public async Task<Country> Get(AlphaCodeType alphaType, string alphaCode)
+        public async Task<Country> GetAsync(AlphaCodeType alphaType, string alphaCode)
         {
             var task = new Task<Country>(() => PerformGet(alphaType, alphaCode));
             task.Start();
@@ -37,7 +37,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
             return await task;
         }
 
-        public async Task<IEnumerable<Country>> GetAll()
+        public async Task<IEnumerable<Country>> GetAllAsync()
         {
             var task = new Task<IEnumerable<Country>>(() => GetParsedCollection<CountryLocal>(COUNTRIES_FILE_NAME));
             task.Start();

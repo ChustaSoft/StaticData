@@ -29,22 +29,22 @@ namespace ChustaSoft.Services.StaticData.Services
 
         public Currency Get(string currencySymbol)
         {
-            return _currencyRepository.Get(currencySymbol).Result;
+            return _currencyRepository.GetAsync(currencySymbol).Result;
         }
 
         public async Task<Currency> GetAsync(string currencySymbol)
         {
-            return await _currencyRepository.Get(currencySymbol);
+            return await _currencyRepository.GetAsync(currencySymbol);
         }
 
         public IEnumerable<Currency> GetAll()
         {
-            return _currencyRepository.GetAll().Result;
+            return _currencyRepository.GetAllAsync().Result;
         }
 
         public async Task<IEnumerable<Currency>> GetAllAsync()
         {
-            return await _currencyRepository.GetAll();
+            return await _currencyRepository.GetAllAsync();
         }
 
         #endregion

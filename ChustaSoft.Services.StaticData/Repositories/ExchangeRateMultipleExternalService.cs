@@ -40,7 +40,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Public methods
 
-        public async Task<IEnumerable<ExchangeRate>> GetLatest(string currency)
+        public async Task<IEnumerable<ExchangeRate>> GetLatestAsync(string currency)
         {
             string json = await GetStringData(GetUri(currency));
 
@@ -51,7 +51,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
             return data.Response.Values;
         }
 
-        public async Task<IEnumerable<ExchangeRate>> GetHistorical(string currency, DateTime beginDate, DateTime endDate)
+        public async Task<IEnumerable<ExchangeRate>> GetHistoricalAsync(string currency, DateTime beginDate, DateTime endDate)
         {
             string json = await GetStringData(GetUri(currency, beginDate, endDate));
 

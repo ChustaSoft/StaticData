@@ -9,9 +9,9 @@ namespace ChustaSoft.Services.StaticData.Repositories
     internal interface IExchangeRateMultipleRepository
     {
 
-        Task<IEnumerable<ExchangeRate>> GetLatest(string currency);
+        Task<IEnumerable<ExchangeRate>> GetLatestAsync(string currency);
 
-        Task<IEnumerable<ExchangeRate>> GetHistorical(string currency, DateTime beginDate, DateTime endDate);
+        Task<IEnumerable<ExchangeRate>> GetHistoricalAsync(string currency, DateTime beginDate, DateTime endDate);
 
     }
 }

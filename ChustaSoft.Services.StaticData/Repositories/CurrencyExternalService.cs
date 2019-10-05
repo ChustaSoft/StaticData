@@ -31,14 +31,14 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Public methods
 
-        public async Task<IEnumerable<Currency>> GetAll()
+        public async Task<IEnumerable<Currency>> GetAllAsync()
         {
             var currencies = await GetAllCurrencies();
             
             return currencies.Values.AsEnumerable<Currency>();
         }
 
-        public async Task<Currency> Get(string currencySymbol)
+        public async Task<Currency> GetAsync(string currencySymbol)
         {
             var currencies = await GetAllCurrencies();
 

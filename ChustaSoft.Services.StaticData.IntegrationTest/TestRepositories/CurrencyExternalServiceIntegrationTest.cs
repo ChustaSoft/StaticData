@@ -36,7 +36,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
         [TestMethod]
         public void Given_Nothing_When_GetAllInvoked_Then_CurrenciesRetrived()
         {
-            var data = _serviceUnderTest.GetAll().Result;
+            var data = _serviceUnderTest.GetAllAsync().Result;
 
             Assert.IsTrue(data.Any());
         }
@@ -46,7 +46,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
         {
             var currencySymbol = "EUR";
 
-            var data = _serviceUnderTest.Get(currencySymbol).Result;
+            var data = _serviceUnderTest.GetAsync(currencySymbol).Result;
 
             Assert.IsNotNull(data);
             Assert.AreEqual(currencySymbol, data.Id);
@@ -57,7 +57,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
         {
             var currencySymbol = "TESTBAD";
 
-            Assert.ThrowsException<AggregateException>(() => _serviceUnderTest.Get(currencySymbol).Result);
+            Assert.ThrowsException<AggregateException>(() => _serviceUnderTest.GetAsync(currencySymbol).Result);
         }
 
         #endregion

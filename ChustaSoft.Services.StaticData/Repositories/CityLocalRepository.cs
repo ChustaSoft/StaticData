@@ -3,6 +3,7 @@ using ChustaSoft.Services.StaticData.Exceptions;
 using ChustaSoft.Services.StaticData.Models;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace ChustaSoft.Services.StaticData.Repositories
 {
@@ -11,13 +12,16 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Public methods
 
-        public IEnumerable<City> Get(string country)
+        public async Task<IEnumerable<City>> GetAsync(string country)
         {
             try
             {
-                var countryCities = GetParsedElement<CountryLocalParsed>(country);
+                return await Task.Run(() => 
+                {
+                    var countryCities = GetParsedElement<CountryLocalParsed>(country);
 
-                return countryCities.Cities;
+                    return countryCities.Cities;
+                });
             }
             catch (FileNotFoundException ex) 
             {

@@ -35,7 +35,7 @@ namespace ChustaSoft.Services.StaticData.Services
 
         public async Task<IEnumerable<Country>> GetAllAsync()
         {
-            return await _countryRepository.GetAll();
+            return await _countryRepository.GetAllAsync();
         }
 
         public Country Get(string countryName)
@@ -45,7 +45,7 @@ namespace ChustaSoft.Services.StaticData.Services
 
         public async Task<Country> GetAsync(string countryName)
         {
-            return await _countryRepository.Get(countryName);
+            return await _countryRepository.GetAsync(countryName);
         }
 
         public Country Get(AlphaCodeType alphaType, string alphaCode)
@@ -55,7 +55,7 @@ namespace ChustaSoft.Services.StaticData.Services
 
         public async Task<Country> GetAsync(AlphaCodeType alphaType, string alphaCode)
         {
-            return await _countryRepository.Get(alphaType, alphaCode);
+            return await _countryRepository.GetAsync(alphaType, alphaCode);
         }
         #endregion
 
