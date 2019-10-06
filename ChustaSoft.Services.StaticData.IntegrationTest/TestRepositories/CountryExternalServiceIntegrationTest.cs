@@ -1,5 +1,5 @@
 using ChustaSoft.Services.StaticData.IntegrationTest.TestConstants;
-using ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers;
+using ChustaSoft.Services.StaticData.IntegrationTest.Helpers;
 using ChustaSoft.Services.StaticData.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

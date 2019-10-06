@@ -1,12 +1,11 @@
 ﻿using ChustaSoft.Services.StaticData.Base;
 using ChustaSoft.Services.StaticData.Configuration;
-using ChustaSoft.Services.StaticData.Helpers;
 using ChustaSoft.Services.StaticData.IntegrationTest.TestConstants;
 using ChustaSoft.Services.StaticData.Repositories;
 using ChustaSoft.Services.StaticData.Services;
 using System.Collections.Generic;
 
-namespace ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers
+namespace ChustaSoft.Services.StaticData.IntegrationTest.Helpers
 {
     public class ExchangeRateTestHelper
     {
@@ -15,21 +14,21 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers
 
         internal static IExchangeRateMultipleRepository CreateMockMultipleRepository()
         {
-            var mockedConfiguration = new InternalConfiguration(StaticDataConfigurationBuilder.Configure());
+            var mockedConfiguration = new InternalConfiguration(StaticDataConfigurationBuilder.Generate());
 
             return new ExchangeRateMultipleExternalService(mockedConfiguration);
         }
 
         internal static IExchangeRateSingleRepository CreateMockSingleRepository()
         {
-            var mockedConfiguration = new InternalConfiguration(StaticDataConfigurationBuilder.Configure().AddCurrencyConverterApiKey(TestKeys.TestFreeCurrencyConverterKey));
+            var mockedConfiguration = new InternalConfiguration(StaticDataConfigurationBuilder.Generate().AddCurrencyConverterApiKey(TestKeys.TestFreeCurrencyConverterKey));
 
             return new ExchangeRateSingleExternalService(mockedConfiguration);
         }
 
         internal static IExchangeRateService CreateMockService(bool goodConfiguration)
         {
-            var mockedConfiguration = StaticDataConfigurationBuilder.Configure().SetBaseCurrency(GetMockedConfiguredCurrencyBase());
+            var mockedConfiguration = StaticDataConfigurationBuilder.Generate().SetBaseCurrency(GetMockedConfiguredCurrencyBase());
             
             if(goodConfiguration)
                 mockedConfiguration.AddConfiguredCurrencies(GetMockedConfiguredCurrencies());

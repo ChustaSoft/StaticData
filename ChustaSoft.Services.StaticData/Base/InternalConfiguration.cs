@@ -56,10 +56,10 @@ namespace ChustaSoft.Services.StaticData.Base
 
         private void SetupConstantUrls()
         {
-            CountriesApiUrl = ApiConnection.CountriesApiUrl;
-            CurrenciesApiUrl = ApiConnection.CurrenciesApiUrl;
-            ExchangeRatesApiUrl = ApiConnection.ExchangeRatesApiUrl;
-            ExchangeRatesQueryableApiUrl = ApiConnection.ExchangeRatesQueryableApiUrl;
+            CountriesApiUrl = AppConstants.CountriesApiUrl;
+            CurrenciesApiUrl = AppConstants.CurrenciesApiUrl;
+            ExchangeRatesApiUrl = AppConstants.ExchangeRatesApiUrl;
+            ExchangeRatesQueryableApiUrl = AppConstants.ExchangeRatesQueryableApiUrl;
         }
 
         #endregion

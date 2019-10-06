@@ -102,7 +102,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
             if (date != null)
                 uriBuilder.AddParameter(DATE_PARAM_NAME, date.Value.ToString(ExchangeRateConstants.DATE_API_FORMAT));
 
-            uriBuilder.AddParameter(ApiConstants.FreeConverterApiKeyParam, _configuration.CurrencyConverterApiKey);
+            uriBuilder.AddParameter(AppConstants.FreeConverterApiKeyParam, _configuration.CurrencyConverterApiKey);
 
             return uriBuilder.Uri;
         }
@@ -115,7 +115,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
                 .AddParameter(PARAM_PREFIX.ToString(), fullConversion)
                 .AddParameter(DATE_PARAM_NAME, beginDate.ToString(ExchangeRateConstants.DATE_API_FORMAT))
                 .AddParameter(END_DATE_PARAM_NAME, endDate.ToString(ExchangeRateConstants.DATE_API_FORMAT))
-                .AddParameter(ApiConstants.FreeConverterApiKeyParam, _configuration.CurrencyConverterApiKey);
+                .AddParameter(AppConstants.FreeConverterApiKeyParam, _configuration.CurrencyConverterApiKey);
 
             return uriBuilder.Uri;
         }

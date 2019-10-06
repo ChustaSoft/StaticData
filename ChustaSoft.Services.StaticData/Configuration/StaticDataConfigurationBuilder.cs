@@ -9,8 +9,8 @@ namespace ChustaSoft.Services.StaticData.Configuration
 
         #region Constants, Fields & Properties
 
-        private const string DEFAULT_BASE_CURRENCY = "USD";
-        private const bool DEFAULT_API_PREFERABILITY = true;
+        internal const string DEFAULT_BASE_CURRENCY = "USD";
+        internal const bool DEFAULT_API_PREFERABILITY = true;
 
 
         private StaticDataConfiguration _staticDataConfiguration;
@@ -29,7 +29,7 @@ namespace ChustaSoft.Services.StaticData.Configuration
         }
 
 
-        public static StaticDataConfigurationBuilder Configure() => new StaticDataConfigurationBuilder();
+        public static StaticDataConfigurationBuilder Generate() => new StaticDataConfigurationBuilder();
 
         #endregion
 
@@ -70,12 +70,20 @@ namespace ChustaSoft.Services.StaticData.Configuration
 
         public StaticDataConfigurationBuilder AddCurrencyConverterApiKey(string apiKey)
         {
+            if (string.IsNullOrWhiteSpace(apiKey))
+                Errors.Add(new ErrorMessage(Common.Enums.ErrorType.Invalid, $"Invalid API Key"));
+
             _staticDataConfiguration.CurrencyConversionApiKey = apiKey;
 
             return this;
         }
 
-        public StaticDataConfiguration Build() => _staticDataConfiguration;
+        public StaticDataConfiguration Build()
+        {
+            ShowErrorsInConsole();
+
+            return _staticDataConfiguration;
+        }
 
         #endregion
 
@@ -88,6 +96,12 @@ namespace ChustaSoft.Services.StaticData.Configuration
                 Errors.Add(new ErrorMessage(Common.Enums.ErrorType.Invalid, $"Currency: {configuredCurrency} already configured"));
             else
                 _staticDataConfiguration.ConfiguredCurrencies.Add(configuredCurrency);
+        }
+
+        private void ShowErrorsInConsole()
+        {
+            foreach (var error in Errors)
+                System.Console.WriteLine($"Error found on StaticData configuration -> [{error.Type.ToString()}]: {error.Text}");
         }
 
         #endregion

@@ -24,7 +24,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
         #region Protected methods
 
         protected override UriBuilder GetBaseUri()
-            => new UriBuilder(_configuration.CurrenciesApiUrl ).AddParameter(ApiConstants.FreeConverterApiKeyParam, _configuration.CurrencyConverterApiKey);
+            => new UriBuilder(_configuration.CurrenciesApiUrl ).AddParameter(AppConstants.FreeConverterApiKeyParam, _configuration.CurrencyConverterApiKey);
 
         #endregion
 

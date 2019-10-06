@@ -55,7 +55,7 @@ namespace ChustaSoft.Services.StaticData.Configuration
             if (staticDataConfiguration != null)
                 return new InternalConfiguration(staticDataConfiguration);
             else
-                return new InternalConfiguration(StaticDataConfigurationBuilder.Configure());
+                return new InternalConfiguration(StaticDataConfigurationBuilder.Generate());
         }
 
         private static InternalConfiguration ConstructConfiguration(IStaticDataConfigurationBuilder configurationBuilder)
