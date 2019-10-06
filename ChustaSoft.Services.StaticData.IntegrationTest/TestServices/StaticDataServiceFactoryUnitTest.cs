@@ -1,9 +1,9 @@
 ﻿using ChustaSoft.Services.StaticData.Base;
-using ChustaSoft.Services.StaticData.Factories;
+using ChustaSoft.Services.StaticData.Configuration;
+using ChustaSoft.Services.StaticData.Helpers;
 using ChustaSoft.Services.StaticData.IntegrationTest.TestConstants;
 using ChustaSoft.Services.StaticData.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 
 namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
 {
@@ -17,7 +17,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         [TestMethod]
         public void Given_Configuration_When_GetExchangeRateServiceInvoked_Then_IExchangeRateServiceRetrived()
         {
-            var configuration = new ConfigurationBase();
+            var configuration = new InternalConfiguration(StaticDataConfigurationBuilder.Generate());
 
             var service = StaticDataServiceFactory.GetExchangeRateService(configuration);
 
@@ -28,7 +28,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         [TestMethod]
         public void Given_Configuration_When_GetCurrencyServiceInvoked_Then_ICurrencyServiceRetrived()
         {
-            var configuration = new ConfigurationBase();
+            var configuration = new InternalConfiguration(StaticDataConfigurationBuilder.Generate());
 
             var service = StaticDataServiceFactory.GetCurrencyService(configuration);
 
@@ -39,8 +39,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         [TestMethod]
         public void Given_ConfigurationWithApiTrue_When_GetCountryServiceInvoked_Then_ICountryServiceWithExternalServiceRetrived()
         {
-            var configuration = new ConfigurationBase();
-            configuration.SetCountriesFromApi(true);
+            var configuration = new InternalConfiguration(StaticDataConfigurationBuilder.Generate());
 
             var service = StaticDataServiceFactory.GetCountryService(configuration);
 
@@ -51,9 +50,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         [TestMethod]
         public void Given_ConfigurationWithApiFalse_When_GetCountryServiceInvoked_Then_ICountryServiceWithLocalRepositoryRetrived()
         {
-            var configuration = new ConfigurationBase();
-            configuration.SetCountriesFromApi(false);
-
+            var configuration = new InternalConfiguration(StaticDataConfigurationBuilder.Generate().SetApiPreferably(false));
             var service = StaticDataServiceFactory.GetCountryService(configuration);
 
             Assert.IsNotNull(service);
@@ -63,9 +60,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         [TestMethod]
         public void Given_Configuration_When_GetCityServiceInvoked_Then_ICityServiceRetrived()
         {
-            var configuration = new ConfigurationBase();
-            configuration.SetCountriesFromApi(false);
-
+            var configuration = new InternalConfiguration(StaticDataConfigurationBuilder.Generate().SetApiPreferably(false));
             var service = StaticDataServiceFactory.GetCityService(configuration);
 
             Assert.IsNotNull(service);

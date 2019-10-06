@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-
 namespace ChustaSoft.Services.StaticData.Repositories
 {
     internal class ExchangeRateMultipleExternalService : ExternalServiceBase, IExchangeRateMultipleRepository
@@ -27,7 +26,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Constructor
 
-        internal ExchangeRateMultipleExternalService(ConfigurationBase configuration) : base(configuration) { }
+        internal ExchangeRateMultipleExternalService(InternalConfiguration configuration) : base(configuration) { }
 
         #endregion
 
@@ -41,7 +40,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Public methods
 
-        public async Task<IEnumerable<ExchangeRate>> GetLatest(string currency)
+        public async Task<IEnumerable<ExchangeRate>> GetLatestAsync(string currency)
         {
             string json = await GetStringData(GetUri(currency));
 
@@ -52,7 +51,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
             return data.Response.Values;
         }
 
-        public async Task<IEnumerable<ExchangeRate>> GetHistorical(string currency, DateTime beginDate, DateTime endDate)
+        public async Task<IEnumerable<ExchangeRate>> GetHistoricalAsync(string currency, DateTime beginDate, DateTime endDate)
         {
             string json = await GetStringData(GetUri(currency, beginDate, endDate));
 

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using ChustaSoft.Common.Helpers;
-using ChustaSoft.Common.Utilities;
-using ChustaSoft.Services.StaticData.Models;
+﻿using ChustaSoft.Services.StaticData.Models;
 using ChustaSoft.Services.StaticData.Repositories;
-
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ChustaSoft.Services.StaticData.Services
 {
@@ -30,38 +27,24 @@ namespace ChustaSoft.Services.StaticData.Services
 
         #region Public methods
 
-        [Obsolete("Version 2.0 will make it async and replace ActionResponse in this layer")]
-        public ActionResponse<Currency> Get(string currencySymbol)
+        public Currency Get(string currencySymbol)
         {
-            var arBuilder = new ActionResponseBuilder<Currency>();
-            try
-            {
-                var currency = _currencyRepository.Get(currencySymbol).Result;
-
-                arBuilder.SetData(currency);
-            }
-            catch (System.Exception ex)
-            {
-                arBuilder.AddError(new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message));
-            }
-            return arBuilder.Build();
+            return _currencyRepository.GetAsync(currencySymbol).Result;
         }
 
-        [Obsolete("Version 2.0 will make it async and replace ActionResponse in this layer")]
-        public ActionResponse<IEnumerable<Currency>> GetAll()
+        public async Task<Currency> GetAsync(string currencySymbol)
         {
-            var arBuilder = new ActionResponseBuilder<IEnumerable<Currency>>();
-            try
-            {
-                var currencies = _currencyRepository.GetAll().Result;
+            return await _currencyRepository.GetAsync(currencySymbol);
+        }
 
-                arBuilder.SetData(currencies);
-            }
-            catch (System.Exception ex)
-            {
-                arBuilder.AddError(new ErrorMessage(Common.Enums.ErrorType.Invalid, ex.Message));
-            }
-            return arBuilder.Build();
+        public IEnumerable<Currency> GetAll()
+        {
+            return _currencyRepository.GetAllAsync().Result;
+        }
+
+        public async Task<IEnumerable<Currency>> GetAllAsync()
+        {
+            return await _currencyRepository.GetAllAsync();
         }
 
         #endregion

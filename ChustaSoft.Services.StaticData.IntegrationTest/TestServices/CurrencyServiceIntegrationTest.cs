@@ -1,9 +1,9 @@
 ﻿using ChustaSoft.Services.StaticData.IntegrationTest.TestConstants;
-using ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers;
+using ChustaSoft.Services.StaticData.IntegrationTest.Helpers;
 using ChustaSoft.Services.StaticData.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
-
 
 namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
 {
@@ -35,9 +35,17 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         [TestMethod]
         public void Given_Nothing_When_GetAllInvoked_Then_CurrenciesRetrived()
         {
-            var actionResult = _serviceUnderTest.GetAll();
+            var result = _serviceUnderTest.GetAll();
 
-            Assert.IsTrue(actionResult.Data.Any());
+            Assert.IsTrue(result.Any());
+        }
+
+        [TestMethod]
+        public void Given_Nothing_When_GetAllAsyncInvoked_Then_CurrenciesRetrived()
+        {
+            var result = _serviceUnderTest.GetAllAsync().Result;
+
+            Assert.IsTrue(result.Any());
         }
 
         [TestMethod]
@@ -45,21 +53,33 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         {
             var currencySymbol = "EUR";
 
-            var actionResult = _serviceUnderTest.Get(currencySymbol);
+            var result = _serviceUnderTest.Get(currencySymbol);
 
-            Assert.IsNotNull(actionResult);
-            Assert.AreEqual(currencySymbol, actionResult.Data.Id);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(currencySymbol, result.Id);
         }
 
         [TestMethod]
-        public void Given_UnexistingCurrencyCode_When_GetInvoked_Then_ActionResultWithErrorsRetrived()
+        public void Given_CurrencyCode_When_GetAsyncInvoked_Then_CurrencyRetrived()
         {
-            var currencySymbol = "TESTBAD";
+            var currencySymbol = "EUR";
 
-            var actionResult = _serviceUnderTest.Get(currencySymbol);
+            var result = _serviceUnderTest.GetAsync(currencySymbol).Result;
 
-            Assert.IsNotNull(actionResult);
-            Assert.IsTrue(actionResult.Errors.Any());
+            Assert.IsNotNull(result);
+            Assert.AreEqual(currencySymbol, result.Id);
+        }
+
+        [TestMethod]
+        public void Given_UnexistingCurrencyCode_When_GetInvoked_Then_ExceptionThrown()
+        {
+            Assert.ThrowsException<AggregateException>(() => _serviceUnderTest.Get("TESTBAD"));
+        }
+
+        [TestMethod]
+        public void Given_UnexistingCurrencyCode_When_GetAsyncInvoked_Then_ExceptionThrown()
+        {
+            Assert.ThrowsExceptionAsync<AggregateException>(() => _serviceUnderTest.GetAsync("TESTBAD"));
         }
 
         #endregion

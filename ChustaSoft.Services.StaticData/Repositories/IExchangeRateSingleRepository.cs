@@ -9,11 +9,11 @@ namespace ChustaSoft.Services.StaticData.Repositories
     internal interface IExchangeRateSingleRepository
     {
 
-        Task<ExchangeRate> Get(string currencyFrom, string currencyTo, DateTime? today = null);
+        Task<ExchangeRate> GetAsync(string currencyFrom, string currencyTo, DateTime? today = null);
 
-        Task<IEnumerable<ExchangeRate>> GetBidirectional(string currencyFrom, string currencyTo, DateTime? today = null);
+        Task<IEnumerable<ExchangeRate>> GetBidirectionalAsync(string currencyFrom, string currencyTo, DateTime? today = null);
 
-        Task<IEnumerable<ExchangeRate>> GetHistorical(string currencyFrom, string currencyTo, DateTime beginDate, DateTime endDate);
+        Task<IEnumerable<ExchangeRate>> GetHistoricalAsync(string currencyFrom, string currencyTo, DateTime beginDate, DateTime endDate);
 
     }
 }

@@ -1,6 +1,6 @@
 ﻿using ChustaSoft.Services.StaticData.Exceptions;
 using ChustaSoft.Services.StaticData.IntegrationTest.TestConstants;
-using ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers;
+using ChustaSoft.Services.StaticData.IntegrationTest.Helpers;
 using ChustaSoft.Services.StaticData.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -40,7 +40,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
             string currencyFrom = "USD", currencyTo = "EUR";
             var date = DateTime.Today;
 
-            var data = _serviceUnderTest.Get(currencyFrom, currencyTo, date).Result;
+            var data = _serviceUnderTest.GetAsync(currencyFrom, currencyTo, date).Result;
 
             Assert.IsNotNull(data);
             Assert.AreEqual(currencyFrom, data.From);
@@ -54,7 +54,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
         {
             string currencyFrom = "USD", currencyTo = "EUR";
             
-            var data = _serviceUnderTest.Get(currencyFrom, currencyTo).Result;
+            var data = _serviceUnderTest.GetAsync(currencyFrom, currencyTo).Result;
 
             Assert.IsNotNull(data);
             Assert.IsNotNull(data.Date);
@@ -69,7 +69,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
             string currencyFrom = "INVCUR", currencyTo = "EUR";
             var date = DateTime.Today;
 
-            Assert.ThrowsExceptionAsync<CurrencyNotFoundException>(() => _serviceUnderTest.Get(currencyFrom, currencyTo, date));
+            Assert.ThrowsExceptionAsync<CurrencyNotFoundException>(() => _serviceUnderTest.GetAsync(currencyFrom, currencyTo, date));
         }
 
         [TestMethod]
@@ -78,7 +78,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
             string currencyFrom = "USD", currencyTo = "EUR";
             var date = DateTime.Today;
 
-            var data = _serviceUnderTest.GetBidirectional(currencyFrom, currencyTo, date).Result;
+            var data = _serviceUnderTest.GetBidirectionalAsync(currencyFrom, currencyTo, date).Result;
 
             Assert.IsNotNull(data);
             Assert.AreEqual(data.Count(), 2);
@@ -96,7 +96,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
             string currencyFrom = "USD", currencyTo = "EUR";
             DateTime beginDate = DateTime.Today.AddDays(-30), endDate = DateTime.Today.AddDays(-25);
             
-            var data = _serviceUnderTest.GetHistorical(currencyFrom, currencyTo, beginDate, endDate).Result;
+            var data = _serviceUnderTest.GetHistoricalAsync(currencyFrom, currencyTo, beginDate, endDate).Result;
 
             Assert.IsNotNull(data);
             Assert.IsTrue(data.Any());

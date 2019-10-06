@@ -1,10 +1,10 @@
 ﻿using ChustaSoft.Services.StaticData.Base;
+using ChustaSoft.Services.StaticData.Configuration;
+using ChustaSoft.Services.StaticData.IntegrationTest.TestConstants;
 using ChustaSoft.Services.StaticData.Repositories;
 using ChustaSoft.Services.StaticData.Services;
-using System;
 
-
-namespace ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers
+namespace ChustaSoft.Services.StaticData.IntegrationTest.Helpers
 {
     internal static class CurrencyTestHelper
     {
@@ -13,7 +13,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers
 
         internal static ICurrencyRepository CreateMockRepository()
         {
-            var mockedConfiguration = new ConfigurationBase();
+            var mockedConfiguration = new InternalConfiguration(StaticDataConfigurationBuilder.Generate().AddCurrencyConverterApiKey(TestKeys.TestFreeCurrencyConverterKey));
 
             return new CurrencyExternalService(mockedConfiguration);
         }

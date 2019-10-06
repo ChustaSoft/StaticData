@@ -1,6 +1,6 @@
 ﻿using ChustaSoft.Services.StaticData.Exceptions;
 using ChustaSoft.Services.StaticData.IntegrationTest.TestConstants;
-using ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers;
+using ChustaSoft.Services.StaticData.IntegrationTest.Helpers;
 using ChustaSoft.Services.StaticData.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -39,7 +39,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
         {
             var currency = "USD";
 
-            var data = _serviceUnderTest.GetLatest(currency).Result;
+            var data = _serviceUnderTest.GetLatestAsync(currency).Result;
 
             Assert.IsNotNull(data);
             Assert.IsTrue(data.Any());
@@ -50,7 +50,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
         {
             var currency = "UKCUR";
 
-            Assert.ThrowsExceptionAsync<CurrencyNotFoundException>(() => _serviceUnderTest.GetLatest(currency));
+            Assert.ThrowsExceptionAsync<CurrencyNotFoundException>(() => _serviceUnderTest.GetLatestAsync(currency));
         }
 
         [TestMethod]
@@ -59,7 +59,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
             var currency = "EUR";
             DateTime beginDate = new DateTime(2017, 1, 1), endDate = new DateTime(2017, 12, 31);
 
-            var historicalData = _serviceUnderTest.GetHistorical(currency, beginDate, endDate).Result;
+            var historicalData = _serviceUnderTest.GetHistoricalAsync(currency, beginDate, endDate).Result;
 
             Assert.IsNotNull(historicalData);
             Assert.IsTrue(historicalData.All(x => x.To == currency));
@@ -72,7 +72,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
             var currency = "UKCUR";
             DateTime beginDate = new DateTime(2017, 1, 1), endDate = new DateTime(2017, 12, 31);
 
-            Assert.ThrowsExceptionAsync<CurrencyNotFoundException>(() => _serviceUnderTest.GetHistorical(currency, beginDate, endDate));
+            Assert.ThrowsExceptionAsync<CurrencyNotFoundException>(() => _serviceUnderTest.GetHistoricalAsync(currency, beginDate, endDate));
         }
 
         #endregion

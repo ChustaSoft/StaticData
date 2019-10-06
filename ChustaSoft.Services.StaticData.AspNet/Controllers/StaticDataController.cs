@@ -1,17 +1,19 @@
-﻿using ChustaSoft.Common.Utilities;
+﻿using ChustaSoft.Common.Base;
+using ChustaSoft.Common.Helpers;
 using ChustaSoft.Services.StaticData.Enums;
 using ChustaSoft.Services.StaticData.Models;
 using ChustaSoft.Services.StaticData.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 
 namespace ChustaSoft.Services.StaticData.AspNet.Controllers
 {
 
     [Route("api/staticdata")]
-    public class StaticDataController : Controller
+    public class StaticDataController : ApiControllerBase<StaticDataController>
     {
         
         #region Fields
@@ -26,8 +28,8 @@ namespace ChustaSoft.Services.StaticData.AspNet.Controllers
 
         #region Constructor
 
-        [Obsolete("Version 2.0 will replace it by one inherited by ChustaSoft ApiControllerBase")]
-        public StaticDataController(ICityService cityService, ICountryService countryService, ICurrencyService currencyService, IExchangeRateService exchangeRateService)
+        public StaticDataController(ILogger<StaticDataController> logger, ICityService cityService, ICountryService countryService, ICurrencyService currencyService, IExchangeRateService exchangeRateService)
+            : base(logger)
         {
             _cityService = cityService;
             _countryService = countryService;
@@ -40,107 +42,189 @@ namespace ChustaSoft.Services.StaticData.AspNet.Controllers
 
         #region Public methods
 
-        [Obsolete("Version 2.0 will make it async")]
         [HttpGet("cities/{country}")]
-        public ActionResponse<IEnumerable<City>> GetCities(string country)
+        public IActionResult GetCities(string country)
         {
-            return _cityService.Get(country);
+            var actionResponse = GetEmptyResponseBuilder<IEnumerable<City>>();
+            try
+            {
+                actionResponse.SetData(_cityService.Get(country));
+
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
-        [Obsolete("Version 2.0 will make it async")]
         [HttpGet("cities")]
-        public ActionResponse<IEnumerable<City>> GetCities([FromBody] List<string> countries)
+        public IActionResult GetCities([FromBody] IEnumerable<string> countries)
         {
-            return _cityService.Get(countries);
+            var actionResponse = GetEmptyResponseBuilder<List<City>>();
+            try
+            {
+                var data = _cityService.Get(countries).SelectMany(x => x.Value.Cities).ToList();
+                actionResponse.SetData(data);
+
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
-        [Obsolete("Version 2.0 will make it async")]
         [HttpGet("countries")]
-        public ActionResponse<IEnumerable<Country>> GetCountries()
+        public IActionResult GetCountries()
         {
-            return _countryService.GetAll();
+            var actionResponse = GetEmptyResponseBuilder<IEnumerable<Country>>();
+            try
+            {
+                actionResponse.SetData(_countryService.GetAll());
+
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
-        [Obsolete("Version 2.0 will make it async")]
         [HttpGet("countries/{countryName}")]
-        public ActionResponse<Country> GetCountry(string countryName)
+        public IActionResult GetCountry(string countryName)
         {
-            return _countryService.Get(countryName);
+            var actionResponse = GetEmptyResponseBuilder<Country>();
+            try
+            {
+                actionResponse.SetData(_countryService.Get(countryName));
+
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
-        [Obsolete("Version 2.0 will make it async")]
         [HttpGet("countries/{alphaType}/{alphaCode}")]
-        public ActionResponse<Country> GetCountry(string alphaType, string alphaCode)
+        public IActionResult GetCountry(string alphaType, string alphaCode)
         {
-            var enumType = (AlphaCodeType)Enum.Parse(typeof(AlphaCodeType), alphaType);
+            var actionResponse = GetEmptyResponseBuilder<Country>();
+            try
+            {
+                var enumType = EnumsHelper.GetByString<AlphaCodeType>(alphaType);
+                actionResponse.SetData(_countryService.Get(enumType, alphaCode));
 
-            return _countryService.Get(enumType, alphaCode);
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
-        [Obsolete("Version 2.0 will make it async")]
         [HttpGet("currencies")]
-        public ActionResponse<IEnumerable<Currency>> GetCurrencies()
+        public IActionResult GetCurrencies()
         {
-            return _currencyService.GetAll();
+            var actionResponse = GetEmptyResponseBuilder<IEnumerable<Currency>>();
+            try
+            {
+                actionResponse.SetData(_currencyService.GetAll());
+
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
-        [Obsolete("Version 2.0 will make it async")]
         [HttpGet("currencies/{currencySymbol}")]
-        public ActionResponse<Currency> GetCurrency(string currencySymbol)
+        public IActionResult GetCurrency(string currencySymbol)
         {
-            return _currencyService.Get(currencySymbol);
+            var actionResponse = GetEmptyResponseBuilder<Currency>();
+            try
+            {
+                actionResponse.SetData(_currencyService.Get(currencySymbol));
+
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
-        [Obsolete("Version 2.0 will make it async")]
         [HttpGet("exchangerates/{currencyFrom}/{currencyTo}/{date}")]
-        public ActionResponse<ExchangeRate> GetExchangeRate(string currencyFrom, string currencyTo, string date)
+        public IActionResult GetExchangeRate(string currencyFrom, string currencyTo, string date)
         {
-            var parsedDate = ParseDate(date);
+            var actionResponse = GetEmptyResponseBuilder<ExchangeRate>();
+            try
+            {
+                var parsedDate = ParseDate(date);
 
-            return _exchangeRateService.Get(currencyFrom, currencyTo, parsedDate);
+                actionResponse.SetData(_exchangeRateService.Get(currencyFrom, currencyTo, parsedDate));
+
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
-        [Obsolete("Version 2.0 will make it async")]
         [HttpGet("exchangerates/latest/{currency}")]
-        public ActionResponse<IEnumerable<ExchangeRate>> GetLatest(string currency)
+        public IActionResult GetLatest(string currency)
         {
-            return _exchangeRateService.GetLatest(currency);
+            var actionResponse = GetEmptyResponseBuilder<IEnumerable<ExchangeRate>>();
+            try
+            {
+                actionResponse.SetData(_exchangeRateService.GetLatest(currency));
+
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
-        [Obsolete("Version 2.0 will make it async")]
         [HttpGet("exchangerates/historical/{currency}/{beginDate}/{endDate}")]
-        public ActionResponse<IEnumerable<ExchangeRate>> GetHistorical(string currency, string beginDate, string endDate)
+        public IActionResult GetHistorical(string currency, string beginDate, string endDate)
         {
-            var parsedBeginDate = ParseDate(beginDate);
-            var parsedEndDate = ParseDate(endDate);
+            var actionResponse = GetEmptyResponseBuilder<IEnumerable<ExchangeRate>>();
+            try
+            {
+                var parsedBeginDate = ParseDate(beginDate);
+                var parsedEndDate = ParseDate(endDate);
 
-            return _exchangeRateService.GetHistorical(currency, parsedBeginDate.Value, parsedEndDate.Value);
+                actionResponse.SetData(_exchangeRateService.GetHistorical(currency, parsedBeginDate.Value, parsedEndDate.Value));
+
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
-        [Obsolete("Version 2.0 will make it async")]
         [HttpGet("exchangerates/bidirectional/{currencyFrom}/{currencyTo}/{date}")]
-        public ActionResponse<IEnumerable<ExchangeRate>> GetBidirectional(string currencyFrom, string currencyTo, string date)
+        public IActionResult GetBidirectional(string currencyFrom, string currencyTo, string date)
         {
-            var parsedDate = ParseDate(date);
+            var actionResponse = GetEmptyResponseBuilder<IEnumerable<ExchangeRate>>();
+            try
+            {
+                var parsedDate = ParseDate(date);
 
-            return _exchangeRateService.GetBidirectional(currencyFrom, currencyTo, parsedDate);
-        }
+                actionResponse.SetData(_exchangeRateService.GetBidirectional(currencyFrom, currencyTo, parsedDate));
 
-        [Obsolete("Version 2.0 will make it async")]
-        [HttpGet("exchangerates/configured/latest")]
-        public ActionResponse<ICollection<ExchangeRate>> GetConfiguredLatest()
-        {
-            return _exchangeRateService.GetConfiguredLatest();
-        }
-
-        [Obsolete("Version 2.0 will make it async")]
-        [HttpGet("exchangerates/configured/historical/{beginDate}/{endDate}")]
-        public ActionResponse<ICollection<ExchangeRate>> GetConfiguredHistorical(string beginDate, string endDate)
-        {
-            var parsedBeginDate = ParseDate(beginDate);
-            var parsedEndDate = ParseDate(endDate);
-
-            return _exchangeRateService.GetConfiguredHistorical(parsedBeginDate.Value, parsedEndDate.Value);
+                return Ok(actionResponse);
+            }
+            catch (Exception ex)
+            {
+                return Ko(actionResponse, ex);
+            }
         }
 
         #endregion

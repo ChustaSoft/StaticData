@@ -9,11 +9,11 @@ namespace ChustaSoft.Services.StaticData.Repositories
     internal interface ICountryRepository
     {
 
-        Task<IEnumerable<Country>> GetAll();
+        Task<IEnumerable<Country>> GetAllAsync();
 
-        Task<Country> Get(string countryName);
+        Task<Country> GetAsync(string countryName);
 
-        Task<Country> Get(AlphaCodeType alphaType, string alphaCode);
+        Task<Country> GetAsync(AlphaCodeType alphaType, string alphaCode);
 
     }
 }

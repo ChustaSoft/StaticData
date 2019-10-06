@@ -1,13 +1,12 @@
 ﻿using ChustaSoft.Common.Helpers;
 using ChustaSoft.Services.StaticData.Base;
+using ChustaSoft.Services.StaticData.Constants;
 using ChustaSoft.Services.StaticData.Exceptions;
 using ChustaSoft.Services.StaticData.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ChustaSoft.Services.StaticData.Constants;
-using System.Linq;
 
 namespace ChustaSoft.Services.StaticData.Repositories
 {
@@ -26,7 +25,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Constructor
 
-        internal ExchangeRateSingleExternalService(ConfigurationBase configuration) : base(configuration) { }
+        internal ExchangeRateSingleExternalService(InternalConfiguration configuration) : base(configuration) { }
 
         #endregion
 
@@ -40,7 +39,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Public methods
 
-        public async Task<ExchangeRate> Get(string currencyFrom, string currencyTo, DateTime? date = null)
+        public async Task<ExchangeRate> GetAsync(string currencyFrom, string currencyTo, DateTime? date = null)
         {
             var bidirectionalData = await GetBidirectionalData(currencyFrom, currencyTo, date);
             var requestedConversion = GetSingleConversion(currencyFrom, currencyTo);
@@ -50,14 +49,14 @@ namespace ChustaSoft.Services.StaticData.Repositories
             return bidirectionalData.Response[requestedConversion];
         }
 
-        public async Task<IEnumerable<ExchangeRate>> GetBidirectional(string currencyFrom, string currencyTo, DateTime? date = null)
+        public async Task<IEnumerable<ExchangeRate>> GetBidirectionalAsync(string currencyFrom, string currencyTo, DateTime? date = null)
         {
             var bidirectionalData = await GetBidirectionalData(currencyFrom, currencyTo, date);
 
             return bidirectionalData.Response.Values;
         }
 
-        public async Task<IEnumerable<ExchangeRate>> GetHistorical(string currencyFrom, string currencyTo, DateTime beginDate, DateTime endDate)
+        public async Task<IEnumerable<ExchangeRate>> GetHistoricalAsync(string currencyFrom, string currencyTo, DateTime beginDate, DateTime endDate)
         {
             var json = await GetStringData(GetUri(currencyFrom, currencyTo, beginDate, endDate));
 
@@ -103,6 +102,8 @@ namespace ChustaSoft.Services.StaticData.Repositories
             if (date != null)
                 uriBuilder.AddParameter(DATE_PARAM_NAME, date.Value.ToString(ExchangeRateConstants.DATE_API_FORMAT));
 
+            uriBuilder.AddParameter(AppConstants.FreeConverterApiKeyParam, _configuration.CurrencyConverterApiKey);
+
             return uriBuilder.Uri;
         }
 
@@ -113,7 +114,8 @@ namespace ChustaSoft.Services.StaticData.Repositories
             var uriBuilder = GetBaseUri()
                 .AddParameter(PARAM_PREFIX.ToString(), fullConversion)
                 .AddParameter(DATE_PARAM_NAME, beginDate.ToString(ExchangeRateConstants.DATE_API_FORMAT))
-                .AddParameter(END_DATE_PARAM_NAME, endDate.ToString(ExchangeRateConstants.DATE_API_FORMAT));
+                .AddParameter(END_DATE_PARAM_NAME, endDate.ToString(ExchangeRateConstants.DATE_API_FORMAT))
+                .AddParameter(AppConstants.FreeConverterApiKeyParam, _configuration.CurrencyConverterApiKey);
 
             return uriBuilder.Uri;
         }

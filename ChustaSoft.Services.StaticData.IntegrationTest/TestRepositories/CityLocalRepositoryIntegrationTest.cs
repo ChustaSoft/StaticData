@@ -1,8 +1,9 @@
 ﻿using ChustaSoft.Services.StaticData.Exceptions;
 using ChustaSoft.Services.StaticData.IntegrationTest.TestConstants;
-using ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers;
+using ChustaSoft.Services.StaticData.IntegrationTest.Helpers;
 using ChustaSoft.Services.StaticData.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -34,21 +35,21 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestServices
         #region Test methods
 
         [TestMethod]
-        public void Given_CountryStr_When_GetInvoked_Then_CitiesRetrived()
+        public void Given_CountryStr_When_GetAsyncInvoked_Then_CitiesRetrived()
         {
             var country = "Burkina Faso";
 
-            var cities = _serviceUnderTest.Get(country);
+            var cities = _serviceUnderTest.GetAsync(country).Result;
 
             Assert.IsTrue(cities.Any());
         }
 
         [TestMethod]
-        public void Given_UnexistingCountryStr_When_GetInvoked_Then_ExceptionThrown()
+        public void Given_UnexistingCountryStr_When_GetAsyncInvoked_Then_ExceptionThrown()
         {
             var country = "Solar system";
 
-            Assert.ThrowsException<CountryNotFoundException>(() => _serviceUnderTest.Get(country));
+            Assert.ThrowsExceptionAsync<AggregateException>(() => _serviceUnderTest.GetAsync(country));
         }
 
         #endregion

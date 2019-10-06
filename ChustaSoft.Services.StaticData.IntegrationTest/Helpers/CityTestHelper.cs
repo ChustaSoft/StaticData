@@ -2,7 +2,7 @@
 using ChustaSoft.Services.StaticData.Services;
 
 
-namespace ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers
+namespace ChustaSoft.Services.StaticData.IntegrationTest.Helpers
 {
     internal class CityTestHelper
     {

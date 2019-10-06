@@ -1,12 +1,11 @@
-﻿using ChustaSoft.Common.Enums;
-using ChustaSoft.Common.Exceptions;
-using ChustaSoft.Common.Helpers;
-using ChustaSoft.Common.Utilities;
+﻿using ChustaSoft.Services.StaticData.Exceptions;
 using ChustaSoft.Services.StaticData.Models;
 using ChustaSoft.Services.StaticData.Repositories;
 using System;
 using System.Collections.Generic;
-
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ChustaSoft.Services.StaticData.Services
 {
@@ -32,45 +31,48 @@ namespace ChustaSoft.Services.StaticData.Services
 
         #region Public methods
 
-        [Obsolete("Version 2.0 will make it async and replace ActionResponse in this layer")]
-        public ActionResponse<IEnumerable<City>> Get(string country)
+        public IEnumerable<City> Get(string country)
         {
-            var arBuilder = new ActionResponseBuilder<IEnumerable<City>>();
-
             try
             {
-                var data = _cityRepository.Get(country);
-
-                arBuilder.SetData(data);
+                return GetAsync(country).Result;
             }
-            catch (BusinessException ex)
+            catch (AggregateException ie) when (ie.InnerException is FileNotFoundException fnfe)
             {
-                arBuilder.AddError(ex);
+                throw new CountryNotFoundException(country, fnfe);
             }
-
-            return arBuilder.Build();
         }
 
-        [Obsolete("Version 2.0 will make it async and replace ActionResponse in this layer")]
-        public ActionResponse<IEnumerable<City>> Get(List<string> countries)
+        public async Task<IEnumerable<City>> GetAsync(string country)
         {
-            var arBuilder = new ActionResponseBuilder<IEnumerable<City>>();
-            var cities = new List<City>();
+            return await _cityRepository.GetAsync(country);
+        }
+
+        public IDictionary<string, (bool Found, IEnumerable<City> Cities)> Get(IEnumerable<string> countries)
+        {
+            var citiesResult = new Dictionary<string, (bool, IEnumerable<City>)>();
 
             foreach (var country in countries)
             {
                 try
                 {
-                    cities.AddRange(_cityRepository.Get(country));
+                    citiesResult.Add(country, (true, _cityRepository.GetAsync(country).Result));
                 }
-                catch (BusinessException ex)
+                catch (AggregateException ie) when (ie.InnerException is CountryNotFoundException cie)
                 {
-                    arBuilder.AddError(ex);
-                    arBuilder.SetStatus(ActionResponseType.Warning);
+                    citiesResult.Add(country, (false, Enumerable.Empty<City>()));
                 }
             }
-            
-            return arBuilder.SetData(cities).Build();
+
+            return citiesResult;
+        }
+
+        public async Task<IDictionary<string, (bool Found, IEnumerable<City> Cities)>> GetAsync(IEnumerable<string> countries)
+        {
+            var task = new Task<IDictionary<string, (bool Found, IEnumerable<City> Cities)>>(() => Get(countries));
+            task.Start();
+
+            return await task;
         }
 
         #endregion

@@ -1,4 +1,6 @@
-﻿using ChustaSoft.Services.StaticData.Base;
+﻿using ChustaSoft.Common.Helpers;
+using ChustaSoft.Services.StaticData.Base;
+using ChustaSoft.Services.StaticData.Constants;
 using ChustaSoft.Services.StaticData.Models;
 using Newtonsoft.Json;
 using System;
@@ -14,33 +16,33 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Constructor
 
-        internal CurrencyExternalService(ConfigurationBase configuration) : base(configuration) { }
+        internal CurrencyExternalService(InternalConfiguration configuration) : base(configuration) { }
 
         #endregion
 
 
         #region Protected methods
 
-        protected override UriBuilder GetBaseUri() => new UriBuilder(_configuration.CurrenciesApiUrl);
+        protected override UriBuilder GetBaseUri()
+            => new UriBuilder(_configuration.CurrenciesApiUrl ).AddParameter(AppConstants.FreeConverterApiKeyParam, _configuration.CurrencyConverterApiKey);
 
         #endregion
 
 
         #region Public methods
 
-        public async Task<IEnumerable<Currency>> GetAll()
+        public async Task<IEnumerable<Currency>> GetAllAsync()
         {
-            return GetAllCurrencies()
-                .Result.Values
-                .AsEnumerable<Currency>();
+            var currencies = await GetAllCurrencies();
+            
+            return currencies.Values.AsEnumerable<Currency>();
         }
 
-        public async Task<Currency> Get(string currencySymbol)
+        public async Task<Currency> GetAsync(string currencySymbol)
         {
-            return GetAllCurrencies()
-                .Result
-                .First(currency => currency.Key == currencySymbol)
-                .Value;
+            var currencies = await GetAllCurrencies();
+
+            return currencies.First(currency => currency.Key == currencySymbol).Value;
         }
 
         #endregion

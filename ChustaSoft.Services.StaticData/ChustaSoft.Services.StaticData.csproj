@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.2;net461</TargetFrameworks>
     <PackageId>ChustaSoft.StaticData</PackageId>
     <RootNamespace>ChustaSoft.Services.StaticData</RootNamespace>
     <Description>Tool with Common Data used in multiple .NET applications like Countries, Cities, Currencies, ExchangeRates...</Description>
@@ -10,9 +10,9 @@
     <Company>ChustaSoft</Company>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <PackageId>ChustaSoft.StaticData</PackageId>
-    <Version>1.1.0.4</Version>
-    <AssemblyVersion>1.1.0.4</AssemblyVersion>
-    <FileVersion>1.1.0.4</FileVersion>
+    <Version>2.0.0</Version>
+    <AssemblyVersion>2.0.0</AssemblyVersion>
+    <FileVersion>2.0.0</FileVersion>
     <PackageProjectUrl>https://github.com/Xelit3/StaticData</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/Xelit3/StaticData/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/Xelit3/StaticData.git</RepositoryUrl>
@@ -1041,22 +1041,15 @@ https://github.com/Xelit3/StaticData/wiki</PackageReleaseNotes>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ChustaSoft.Common" Version="1.0.20.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="ChustaSoft.Common" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System">
-      <HintPath>System</HintPath>
-    </Reference>
-    <Reference Include="System.Web.HttpUtility">
-      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.0.0\ref\netcoreapp2.0\System.Web.HttpUtility.dll</HintPath>
-    </Reference>
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
   
   <ItemGroup>
-    
     <Compile Update="Services\CityService.cs">
       <DependentUpon>ICityService.cs</DependentUpon>
     </Compile>
@@ -1088,7 +1081,10 @@ https://github.com/Xelit3/StaticData/wiki</PackageReleaseNotes>
     <Compile Update="Repositories\CityLocalRepository.cs">
       <DependentUpon>ICityRepository.cs</DependentUpon>
     </Compile>
-    
+
+    <Compile Update="Configuration\StaticDataConfigurationBuilder.cs">
+      <DependentUpon>IStaticDataConfigurationBuilder.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   
 </Project>

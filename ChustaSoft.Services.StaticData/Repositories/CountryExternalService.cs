@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-
 namespace ChustaSoft.Services.StaticData.Repositories
 {
     internal class CountryExternalService : ExternalServiceBase, ICountryRepository
@@ -23,7 +22,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Constructor
 
-        internal CountryExternalService(ConfigurationBase configuration) : base(configuration) { }
+        internal CountryExternalService(InternalConfiguration configuration) : base(configuration) { }
 
         #endregion
 
@@ -37,7 +36,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Public methods
 
-        public async Task<IEnumerable<Country>> GetAll()
+        public async Task<IEnumerable<Country>> GetAllAsync()
         {
             string json = await GetStringData(GetBaseUri().Uri);
 
@@ -46,7 +45,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
             return data.Response;
         }
 
-        public async Task<Country> Get(AlphaCodeType alphaType, string alphaCode)
+        public async Task<Country> GetAsync(AlphaCodeType alphaType, string alphaCode)
         {
             var uri = GetUri(alphaType, alphaCode);
             var json = await GetStringData(uri);
@@ -55,7 +54,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
             return data.Response.First();
         }
 
-        public async Task<Country> Get(string countryName)
+        public async Task<Country> GetAsync(string countryName)
         {
             var uri = GetUri(countryName);
             var json = await GetStringData(uri);

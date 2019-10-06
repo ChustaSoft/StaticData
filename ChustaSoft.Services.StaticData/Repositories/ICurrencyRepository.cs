@@ -8,9 +8,9 @@ namespace ChustaSoft.Services.StaticData.Repositories
     internal interface ICurrencyRepository
     {
 
-        Task<IEnumerable<Currency>> GetAll();
+        Task<IEnumerable<Currency>> GetAllAsync();
 
-        Task<Currency> Get(string currencySymbol);
+        Task<Currency> GetAsync(string currencySymbol);
 
     }
 }

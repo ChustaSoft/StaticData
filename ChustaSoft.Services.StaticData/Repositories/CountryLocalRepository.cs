@@ -21,14 +21,40 @@ namespace ChustaSoft.Services.StaticData.Repositories
 
         #region Public methods
 
-        public async Task<Country> Get(string countryName)
+        public async Task<Country> GetAsync(string countryName)
+        {
+            var task = new Task<Country>(() => PerformGet(countryName));
+            task.Start();
+
+            return await task;
+        }
+
+        public async Task<Country> GetAsync(AlphaCodeType alphaType, string alphaCode)
+        {
+            var task = new Task<Country>(() => PerformGet(alphaType, alphaCode));
+            task.Start();
+
+            return await task;
+        }
+
+        public async Task<IEnumerable<Country>> GetAllAsync()
+        {
+            var task = new Task<IEnumerable<Country>>(() => GetParsedCollection<CountryLocal>(COUNTRIES_FILE_NAME));
+            task.Start();
+
+            return await task;
+        }
+
+        #endregion
+
+        private Country PerformGet(string countryName)
         {
             var allCountries = GetParsedCollection<CountryLocal>(COUNTRIES_FILE_NAME);
 
             return allCountries.First(x => x.Name == countryName);
         }
 
-        public async Task<Country> Get(AlphaCodeType alphaType, string alphaCode)
+        private Country PerformGet(AlphaCodeType alphaType, string alphaCode)
         {
             var allCountries = GetParsedCollection<CountryLocal>(COUNTRIES_FILE_NAME);
 
@@ -44,13 +70,5 @@ namespace ChustaSoft.Services.StaticData.Repositories
                     throw new InvalidEnumArgumentException(nameof(alphaType), (int)alphaType, typeof(AlphaCodeType));
             }
         }
-
-        public async Task<IEnumerable<Country>> GetAll()
-        {
-            return GetParsedCollection<CountryLocal>(COUNTRIES_FILE_NAME);
-        }
-
-        #endregion
-
     }
 }

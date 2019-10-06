@@ -1,10 +1,11 @@
 ﻿using ChustaSoft.Services.StaticData.Base;
+using ChustaSoft.Services.StaticData.Configuration;
+using ChustaSoft.Services.StaticData.IntegrationTest.TestConstants;
 using ChustaSoft.Services.StaticData.Repositories;
 using ChustaSoft.Services.StaticData.Services;
 using System.Collections.Generic;
 
-
-namespace ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers
+namespace ChustaSoft.Services.StaticData.IntegrationTest.Helpers
 {
     public class ExchangeRateTestHelper
     {
@@ -13,38 +14,37 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestHelpers
 
         internal static IExchangeRateMultipleRepository CreateMockMultipleRepository()
         {
-            var mockedConfiguration = new ConfigurationBase();
+            var mockedConfiguration = new InternalConfiguration(StaticDataConfigurationBuilder.Generate());
 
             return new ExchangeRateMultipleExternalService(mockedConfiguration);
         }
 
         internal static IExchangeRateSingleRepository CreateMockSingleRepository()
         {
-            var mockedConfiguration = new ConfigurationBase();
+            var mockedConfiguration = new InternalConfiguration(StaticDataConfigurationBuilder.Generate().AddCurrencyConverterApiKey(TestKeys.TestFreeCurrencyConverterKey));
 
             return new ExchangeRateSingleExternalService(mockedConfiguration);
         }
 
         internal static IExchangeRateService CreateMockService(bool goodConfiguration)
         {
-            var configuration = new ConfigurationBase();
-            configuration.SetBaseCurency(GetMockedConfiguredCurrencyBase());
-
+            var mockedConfiguration = StaticDataConfigurationBuilder.Generate().SetBaseCurrency(GetMockedConfiguredCurrencyBase());
+            
             if(goodConfiguration)
-                configuration.SetConfiguredCurrencies(GetMockedConfiguredCurrencies());
+                mockedConfiguration.AddConfiguredCurrencies(GetMockedConfiguredCurrencies());
             else
-                configuration.SetConfiguredCurrencies(GetMockedConfiguredCurrenciesWithUnknown());
+                mockedConfiguration.AddConfiguredCurrencies(GetMockedConfiguredCurrenciesWithUnknown());
 
             var multipleRepository = CreateMockMultipleRepository();
             var singleRepository = CreateMockSingleRepository();
 
-            return new ExchangeRateService(configuration, singleRepository, multipleRepository);
+            return new ExchangeRateService(new InternalConfiguration(mockedConfiguration), singleRepository, multipleRepository);
         }
 
         internal static string GetMockedConfiguredCurrencyBase() => "USD";
 
 
-        internal static List<string> GetMockedConfiguredCurrencies() => new List<string> { "XOF", "HKD" };
+        internal static List<string> GetMockedConfiguredCurrencies() => new List<string> { "XOF", "EUR" };
 
         internal static List<string> GetMockedConfiguredCurrenciesWithUnknown() => new List<string> { "XOF", "TEST" };
 
