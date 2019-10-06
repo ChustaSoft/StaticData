@@ -1081,6 +1081,10 @@ https://github.com/Xelit3/StaticData/wiki</PackageReleaseNotes>
     <Compile Update="Repositories\CityLocalRepository.cs">
       <DependentUpon>ICityRepository.cs</DependentUpon>
     </Compile>
+
+    <Compile Update="Configuration\StaticDataConfigurationBuilder.cs">
+      <DependentUpon>IStaticDataConfigurationBuilder.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   
 </Project>
