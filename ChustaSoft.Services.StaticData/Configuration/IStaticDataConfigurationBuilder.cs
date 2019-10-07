@@ -1,4 +1,5 @@
 ﻿using ChustaSoft.Common.Contracts;
+using ChustaSoft.Services.StaticData.Enums;
 using System.Collections.Generic;
 
 namespace ChustaSoft.Services.StaticData.Configuration
@@ -37,7 +38,7 @@ namespace ChustaSoft.Services.StaticData.Configuration
         /// </summary>
         /// <param name="apiKey">Custom obtained API key</param>
         /// <returns>Builder itself</returns>
-        StaticDataConfigurationBuilder AddCurrencyConverterApiKey(string apiKey);
+        StaticDataConfigurationBuilder AddApiKey(ApiType apiType, string apiKey);
 
         /// <summary>
         /// If static data as Cities or Countries are preferred to be retrived from configured APIs

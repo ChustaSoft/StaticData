@@ -1,4 +1,5 @@
 ﻿using ChustaSoft.Common.Utilities;
+using ChustaSoft.Services.StaticData.Enums;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -68,7 +69,7 @@ namespace ChustaSoft.Services.StaticData.Configuration
             return this;
         }
 
-        public StaticDataConfigurationBuilder AddCurrencyConverterApiKey(string apiKey)
+        public StaticDataConfigurationBuilder AddApiKey(ApiType apiType, string apiKey)
         {
             if (string.IsNullOrWhiteSpace(apiKey))
                 Errors.Add(new ErrorMessage(Common.Enums.ErrorType.Invalid, $"Invalid API Key"));

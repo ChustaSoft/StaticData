@@ -1,5 +1,6 @@
 ﻿using ChustaSoft.Services.StaticData.Base;
 using ChustaSoft.Services.StaticData.Configuration;
+using ChustaSoft.Services.StaticData.Enums;
 using ChustaSoft.Services.StaticData.IntegrationTest.TestConstants;
 using ChustaSoft.Services.StaticData.Repositories;
 using ChustaSoft.Services.StaticData.Services;
@@ -21,7 +22,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.Helpers
 
         internal static IExchangeRateSingleRepository CreateMockSingleRepository()
         {
-            var mockedConfiguration = new InternalConfiguration(StaticDataConfigurationBuilder.Generate().AddCurrencyConverterApiKey(TestKeys.TestFreeCurrencyConverterKey));
+            var mockedConfiguration = new InternalConfiguration(StaticDataConfigurationBuilder.Generate().AddApiKey(ApiType.CurrencyConverter, TestKeys.TestFreeCurrencyConverterKey));
 
             return new ExchangeRateSingleExternalService(mockedConfiguration);
         }

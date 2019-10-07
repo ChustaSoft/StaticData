@@ -1,4 +1,5 @@
 ﻿using ChustaSoft.Services.StaticData.Configuration;
+using ChustaSoft.Services.StaticData.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
@@ -143,7 +144,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestConfiguration
         {
             var testKey = "TEST_KEY_STATICDATA";
             var testConfig = StaticDataConfigurationBuilder.Generate()
-                .AddCurrencyConverterApiKey(testKey)
+                .AddApiKey(ApiType.CurrencyConverter, testKey)
                 .Build();
 
             Assert.AreEqual(testConfig.BaseCurrency, StaticDataConfigurationBuilder.DEFAULT_BASE_CURRENCY);
@@ -156,7 +157,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestConfiguration
         public void Given_EmptyCurrencyConverterApiKey_When_GenerateAndAddCurrencyConverterApiKeyAndBuild_Then_ErrorRetrived()
         {
             var testConfigBuilder = StaticDataConfigurationBuilder.Generate()
-                .AddCurrencyConverterApiKey(string.Empty);
+                .AddApiKey(ApiType.CurrencyConverter, string.Empty);
             var testConfig = testConfigBuilder.Build();
 
             Assert.IsTrue(testConfigBuilder.Errors.Any());
