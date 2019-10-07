@@ -1,5 +1,13 @@
 # StaticData 
 
+Prerequisites:
+· Versions 1.x.x
+ - .NET Framework 4.6.1 and above
+ - .NET Core 2.0 and above
+ 
+ ·version 2.x.x
+ - NET Core 2.2 and above
+
 
 · Description:
 
@@ -14,9 +22,12 @@ Examples on Wiki are availaible
 - By using StaticData nuget:
 In this case, if the intention is to use only the core features of the project, there is a factory called StaticDataServiceFactory with some static methods that will provide the different services within the tool. It is only needed to pass a ConfigurationBase that could be create by default or could be configured before.
 
-- By using ASPNET project (Only ASP.NET Core 2.0 and above)
+In addition, in both cases you have an static configuration method ConfigurationHelper -> RegisterStaticDataServices that needs a IStaticDataConfigurationBuilder in order to register the specific configuration (Examples of configuration availabile also in the wiki
+
+
+- By using ASPNET project
 In this case, the tool provides of an extension method for configuring services inside the DI Container. 
-ConfigurationHelper -> RegisterStaticDataServices
+
 
 NOTE: NuGet has been renamed from ChustaSoft.StaticData.AspMvc to ChustaSoft.StaticData.AspNet since version 1.0.1.2, which is compatible with the last ChustaSoft.StaticData.AspMvc version. Update the NuGet to the new one is recomended
 
