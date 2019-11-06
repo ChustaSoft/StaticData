@@ -49,6 +49,21 @@ namespace ChustaSoft.Services.StaticIntegrationTest.TestServices
         }
 
         [TestMethod]
+        public void Given_CurrenciesAndOldDate_When_GetInvoked_Then_resultWithExchangeRateRetrived()
+        {
+            string currencyFrom = "USD", currencyTo = "EUR";
+            var date = DateTime.Today.AddMonths(-6);
+
+            var result = _serviceUnderTest.Get(currencyFrom, currencyTo, date);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(currencyFrom, result.From);
+            Assert.AreEqual(currencyTo, result.To);
+            Assert.AreNotEqual(result.Rate, 0);
+            Assert.AreEqual(date, result.Date);
+        }
+
+        [TestMethod]
         public void Given_CurrenciesAndDate_When_GetAsyncInvoked_Then_resultWithExchangeRateRetrived()
         {
             string currencyFrom = "USD", currencyTo = "EUR";

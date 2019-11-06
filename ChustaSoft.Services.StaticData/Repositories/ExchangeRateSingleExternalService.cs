@@ -12,7 +12,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
 {
     internal class ExchangeRateSingleExternalService : ExternalServiceBase, IExchangeRateSingleRepository
     {
-        
+
         #region Fields
 
         private const char PARAM_PREFIX = 'q';
@@ -76,7 +76,7 @@ namespace ChustaSoft.Services.StaticData.Repositories
         {
             var json = await GetStringData(GetUri(currencyFrom, currencyTo, date));
 
-            if(date == null)
+            if (date == null)
                 return JsonConvert.DeserializeObject<ExchangeRateWithoutDateApiResponse>(json);
             else
                 return JsonConvert.DeserializeObject<ExchangeRateWithDateApiResponse>(json);
@@ -86,11 +86,6 @@ namespace ChustaSoft.Services.StaticData.Repositories
         {
             if (results == null || !results.ContainsKey(requestedConversion))
                 throw new CurrencyNotFoundException(requestedConversion);
-
-            foreach (var er in results.Values)
-            {
-                er.Date = DateTime.Today;
-            }
         }
 
         private Uri GetUri(string currencyFrom, string currencyTo, DateTime? date)
