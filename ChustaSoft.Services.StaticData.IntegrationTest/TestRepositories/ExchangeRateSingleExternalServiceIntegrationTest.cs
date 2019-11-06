@@ -53,7 +53,7 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
         public void Given_Currencies_When_GetInvoked_Then_CurrentExchangeRateRetrived()
         {
             string currencyFrom = "USD", currencyTo = "EUR";
-            
+
             var data = _serviceUnderTest.GetAsync(currencyFrom, currencyTo).Result;
 
             Assert.IsNotNull(data);
@@ -91,11 +91,29 @@ namespace ChustaSoft.Services.StaticData.IntegrationTest.TestRepositories
         }
 
         [TestMethod]
+        public void Given_CurrenciesAndOldDate_When_GetBidirectionalInvoked_Then_ExchangeRatesBothRetrived()
+        {
+            string currencyFrom = "USD", currencyTo = "EUR";
+            var date = DateTime.Today.AddMonths(-5);
+
+            var data = _serviceUnderTest.GetBidirectionalAsync(currencyFrom, currencyTo, date).Result;
+
+            Assert.IsNotNull(data);
+            Assert.AreEqual(data.Count(), 2);
+            Assert.IsTrue(data.Any(x => x.From == currencyFrom));
+            Assert.IsTrue(data.Any(x => x.From == currencyTo));
+            Assert.IsTrue(data.Any(x => x.To == currencyTo));
+            Assert.IsTrue(data.Any(x => x.To == currencyFrom));
+            Assert.IsTrue(data.All(x => x.Rate > 0));
+            Assert.IsTrue(data.All(x => x.Date == date));
+        }
+
+        [TestMethod]
         public void Given_CurrenciesAndDateRange_When_GetHistoricalInvoked_Then_ExchangeRatesRetrived()
         {
             string currencyFrom = "USD", currencyTo = "EUR";
             DateTime beginDate = DateTime.Today.AddDays(-30), endDate = DateTime.Today.AddDays(-25);
-            
+
             var data = _serviceUnderTest.GetHistoricalAsync(currencyFrom, currencyTo, beginDate, endDate).Result;
 
             Assert.IsNotNull(data);
