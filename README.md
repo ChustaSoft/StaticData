@@ -5,8 +5,11 @@ Prerequisites:
  - .NET Framework 4.6.1 and above
  - .NET Core 2.0 and above
  
- ·version 2.x.x
- - NET Core 2.2 and above
+· Versions 2.0.x
+ - .NET Core 2.2
+
+· Versions 2.1.x
+ - .NET Core 2.1 and above
 
 
 · Description:
@@ -58,4 +61,3 @@ Another implementation that the ASPNET nuget provides is a Controller with all n
  *: Alpha types: Alpha3, Alpha2
  
  **: All date dormats: dd-MM-yyyy
- 
