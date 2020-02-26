@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.2;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
     <PackageId>ChustaSoft.StaticData</PackageId>
     <RootNamespace>ChustaSoft.Services.StaticData</RootNamespace>
     <Description>Tool with Common Data used in multiple .NET applications like Countries, Cities, Currencies, ExchangeRates...</Description>
@@ -10,9 +10,9 @@
     <Company>ChustaSoft</Company>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <PackageId>ChustaSoft.StaticData</PackageId>
-    <Version>2.0.1</Version>
-    <AssemblyVersion>2.0.1</AssemblyVersion>
-    <FileVersion>2.0.1</FileVersion>
+    <Version>2.1.0</Version>
+    <AssemblyVersion>2.1.0</AssemblyVersion>
+    <FileVersion>2.1.0</FileVersion>
     <PackageProjectUrl>https://github.com/ChustaSoft/StaticData</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/ChustaSoft/StaticData/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/ChustaSoft/StaticData.git</RepositoryUrl>
@@ -1043,12 +1043,30 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ChustaSoft.Common" Version="1.1.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.4" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="ChustaSoft.Common" Version="1.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.10" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.2' ">
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.0.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.3" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.2" />
   </ItemGroup>
 
   <ItemGroup>
