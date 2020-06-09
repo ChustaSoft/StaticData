@@ -1,4 +1,12 @@
 # StaticData 
+---
+- *Base library:*
+  - [![Build Status](https://dev.azure.com/chustasoft/BaseProfiler/_apis/build/status/Release/RELEASE%20-%20NuGet%20-%20ChustaSoft%20StaticData?branchName=master)](https://dev.azure.com/chustasoft/BaseProfiler/_build/latest?definitionId=9&branchName=master)
+  - [![NuGet](https://img.shields.io/nuget/v/ChustaSoft.StaticData)](https://www.nuget.org/packages/ChustaSoft.StaticData)
+
+- *AspNet library:*
+  - [![Build Status](https://dev.azure.com/chustasoft/BaseProfiler/_apis/build/status/Release/RELEASE%20-%20NuGet%20-%20ChustaSoft%20StaticData%20AspNet?branchName=master)](https://dev.azure.com/chustasoft/BaseProfiler/_build/latest?definitionId=4&branchName=master)
+  - [![NuGet](https://img.shields.io/nuget/v/ChustaSoft.StaticData.AspNet)](https://www.nuget.org/packages/ChustaSoft.StaticData.AspNet)
 
 Prerequisites:
 · Versions 1.x.x
@@ -61,3 +69,8 @@ Another implementation that the ASPNET nuget provides is a Controller with all n
  *: Alpha types: Alpha3, Alpha2
  
  **: All date dormats: dd-MM-yyyy
+ 
+ *Thanks for using and contributing*
+---
+[![Twitter Follow](https://img.shields.io/twitter/follow/ChustaSoft?label=Follow%20us&style=social)](https://twitter.com/ChustaSoft)
+
