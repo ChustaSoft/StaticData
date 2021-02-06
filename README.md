@@ -1,11 +1,11 @@
 # StaticData 
 ---
 - *Base library:*
-  - [![Build Status](https://dev.azure.com/chustasoft/BaseProfiler/_apis/build/status/Release/RELEASE%20-%20NuGet%20-%20ChustaSoft%20StaticData?branchName=master)](https://dev.azure.com/chustasoft/BaseProfiler/_build/latest?definitionId=9&branchName=master)
+  - [![Build Status](https://dev.azure.com/chustasoft/SocialNET/_apis/build/status/OpenStack/StaticData/%5BRELEASE%5D%20-%20ChustaSoft%20StaticData%20(NuGet)?branchName=master)](https://dev.azure.com/chustasoft/SocialNET/_build/latest?definitionId=9&branchName=master)
   - [![NuGet](https://img.shields.io/nuget/v/ChustaSoft.StaticData)](https://www.nuget.org/packages/ChustaSoft.StaticData)
 
 - *AspNet library:*
-  - [![Build Status](https://dev.azure.com/chustasoft/BaseProfiler/_apis/build/status/Release/RELEASE%20-%20NuGet%20-%20ChustaSoft%20StaticData%20AspNet?branchName=master)](https://dev.azure.com/chustasoft/BaseProfiler/_build/latest?definitionId=4&branchName=master)
+  - [![Build Status](https://dev.azure.com/chustasoft/SocialNET/_apis/build/status/OpenStack/StaticData/%5BRELEASE%5D%20-%20ChustaSoft%20StaticData%20AspNet%20(NuGet)?branchName=master)](https://dev.azure.com/chustasoft/SocialNET/_build/latest?definitionId=4&branchName=master)
   - [![NuGet](https://img.shields.io/nuget/v/ChustaSoft.StaticData.AspNet)](https://www.nuget.org/packages/ChustaSoft.StaticData.AspNet)
 
 Prerequisites:
