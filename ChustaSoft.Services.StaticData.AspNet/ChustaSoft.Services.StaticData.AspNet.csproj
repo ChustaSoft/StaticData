@@ -1,32 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
-    <PackageId>ChustaSoft.StaticData.AspNet</PackageId>
-    <RootNamespace>ChustaSoft.Services.StaticData</RootNamespace>
-    <Description>ASPMVC Core extension for using ChustaSoft.StaticData</Description>
-    <Copyright>ChustaSoft</Copyright>
-    <Authors>Xelit3</Authors>
-    <Company>ChustaSoft</Company>
-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
-    <Version>2.1.0</Version>
-    <AssemblyVersion>2.1.0</AssemblyVersion>
-    <FileVersion>2.1.0</FileVersion>
-    <PackageProjectUrl>https://github.com/Xelit3/StaticData</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/Xelit3/StaticData/blob/master/LICENSE</PackageLicenseUrl>
-    <RepositoryUrl>https://github.com/Xelit3/StaticData.git</RepositoryUrl>
-    <RepositoryType>GIT</RepositoryType>
-    <PackageTags>Utilities;Helpers;Core;StaticData;Country;Countries;City;Cities;Currency;Currencies;ExchangeRate;ExchangeRates;ASPMVC;ASPNET</PackageTags>
-    <PackageReleaseNotes>Documentation could be found here:
-https://github.com/Xelit3/StaticData/wiki</PackageReleaseNotes>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+		<PackageId>ChustaSoft.StaticData.AspNet</PackageId>
+		<RootNamespace>ChustaSoft.Services.StaticData</RootNamespace>
+		<Description>ASPMVC Core extension for using ChustaSoft.StaticData</Description>
+		<Copyright>ChustaSoft</Copyright>
+		<Authors>Xelit3</Authors>
+		<Company>ChustaSoft</Company>
+		<RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+		<Version>2.2.0</Version>
+		<AssemblyVersion>2.2.0</AssemblyVersion>
+		<FileVersion>2.2.0</FileVersion>
+		<PackageProjectUrl>https://github.com/Xelit3/StaticData</PackageProjectUrl>
+		<PackageLicenseUrl>https://github.com/Xelit3/StaticData/blob/master/LICENSE</PackageLicenseUrl>
+		<RepositoryUrl>https://github.com/Xelit3/StaticData.git</RepositoryUrl>
+		<RepositoryType>GIT</RepositoryType>
+		<PackageTags>Utilities;Helpers;Core;StaticData;Country;Countries;City;Cities;Currency;Currencies;ExchangeRate;ExchangeRates;ASPMVC;ASPNET</PackageTags>
+		<PackageReleaseNotes>
+			Documentation could be found here:
+			https://github.com/Xelit3/StaticData/wiki
+		</PackageReleaseNotes>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="ChustaSoft.Common.AspNet" Version="1.1.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="ChustaSoft.Common.AspNet" Version="2.4.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ChustaSoft.Services.StaticData\ChustaSoft.Services.StaticData.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ChustaSoft.Services.StaticData\ChustaSoft.Services.StaticData.csproj" />
+	</ItemGroup>
 
 </Project>
