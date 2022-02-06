@@ -14,11 +14,11 @@
 		<AssemblyVersion>2.2.0</AssemblyVersion>
 		<FileVersion>2.2.0</FileVersion>
 		<PackageProjectUrl>https://github.com/ChustaSoft/StaticData</PackageProjectUrl>
-		<PackageLicenseUrl>https://github.com/ChustaSoft/StaticData/blob/master/LICENSE</PackageLicenseUrl>
+		<PackageLicenseUrl>https://github.com/ChustaSoft/StaticData/blob/main/LICENSE</PackageLicenseUrl>
 		<RepositoryUrl>https://github.com/ChustaSoft/StaticData.git</RepositoryUrl>
 		<RepositoryType>GIT</RepositoryType>
 		<PackageTags>Utilities;Helpers;Core;StaticData;Country;Countries;City;Cities;Currency;Currencies;ExchangeRate;ExchangeRates</PackageTags>
-		<PackageReleaseNotes></PackageReleaseNotes>
+		<PackageReleaseNotes>https://github.com/ChustaSoft/StaticData/blob/main/changelog.md</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
