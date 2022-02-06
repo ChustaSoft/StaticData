@@ -24,7 +24,7 @@ namespace ChustaSoft.Services.StaticData.Models
 
         public virtual string SubRegion { get; set; }
 
-        public virtual int Area { get; set; }
+        public virtual double Area { get; set; }
 
         public virtual int Population { get; set; }
 
