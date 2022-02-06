@@ -1,13 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2043
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChustaSoft.Services.StaticData", "ChustaSoft.Services.StaticData\ChustaSoft.Services.StaticData.csproj", "{E01B739B-4AAA-4601-8F29-35B9B655F833}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChustaSoft.Services.StaticData.IntegrationTest", "ChustaSoft.Services.StaticData.IntegrationTest\ChustaSoft.Services.StaticData.IntegrationTest.csproj", "{13BECB28-AB3E-4496-A454-D5520BCAE231}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChustaSoft.Services.StaticData.AspNet", "ChustaSoft.Services.StaticData.AspNet\ChustaSoft.Services.StaticData.AspNet.csproj", "{DE68F789-1B45-4C19-9DAE-5505FC71894D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Documentation", "3. Documentation", "{C53333E7-CCEE-4BB1-AB98-7A116FB08400}"
+	ProjectSection(SolutionItems) = preProject
+		changelog.md = changelog.md
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. NuGet", "1. NuGet", "{93AB0B16-9357-4E86-B0D3-18F1306CFE4D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Testing", "2. Testing", "{0550FFE1-1B64-4B88-AE9C-C9AC4AC71725}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +41,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E01B739B-4AAA-4601-8F29-35B9B655F833} = {93AB0B16-9357-4E86-B0D3-18F1306CFE4D}
+		{13BECB28-AB3E-4496-A454-D5520BCAE231} = {0550FFE1-1B64-4B88-AE9C-C9AC4AC71725}
+		{DE68F789-1B45-4C19-9DAE-5505FC71894D} = {93AB0B16-9357-4E86-B0D3-18F1306CFE4D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3389B608-613F-4CE5-B612-3BDAC2BE5943}

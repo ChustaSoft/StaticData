@@ -13,7 +13,7 @@ namespace ChustaSoft.Services.StaticData.Models
         public double Longitude { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public override int Area { get; set; }
+        public override double Area { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public override int NumericCode { get; set; }
