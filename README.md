@@ -9,16 +9,9 @@
   - [![NuGet](https://img.shields.io/nuget/v/ChustaSoft.StaticData.AspNet)](https://www.nuget.org/packages/ChustaSoft.StaticData.AspNet)
 
 Prerequisites:
-· Versions 1.x.x
- - .NET Framework 4.6.1 and above
- - .NET Core 2.0 and above
- 
-· Versions 2.0.x
- - .NET Core 2.2
-
-· Versions 2.1.x
- - .NET Core 2.1 and above
-
+- .NET Core 3.1
+- .NET 5.0
+- .NET 6.0
 
 · Description:
 
